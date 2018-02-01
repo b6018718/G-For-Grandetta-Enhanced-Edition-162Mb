@@ -1,0 +1,15 @@
+﻿  Source.cpp
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(173): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(174): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(176): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(139): warning C4101: 'settingsOrigin': unreferenced local variable
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(191): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(201): warning C4305: 'argument': truncation from 'int' to 'Uint8'
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(201): warning C4309: 'argument': truncation of constant value
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(202): warning C4305: 'argument': truncation from 'int' to 'Uint8'
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(202): warning C4309: 'argument': truncation of constant value
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(203): warning C4305: 'argument': truncation from 'int' to 'Uint8'
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(203): warning C4309: 'argument': truncation of constant value
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(204): warning C4305: 'argument': truncation from 'int' to 'Uint8'
+c:\users\antho\source\repos\g for grandetta enhanced edition\g for grandetta enhanced edition\source.cpp(204): warning C4309: 'argument': truncation of constant value
+  G For Grandetta Enhanced Edition.vcxproj -> C:\Users\antho\source\repos\G For Grandetta Enhanced Edition\Debug\G For Grandetta Enhanced Edition.exe

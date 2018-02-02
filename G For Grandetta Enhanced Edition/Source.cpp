@@ -9,7 +9,6 @@
 
 const int SCREEN_WIDTH = 690;
 const int SCREEN_HEIGHT = 640;
-//const int SCREEN_BPP = 32;
 using namespace std;
 
 int main(int argc, char* args[])
@@ -131,6 +130,7 @@ void close(SDL_Window*& gWindow, SDL_Surface*& gHelloWorld)
 
 void playGame(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface)
 {
+	//Main Menu Variables
 	bool press = false;
 	vector <int> buttonX = { 480 - ((48 * 5) / 2), 480 - ((48 * 8) / 2), 480 - ((48 * 8) / 2) };
 	vector <int> buttonY = { 50, 150, 250 };
@@ -140,7 +140,7 @@ void playGame(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gS
 	bool quit = false;
 	srand((unsigned int)time(0));
 
-	cout << buttonX.size();
+	
 
 	//double effectiveCurrentExp = 5;
 	//double effectiveExpLevelUp = 10;
@@ -192,6 +192,9 @@ void playGame(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gS
 			}
 
 			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+
+			}
 		}
 
 	}

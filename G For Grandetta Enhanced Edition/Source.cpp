@@ -1,4 +1,5 @@
 #include "SDL.h"
+#include "sdl_mixer.h"
 #include <iostream>
 #include <stdio.h>
 #include <sstream>
@@ -6,6 +7,7 @@
 #include <ctime>
 #include <math.h>
 #include <vector>
+
 
 const int SCREEN_WIDTH = 690;
 const int SCREEN_HEIGHT = 640;
@@ -43,8 +45,8 @@ int main(int argc, char* args[])
 	
 	
 	//START OF GAME
-	void playGame(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface);
-	playGame(gWindow, gPlaySurface, gScreenSurface);
+	void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface);
+	MainMenu(gWindow, gPlaySurface, gScreenSurface);
 	SDL_Delay(2000);
 	close(gWindow, gPlaySurface);
 
@@ -128,7 +130,7 @@ void close(SDL_Window*& gWindow, SDL_Surface*& gHelloWorld)
 	SDL_Quit();
 }
 
-void playGame(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface)
+void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface)
 {
 	//Main Menu Variables
 	bool press = false;
@@ -138,15 +140,23 @@ void playGame(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gS
 	vector <int> buttonHeight = { 48, 48, 48 };
 	int settingsOrigin;
 	bool quit = false;
-	srand((unsigned int)time(0));
+	bool stop = false;
+	float volLevel = 0.2;
+	int background;
+	
 
+
+	
 	
 
 	//double effectiveCurrentExp = 5;
 	//double effectiveExpLevelUp = 10;
-
-	void drawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, SDL_Surface*& gScreenSurface, SDL_Window*& gWindow);
-	//drawEXPBar(25, 405, effectiveCurrentExp, effectiveExpLevelUp, "#ffff00", gScreenSurface, gWindow);
+	void play(SDL_Window*& gWindow);
+	void settings(SDL_Window*& gWindow);
+	void clear(SDL_Window*& gWindow);
+	void instructions(SDL_Window*& gWindow);
+	void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, SDL_Surface*& gScreenSurface, SDL_Window*& gWindow);
+	//DrawEXPBar(25, 405, effectiveCurrentExp, effectiveExpLevelUp, "#ffff00", gScreenSurface, gWindow);
 	
 	//For events, eg keyboard, mouse, click
 	SDL_Event event;
@@ -191,19 +201,62 @@ void playGame(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gS
 				}
 			}
 
-			if (event.button.button == SDL_BUTTON_LEFT)
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED && stop == false)
 			{
-
+				for (int i = 0; i < buttonX.size(); i++)
+				{
+					if (mouseX > buttonX[i] && mouseX < buttonX[i] + buttonWidth[i])
+					{
+						if (mouseY > buttonY[i] && mouseY < buttonY[i] + buttonHeight[i])
+						{
+							switch (i)
+							{
+								case 0:
+									background = 0;
+									stop = true;
+									play(gWindow);
+									break;
+								case 1:
+									stop = true;
+									clear(gWindow);
+									settingsOrigin = 1;
+									settings(gWindow);
+									break;
+								case 2:
+									stop = true;
+									instructions(gWindow);
+									break;
+							}
+						}
+					}
+				}
 			}
 		}
 
 	}
+}
 
+void play(SDL_Window*& gWindow)
+{
 
 }
 
+void instructions(SDL_Window*& gWindow)
+{
 
-void drawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, SDL_Surface*& gPlaySurface, SDL_Window*& gWindow)
+}
+
+void clear(SDL_Window*& gWindow)
+{
+
+}
+
+void settings(SDL_Window*& gWindow)
+{
+
+}
+
+void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, SDL_Surface*& gPlaySurface, SDL_Window*& gWindow)
 {
 	int percentFill =  (currentStat / maxStat) * 520;
 	if (percentFill < 0)

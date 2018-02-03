@@ -7,6 +7,7 @@
 #include <ctime>
 #include <math.h>
 #include <vector>
+#include "Music.h"
 
 
 const int SCREEN_WIDTH = 690;
@@ -22,6 +23,8 @@ int main(int argc, char* args[])
 	SDL_Window* gWindow = NULL;				//Window rendering to
 	SDL_Surface* gScreenSurface = NULL;		//Surface contained by the window
 	SDL_Surface* gPlaySurface = NULL;		//The image to load
+
+	
 
 	if (!init(gWindow, gScreenSurface))
 	{
@@ -43,26 +46,15 @@ int main(int argc, char* args[])
 		}
 	}
 	
-	
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	Music music;
 	//START OF GAME
+	music.PlayMenu();
 	void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface);
 	MainMenu(gWindow, gPlaySurface, gScreenSurface);
+	music.FreeSounds();
 	SDL_Delay(2000);
 	close(gWindow, gPlaySurface);
-
-
-	/*
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-	{
-	cout << "SDL initialization failed. SDL Error: " << SDL_GetError();
-	}
-	else
-	{
-	cout << "SDL initialization succeeded!";
-	}
-	*/
-
-
 
 	system("pause");
 
@@ -78,11 +70,19 @@ bool init(SDL_Window*& gWindow, SDL_Surface*& gScreenSurface)
 	bool success = true;
 
 	//Initalise SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		printf("SDL Initalisation failed. Error Message: %s\n", SDL_GetError());
 		success = false;
 	}
+
+	//Initialize SDL_mixer
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+		success = false;
+	}
+
 	else
 	{
 		//Create Window
@@ -128,6 +128,7 @@ void close(SDL_Window*& gWindow, SDL_Surface*& gHelloWorld)
 
 	//Quit SDL subsystems
 	SDL_Quit();
+	Mix_Quit();
 }
 
 void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface)
@@ -145,7 +146,8 @@ void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gS
 	int background;
 	
 
-
+	
+	
 	
 	
 

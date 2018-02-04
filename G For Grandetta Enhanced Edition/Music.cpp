@@ -129,9 +129,26 @@ void Music::HaltMusic()
 void Music::FreeSounds()
 {
 	Mix_FreeMusic(battle);
-	//MEMORY LEAKS PUT MORE STUFF HERE
+	Mix_FreeMusic(camp);
+	Mix_FreeMusic(casino);
+	Mix_FreeMusic(castle);
+	Mix_FreeMusic(castletown);
+	Mix_FreeMusic(cave);
+	Mix_FreeMusic(field);
+	Mix_FreeMusic(menu);
+	Mix_FreeMusic(village);
+	
+	Mix_FreeChunk(hit);
+	Mix_FreeChunk(rat);
+}
 
-
-
-
+void Music::SetVolume(float volume)  //Volume should be a number equal or between 0 and 10
+{
+	if (volume >= 0 && volume <= 10)
+	{
+		int intVol = (int) floor((volume / 10) * 128);
+		//int intVol = floor(volume);
+		Mix_VolumeMusic(intVol);
+		Mix_Volume(-1, intVol);
+	}
 }

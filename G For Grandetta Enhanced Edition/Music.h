@@ -37,6 +37,8 @@ public:
 
 	void FreeSounds();
 
+	void SetVolume(float volume);
+
 private:
 	vector <Mix_Music*> musicVector;
 	Mix_Music *battle;

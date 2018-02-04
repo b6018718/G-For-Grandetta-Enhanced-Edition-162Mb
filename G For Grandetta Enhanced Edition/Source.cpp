@@ -10,62 +10,32 @@
 #include <vector>
 #include "Music.h"
 #include "Fonts.h"
-
-
-const int SCREEN_WIDTH = 960;
-const int SCREEN_HEIGHT = 640;
+#include "Screen.h"
 using namespace std;
 
 int main(int argc, char* args[])
 {
-	bool init(SDL_Window*& gWindow, SDL_Surface*& gScreenSurface);	//Function to create window
-	
-	bool loadMedia(SDL_Surface*& gHelloWorld);						//Function to load media from files
-	void close(SDL_Window*& gWindow, SDL_Surface*& gHelloWorld, SDL_Surface* gPlaySurface, Music music, Fonts fonts);	//Function to free media and shut down SDL
+	void close(Screen screen, Music music, Fonts fonts);	//Function to free media and shut down SDL
 
-	SDL_Window* gWindow = NULL;				//Window rendering to
-	SDL_Surface* gScreenSurface = NULL;		//Surface contained by the window
-	SDL_Surface* gPlaySurface = NULL;		//The image to load
-
-
-	//Initalise fonts class
-	TTF_Init();
-	Fonts fonts;
-
-	if (!init(gWindow, gScreenSurface))
-	{
-		printf("Failed to initalise\n");
-	}
-	else
-	{
-		//Load Media
-		if (!loadMedia(gPlaySurface))
-		{
-			printf("Failed to load media!\n");
-		}
-		else
-		{
-			//Apply image
-			SDL_BlitSurface(gPlaySurface, NULL, gScreenSurface, NULL);
-			SDL_UpdateWindowSurface(gWindow);
-			//SDL_Delay(2000);
-		}
-	}
-	
+	//Initalise Screen Class
+	Screen screen;
 
 	//Initalise Music Class
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	Music music;
 
+	//Initalise Fonts Class
+	TTF_Init();
+	Fonts fonts;
 
 	//START OF GAME
 	music.SetVolume(5);
 	music.PlayMenu();
 	
-	void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface, Music& music);
-	MainMenu(gWindow, gPlaySurface, gScreenSurface, music);
+	void MainMenu(Screen screen, Music& music, Fonts& fonts);
+	MainMenu(screen, music, fonts);
 	//SDL_Delay(2000);
-	close(gWindow, gPlaySurface, gPlaySurface, music, fonts);
+	close(screen, music, fonts);
 
 	system("pause");
 
@@ -75,74 +45,12 @@ int main(int argc, char* args[])
 	return 0;
 }
 
-bool init(SDL_Window*& gWindow, SDL_Surface*& gScreenSurface)
+void close(Screen screen, Music music, Fonts fonts)
 {
-	//Initalisation Flag
-	bool success = true;
-
-	//Initalise SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
-	{
-		printf("SDL Initalisation failed. Error Message: %s\n", SDL_GetError());
-		success = false;
-	}
-
-	//Initialize SDL_mixer
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	{
-		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-		success = false;
-	}
-
-	else
-	{
-		//Create Window
-		gWindow = SDL_CreateWindow("G For Grandetta Enhanced Edition", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-		if (gWindow == NULL)
-		{
-			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-			success = false;
-		}
-		else
-		{
-			//Get Window Surface
-			gScreenSurface = SDL_GetWindowSurface(gWindow);
-		}
-	}
-	return success;
-}
-
-bool loadMedia(SDL_Surface*& gHelloWorld)
-{
-	//Load success flag
-	bool success = true;
-
-	//Load splash image
-	gHelloWorld = SDL_LoadBMP("images/bg0.bmp");
-	if (gHelloWorld == NULL)
-	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-		success = false;
-	}
-	return success;
-}
-
-void close(SDL_Window*& gWindow, SDL_Surface*& gHelloWorld, SDL_Surface* gPlaySurface, Music music, Fonts fonts)
-{
-	
-	font.FreeFonts();
+	//Free assets
+	fonts.FreeFonts();
 	music.FreeSounds();
-
-	//Dealocate surface
-	SDL_FreeSurface(gHelloWorld);
-	gHelloWorld = NULL;
-
-	//SDL_FreeSurface(gPlaySurface);
-	//gPlaySurface = NULL;
-
-	//Destroy Window
-	SDL_DestroyWindow(gWindow);
-	gWindow = NULL;
+	screen.FreeSurfaces();
 
 	//Quit SDL subsystems
 	SDL_Quit();
@@ -150,7 +58,7 @@ void close(SDL_Window*& gWindow, SDL_Surface*& gHelloWorld, SDL_Surface* gPlaySu
 	TTF_Quit();
 }
 
-void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gScreenSurface, Music& music)
+void MainMenu(Screen screen, Music& music, Fonts& fonts)
 {
 	//Main Menu Variables
 	bool press = false;
@@ -165,12 +73,12 @@ void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gS
 
 	//double effectiveCurrentExp = 5;
 	//double effectiveExpLevelUp = 10;
-	void play(SDL_Window*& gWindow);
-	void settings(SDL_Window*& gWindow);
+	void play(Screen screen);
+	void settings(Screen screen);
 	void clear(SDL_Surface*& gScreenSurface);
-	void instructions(SDL_Window*& gWindow);
-	void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, SDL_Surface*& gScreenSurface, SDL_Window*& gWindow);
-	//DrawEXPBar(25, 405, effectiveCurrentExp, effectiveExpLevelUp, "#ffff00", gScreenSurface, gWindow);
+	void instructions(Screen screen);
+	void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen screen);
+	//DrawEXPBar(25, 405, effectiveCurrentExp, effectiveExpLevelUp, "#ffff00", Screen screen);
 	
 	//For events, eg keyboard, mouse, click
 	SDL_Event event;
@@ -234,17 +142,17 @@ void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gS
 								case 0:
 									background = 0;
 									stop = true;
-									play(gWindow);
+									play(screen);
 									break;
 								case 1:
 									stop = true;
-									clear(gScreenSurface);
+									clear(screen.gScreenSurface);
 									settingsOrigin = 1;
-									settings(gWindow);
+									settings(screen);
 									break;
 								case 2:
 									stop = true;
-									instructions(gWindow);
+									instructions(screen);
 									break;
 							}
 						}
@@ -254,16 +162,16 @@ void MainMenu(SDL_Window*& gWindow, SDL_Surface*& gPlaySurface, SDL_Surface*& gS
 
 			
 		}	//Poll Event While Loop
-		void menuAnimation(SDL_Surface*& gScreenSurface, SDL_Surface*& gPlaySurface, SDL_Window*& gWindow, int frames, float& backgroundX);
-		menuAnimation(gScreenSurface, gPlaySurface, gWindow, frames, backgroundX);
+		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts);
+		menuAnimation(screen, frames, backgroundX, fonts);
 	}
 }
 
-void menuAnimation(SDL_Surface*& gScreenSurface, SDL_Surface*& gPlaySurface, SDL_Window*& gWindow, int frames, float& backgroundX)
+void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts)
 {
 	void clear(SDL_Surface*& gScreenSurface);
 	SDL_Delay(1000 / frames);
-	//clear(gScreenSurface);
+	clear(screen.gScreenSurface);
 	backgroundX = backgroundX - 0.5;
 	if (backgroundX == -960)
 		backgroundX = 0;
@@ -271,17 +179,17 @@ void menuAnimation(SDL_Surface*& gScreenSurface, SDL_Surface*& gPlaySurface, SDL
 	dest.x = backgroundX;
 	dest.y = 0;
 
-	SDL_BlitSurface(gPlaySurface, NULL, gScreenSurface, &dest);
-	SDL_UpdateWindowSurface(gWindow);
+	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, &dest);
+	SDL_UpdateWindowSurface(screen.gWindow);
 	
 }
 
-void play(SDL_Window*& gWindow)
+void play(Screen screen)
 {
 
 }
 
-void instructions(SDL_Window*& gWindow)
+void instructions(Screen screen)
 {
 
 }
@@ -291,12 +199,12 @@ void clear(SDL_Surface*& gScreenSurface)
 	SDL_FillRect(gScreenSurface, NULL, 0x000000);
 }
 
-void settings(SDL_Window*& gWindow)
+void settings(Screen screen)
 {
 
 }
 
-void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, SDL_Surface*& gPlaySurface, SDL_Window*& gWindow)
+void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen screen)
 {
 	int percentFill =  (currentStat / maxStat) * 520;
 	if (percentFill < 0)
@@ -308,12 +216,12 @@ void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string c
 	SDL_Rect rightRectangle = { posX + 524, posY + 4, 4, 24 };
 	SDL_Rect expBar = { posX + 6, posY + 6, percentFill, 20 };
 
-	SDL_FillRect(gPlaySurface, &topRectangle, SDL_MapRGB(gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(gPlaySurface, &botRectangle, SDL_MapRGB(gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(gPlaySurface, &leftRectangle, SDL_MapRGB(gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(gPlaySurface, &rightRectangle, SDL_MapRGB(gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(gPlaySurface, &expBar, SDL_MapRGB(gPlaySurface->format, 255, 255, 0));
+	SDL_FillRect(screen.gPlaySurface, &topRectangle, SDL_MapRGB(screen.gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gPlaySurface, &botRectangle, SDL_MapRGB(screen.gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gPlaySurface, &leftRectangle, SDL_MapRGB(screen.gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gPlaySurface, &rightRectangle, SDL_MapRGB(screen.gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gPlaySurface, &expBar, SDL_MapRGB(screen.gPlaySurface->format, 255, 255, 0));
 
-	SDL_UpdateWindowSurface(gWindow);
+	SDL_UpdateWindowSurface(screen.gWindow);
 
 }

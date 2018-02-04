@@ -5,6 +5,12 @@ using namespace std;
 
 Music::Music()
 {
+	//Initialize SDL_mixer
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+	}
+
 	battle = Mix_LoadMUS("sound/battle.mp3");
 	if (battle == NULL)
 		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());

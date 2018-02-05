@@ -5,12 +5,13 @@
 #include <sstream>
 #include <stdlib.h>
 #include <string>
+#include "SDL_TTF.h"
+#include "Fonts.h"
 
 using namespace std;
 Screen::Screen()
 {
-	init(gWindow, gScreenSurface, gMainMenuText);
-	if (!init(gWindow, gScreenSurface, gMainMenuText))
+	if (!init(gWindow, gScreenSurface))
 	{
 		printf("Failed to initalise\n");
 	}
@@ -23,6 +24,7 @@ Screen::Screen()
 		}
 		else
 		{
+			SDL_SetColorKey(gScreenSurface, SDL_TRUE, SDL_MapRGB(gScreenSurface->format, 0, 0xFF, 0xFF));
 			//Apply image
 			SDL_BlitSurface(gPlaySurface, NULL, gScreenSurface, NULL);
 			SDL_UpdateWindowSurface(gWindow);
@@ -36,7 +38,7 @@ Screen::~Screen()
 {
 }
 
-bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface, SDL_Surface *& gMainMenuText)
+bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface)
 {
 	//Initalisation Flag
 	bool success = true;
@@ -66,8 +68,15 @@ bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface, SDL_Surf
 	return success;
 }
 
-void Screen::displayText(String text, float x, float y)
+void Screen::displayText(string text, float x, float y, TTF_Font* font)
 {
+	TTF_Font* newfont = TTF_OpenFont("PressStart2P-Regular.ttf", 48);
+	if (!newfont) {
+		printf("TTF_OpenFont: %s\n", TTF_GetError());
+		// handle error
+	}
+	const char * charText = text.c_str();
+	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);	SDL_SetColorKey(gText, 1, colorkey);			SDL_Rect textLocation = {  x - (gText->w)/2, y, 0, 0 };	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);	SDL_FillRect(gText, NULL, 0x000000);	TTF_CloseFont(newfont);
 }
 
 bool Screen::loadInitialMedia(SDL_Surface *& gHelloWorld)
@@ -107,7 +116,7 @@ void Screen::FreeSurfaces()
 	SDL_FreeSurface(gScreenSurface);
 	gScreenSurface = NULL;
 
-	SDL_FreeSurface(gMainMenuText);
+	SDL_FreeSurface(gText);
 	gScreenSurface = NULL;
 
 	SDL_DestroyWindow(gWindow);

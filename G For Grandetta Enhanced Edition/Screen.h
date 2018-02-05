@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <sstream>
 #include <stdlib.h>
+#include <string>
+#include "SDL_TTF.h"
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 640;
 
@@ -20,13 +22,14 @@ public:
 	SDL_Surface* gScreenSurface = NULL;		//Surface contained by the window
 	SDL_Surface* gPlaySurface = NULL;		//The image to load
 	
-	SDL_Surface* gMainMenuText = NULL;
+	SDL_Surface* gText = NULL;
 
-	
+	SDL_Color foregroundColor = { 0, 0, 0 };
+	SDL_Color backgroundColor = { 0, 255, 255 };
 
-	bool init(SDL_Window*& gWindow, SDL_Surface*& gScreenSurface, SDL_Surface*& gMainMenuText);
+	bool init(SDL_Window*& gWindow, SDL_Surface*& gScreenSurface);
 	
-	void displayText(String text, float x, float y);
+	void displayText(string text, float x, float y, TTF_Font* font);
 
 	bool loadInitialMedia(SDL_Surface*& gHelloWorld);
 	

@@ -25,7 +25,10 @@ int main(int argc, char* args[])
 	Music music;
 
 	//Initalise Fonts Class
-	TTF_Init();
+	if (TTF_Init() == -1) {
+		printf("TTF_Init: %s\n", TTF_GetError());
+		exit(2);
+	}
 	Fonts fonts;
 
 	//START OF GAME
@@ -162,25 +165,34 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts)
 
 			
 		}	//Poll Event While Loop
-		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts);
-		menuAnimation(screen, frames, backgroundX, fonts);
+		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY);
+		menuAnimation(screen, frames, backgroundX, fonts, buttonY);
 	}
 }
 
-void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts)
+void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY)
 {
 	void clear(SDL_Surface*& gScreenSurface);
 	SDL_Delay(1000 / frames);
-	clear(screen.gScreenSurface);
-	backgroundX = backgroundX - 0.5;
+	//clear(screen.gScreenSurface);
+	backgroundX = backgroundX - 1;
 	if (backgroundX == -960)
 		backgroundX = 0;
 	SDL_Rect dest;
 	dest.x = backgroundX;
 	dest.y = 0;
+	
 
 	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, &dest);
+
+	
+
+	screen.displayText("Start", SCREEN_WIDTH/2, buttonY[0] + 12, fonts.font48);
+	screen.displayText("Settings", SCREEN_WIDTH / 2, buttonY[1] + 12, fonts.font48);
+	screen.displayText("Controls", SCREEN_WIDTH / 2, buttonY[2] + 12, fonts.font48);
 	SDL_UpdateWindowSurface(screen.gWindow);
+
+	clear(screen.gScreenSurface);
 	
 }
 

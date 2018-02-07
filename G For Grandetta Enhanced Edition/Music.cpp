@@ -39,7 +39,7 @@ Music::Music()
 	if (field == NULL)
 		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 
-	menu = Mix_LoadMUS("sound/menu.mp3");
+	menu = Mix_LoadMUS("sound/menu.ogg");
 	if (menu == NULL)
 		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 
@@ -153,7 +153,6 @@ void Music::SetVolume(float volume)  //Volume should be a number equal or betwee
 	if (volume >= 0 && volume <= 10)
 	{
 		int intVol = (int) floor((volume / 10) * 128);
-		//int intVol = floor(volume);
 		Mix_VolumeMusic(intVol);
 		Mix_Volume(-1, intVol);
 	}

@@ -40,7 +40,6 @@ public:
 	void SetVolume(float volume);
 
 private:
-	vector <Mix_Music*> musicVector;
 	Mix_Music *battle;
 	Mix_Music *camp;
 	Mix_Music *casino;

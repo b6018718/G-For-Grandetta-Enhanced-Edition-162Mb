@@ -55,5 +55,4 @@ void Fonts::FreeFonts()
 	TTF_CloseFont(font24);
 	TTF_CloseFont(font28);
 	TTF_CloseFont(font48);
-	TTF_CloseFont(font18);
 }

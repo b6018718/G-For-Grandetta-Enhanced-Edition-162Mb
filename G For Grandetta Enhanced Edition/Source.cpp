@@ -91,19 +91,19 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts)
 	//Mouse Variables
 	float mouseX;
 	float mouseY;
-	float arrowX = 0;
-	float arrowY = 0;
 	float arrowWidth = 48;
 	float arrowSize = 48;
 	float arrowHeight = 48;
-	bool arrowVisible = false;
+	float arrowX = buttonX[0] - (arrowWidth / 2) - 22;
+	float arrowY = buttonY[0];
+	//bool arrowVisible = false;
 	//arrow is the little pointer to the left of the button, visual element
 
 	//Background animation variables
 	int frames = 60;
 	int timerID = 1;
 	float backgroundX = 0;
-	
+	int cursorPos = 0;
 
 	while (!quit)
 	{
@@ -122,21 +122,17 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts)
 					{
 						if (mouseY > buttonY[i] && mouseY < buttonY[i] + buttonHeight[i]) //Buttons are defined in the button array
 						{
-							arrowVisible = true;
+							cursorPos = i;
 							arrowX = buttonX[i] - (arrowWidth / 2) - 22;
 							arrowY = buttonY[i];
 						}
-					}
-					else
-					{
-						arrowVisible = false;
 					}
 				}
 			}
 
 			if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED && stop == false)
 			{
-				for (int i = 0; i < buttonX.size(); i++)
+				for (int i = 0; i < buttonX.size(); i++)	//If mouse left clicks the button
 				{
 					if (mouseX > buttonX[i] && mouseX < buttonX[i] + buttonWidth[i])
 					{
@@ -165,14 +161,35 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts)
 				}
 			}
 
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
+				{
+					if (cursorPos > 0)
+					{
+						--cursorPos;
+						arrowX = buttonX[cursorPos] - (arrowWidth / 2) - 22;
+						arrowY = buttonY[cursorPos];
+					}
+				}
+				else if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
+				{
+					if (cursorPos < buttonX.size() - 1)
+					{
+						++cursorPos;
+						arrowX = buttonX[cursorPos] - (arrowWidth / 2) - 22;
+						arrowY = buttonY[cursorPos];
+					}
+				}
+			}
 			
 		}	//Poll Event While Loop
-		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, bool arrowVisible, int arrowX);
-		menuAnimation(screen, frames, backgroundX, fonts, buttonY, arrowVisible, arrowX);
+		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, int arrowX, int arrowY);
+		menuAnimation(screen, frames, backgroundX, fonts, buttonY, arrowX, arrowY);
 	}
 }
 
-void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, bool arrowVisible, int arrowX)
+void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, int arrowX, int arrowY)
 {
 	void clear(SDL_Surface*& gScreenSurface);
 	SDL_Delay(1000 / frames);
@@ -184,22 +201,15 @@ void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, v
 	SDL_Rect dest;
 	dest.x = backgroundX;
 	dest.y = 0;
-	
-
 	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, &dest);
-
 	
-
-	screen.displayText("Start", SCREEN_WIDTH/2, buttonY[0] + 12, fonts.font48);
-	screen.displayText("Settings", SCREEN_WIDTH / 2, buttonY[1] + 12, fonts.font48);
-	screen.displayText("Controls", SCREEN_WIDTH / 2, buttonY[2] + 12, fonts.font48);
-
-	if (arrowVisible == true) {
-		screen.displayText(">", arrowX, buttonY[0] + 12, fonts.font48);
-	}
+	//					Text			X			Y			Font
+	screen.displayText("Start", SCREEN_WIDTH/2, buttonY[0] + 6, fonts.font48);
+	screen.displayText("Settings", SCREEN_WIDTH / 2, buttonY[1] + 6, fonts.font48);
+	screen.displayText("Controls", SCREEN_WIDTH / 2, buttonY[2] + 6, fonts.font48);
+	screen.displayText(">", arrowX, arrowY + 6, fonts.font48);
 
 	SDL_UpdateWindowSurface(screen.gWindow);
-
 	clear(screen.gScreenSurface);
 	
 }

@@ -29,6 +29,8 @@ int main(int argc, char* args[])
 		printf("TTF_Init: %s\n", TTF_GetError());
 		exit(2);
 	}
+
+	//Initalise Fonts
 	Fonts fonts;
 
 	//START OF GAME
@@ -165,15 +167,16 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts)
 
 			
 		}	//Poll Event While Loop
-		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY);
-		menuAnimation(screen, frames, backgroundX, fonts, buttonY);
+		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, bool arrowVisible, int arrowX);
+		menuAnimation(screen, frames, backgroundX, fonts, buttonY, arrowVisible, arrowX);
 	}
 }
 
-void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY)
+void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, bool arrowVisible, int arrowX)
 {
 	void clear(SDL_Surface*& gScreenSurface);
 	SDL_Delay(1000 / frames);
+	
 	//clear(screen.gScreenSurface);
 	backgroundX = backgroundX - 1;
 	if (backgroundX == -960)
@@ -190,6 +193,11 @@ void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, v
 	screen.displayText("Start", SCREEN_WIDTH/2, buttonY[0] + 12, fonts.font48);
 	screen.displayText("Settings", SCREEN_WIDTH / 2, buttonY[1] + 12, fonts.font48);
 	screen.displayText("Controls", SCREEN_WIDTH / 2, buttonY[2] + 12, fonts.font48);
+
+	if (arrowVisible == true) {
+		screen.displayText(">", arrowX, buttonY[0] + 12, fonts.font48);
+	}
+
 	SDL_UpdateWindowSurface(screen.gWindow);
 
 	clear(screen.gScreenSurface);

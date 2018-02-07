@@ -27,7 +27,7 @@ Screen::Screen()
 			SDL_SetColorKey(gScreenSurface, SDL_TRUE, SDL_MapRGB(gScreenSurface->format, 0, 0xFF, 0xFF));
 			//Apply image
 			SDL_BlitSurface(gPlaySurface, NULL, gScreenSurface, NULL);
-			SDL_UpdateWindowSurface(gWindow);
+			//SDL_UpdateWindowSurface(gWindow);
 			//SDL_Delay(2000);
 		}
 	}
@@ -68,15 +68,10 @@ bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface)
 	return success;
 }
 
-void Screen::displayText(string text, float x, float y, TTF_Font* font)
-{
-	TTF_Font* newfont = TTF_OpenFont("PressStart2P-Regular.ttf", 48);
-	if (!newfont) {
-		printf("TTF_OpenFont: %s\n", TTF_GetError());
-		// handle error
-	}
+void Screen::displayText(string text, float x, float y, TTF_Font* newfont)
+{	
 	const char * charText = text.c_str();
-	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);	SDL_SetColorKey(gText, 1, colorkey);			SDL_Rect textLocation = {  x - (gText->w)/2, y, 0, 0 };	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);	SDL_FillRect(gText, NULL, 0x000000);	TTF_CloseFont(newfont);
+	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);	SDL_SetColorKey(gText, 1, colorkey);	SDL_Rect textLocation = {  x - (gText->w)/2, y, 0, 0 };	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);	SDL_FillRect(gText, NULL, 0x000000);	SDL_FreeSurface(gText);
 }
 
 bool Screen::loadInitialMedia(SDL_Surface *& gHelloWorld)

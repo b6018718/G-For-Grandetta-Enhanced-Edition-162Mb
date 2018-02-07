@@ -13,6 +13,8 @@
 #include "Screen.h"
 using namespace std;
 
+const int JOYSTICK_DEAD_ZONE = 8000;
+
 int main(int argc, char* args[])
 {
 	void close(Screen screen, Music music, Fonts fonts);	//Function to free media and shut down SDL
@@ -36,11 +38,37 @@ int main(int argc, char* args[])
 	//START OF GAME
 	music.SetVolume(5);
 	music.PlayMenu();
+
+	//Initalise Controller Support
+	SDL_Joystick* gGameController = NULL;
+
+	if (SDL_NumJoysticks() < 1)
+	{
+		printf("Warning: No joysticks connected!\n");
+	}
+	else
+	{
+		//Load joystick
+		gGameController = SDL_JoystickOpen(0);
+		if (gGameController == NULL)
+		{
+			printf("Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError());
+		}
+	}
+
+	
 	
 	void MainMenu(Screen screen, Music& music, Fonts& fonts);
 	MainMenu(screen, music, fonts);
 	//SDL_Delay(2000);
 	close(screen, music, fonts);
+
+	//Close game controller
+	if (gGameController != NULL)
+	{
+		SDL_JoystickClose(gGameController);
+		gGameController = NULL;
+	}
 
 	system("pause");
 
@@ -56,6 +84,8 @@ void close(Screen screen, Music music, Fonts fonts)
 	fonts.FreeFonts();
 	music.FreeSounds();
 	screen.FreeSurfaces();
+
+
 
 	//Quit SDL subsystems
 	SDL_Quit();
@@ -96,6 +126,8 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts)
 	float arrowHeight = 48;
 	float arrowX = buttonX[0] - (arrowWidth / 2) - 22;
 	float arrowY = buttonY[0];
+
+	
 	//bool arrowVisible = false;
 	//arrow is the little pointer to the left of the button, visual element
 
@@ -182,6 +214,73 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts)
 					}
 				}
 			}
+
+
+			if (event.type == SDL_JOYAXISMOTION)
+			{
+				cout << "MOTION DETECTED\n";
+				//Motion on controller 0
+				if (event.jaxis.which == 0)
+				{
+					//X axis motion
+					if (event.jaxis.axis == 0)
+					{
+						//Left of dead zone
+						if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+						{
+							cout << "LEFT MOVEMENT\n";
+						}
+						//Right of dead zone
+						else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+						{
+							cout << "MOVEMENT RIGHT\n";
+						}
+
+					}
+					//Y axis motion
+					else if (event.jaxis.axis == 1)
+					{
+						//Below of dead zone
+						if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+						{
+							cout << "MOVEMENT DOWN\n";
+						}
+						//Above of dead zone
+						else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+						{
+							cout << "MOVEMENT UP\n";
+						}
+
+					}
+				}
+
+			}
+
+			if (event.type == SDL_JOYBUTTONDOWN)
+			{
+				if (event.jbutton.button == 0)
+				{
+					cout << "DOWN\n";
+				}
+				else if (event.jbutton.button == 1)
+				{
+					cout << "RIGHT\n";
+				}
+				else if (event.jbutton.button == 2)
+				{
+					cout << "LEFT\n";
+				}
+				else if (event.jbutton.button == 3)
+				{
+					cout << "UP\n";
+				}
+				else
+				{
+					cout << "Unknown button\n";
+				}
+			}
+			//cout << (SDL_GameControllerMapping);
+			//if (SDL_GameControllerMapping)
 			
 		}	//Poll Event While Loop
 		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, int arrowX, int arrowY);

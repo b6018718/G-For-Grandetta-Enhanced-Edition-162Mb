@@ -44,7 +44,7 @@ bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface)
 	bool success = true;
 
 	//Initalise SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0)
 	{
 		printf("SDL Initalisation failed. Error Message: %s\n", SDL_GetError());
 		success = false;

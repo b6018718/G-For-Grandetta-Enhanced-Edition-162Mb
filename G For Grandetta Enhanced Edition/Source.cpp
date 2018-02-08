@@ -118,10 +118,11 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 	
 	//double effectiveCurrentExp = 5;
 	//double effectiveExpLevelUp = 10;
-	void play(Screen screen);
+	bool play(Screen screen);
 	void settings(Screen screen);
 	void clear(SDL_Surface*& gScreenSurface);
 	void instructions(Screen screen);
+	void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, int arrowX, int arrowY);
 	void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen screen);
 	//DrawEXPBar(25, 405, effectiveCurrentExp, effectiveExpLevelUp, "#ffff00", Screen screen);
 	
@@ -153,6 +154,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 
 	SDL_JoystickEventState(SDL_ENABLE);
 
+	/*
 	int num_axes = SDL_JoystickNumAxes(gGameController);
 	int num_buttons = SDL_JoystickNumButtons(gGameController);
 	int num_hats = SDL_JoystickNumHats(gGameController);
@@ -162,7 +164,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 	char guid_str[1024];
 	SDL_JoystickGetGUIDString(guid, guid_str, sizeof(guid_str));
 	const char* name = SDL_JoystickName(gGameController);
-
+	*/
 	
 
 	while (!quit)
@@ -172,34 +174,80 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 			if (event.type == SDL_QUIT)
 				quit = true;
 
-			//if (event.type == SDL_JOYAXISMOTION)
-
+			if (event.type == SDL_JOYAXISMOTION)
+			{
+				//X axis motion
+				/*if (event.jaxis.axis == 0)
+				{
+					//Left of dead zone
+					if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+					{
+						cout << "LEFT";
+					}
+					//Right of dead zone
+					else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+					{
+						cout << "RIGHT";
+					}
+					else
+					{
+						cout << "CENTRE";
+					}
+				}
+				else */
+				if (event.jaxis.axis == 1)
+				{
+					//Below of dead zone
+					if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+					{
+						if (cursorPos < buttonX.size() - 1)
+						{
+							++cursorPos;
+							arrowX = buttonX[cursorPos] - (arrowWidth / 2) - 22;
+							arrowY = buttonY[cursorPos];
+						}
+					}
+					//Above of dead zone
+					else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+					{
+						if (cursorPos > 0)
+						{
+							--cursorPos;
+							arrowX = buttonX[cursorPos] - (arrowWidth / 2) - 22;
+							arrowY = buttonY[cursorPos];
+						}
+					}
+				}
+			}
 
 			if (event.type == SDL_JOYHATMOTION)
 			{
-				if (event.jhat.value == SDL_HAT_LEFTUP)
-					cout << "LEFT UP\n";
 				if (event.jhat.value == SDL_HAT_UP)
-					cout << "UP\n";
-				if (event.jhat.value == SDL_HAT_RIGHTUP)
-					cout << "RIGHT UP\n";
-				if (event.jhat.value == SDL_HAT_LEFT)
-					cout << "LEFT\n";
-				if (event.jhat.value == SDL_HAT_CENTERED)
-					cout << "CENTRE\n";
-				if (event.jhat.value == SDL_HAT_RIGHT)
-					cout << "RIGHT\n";
-				if (event.jhat.value == SDL_HAT_LEFTDOWN)
-					cout << "LEFT DOWN\n";
+				{
+					if (cursorPos > 0)
+					{
+						--cursorPos;
+						arrowX = buttonX[cursorPos] - (arrowWidth / 2) - 22;
+						arrowY = buttonY[cursorPos];
+					}
+				}
+				//if (event.jhat.value == SDL_HAT_LEFT)
+					//cout << "LEFT\n";
+				//if (event.jhat.value == SDL_HAT_RIGHT)
+					//cout << "RIGHT\n";
 				if (event.jhat.value == SDL_HAT_DOWN)
-					cout << "DOWN\n";
-				if (event.jhat.value == SDL_HAT_RIGHTDOWN)
-					cout << "RIGHT DOWN\n";
+				{
+					if (cursorPos < buttonX.size() - 1)
+					{
+						++cursorPos;
+						arrowX = buttonX[cursorPos] - (arrowWidth / 2) - 22;
+						arrowY = buttonY[cursorPos];
+					}
+				}
 			}
 
-			//cout << event.jaxis.value << "\n";
 
-			/*if (event.type == SDL_MOUSEMOTION)
+			if (event.type == SDL_MOUSEMOTION)
 			{
 				mouseX = event.motion.x;	//Gets the mouse position
 				mouseY = event.motion.y;
@@ -231,7 +279,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 								case 0:
 									background = 0;
 									stop = true;
-									play(screen);
+									quit = play(screen);
 									break;
 								case 1:
 									stop = true;
@@ -249,7 +297,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 				}
 			}
 			
-			*/
+			
 
 			if (event.type == SDL_KEYDOWN)
 			{
@@ -271,6 +319,27 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 						arrowY = buttonY[cursorPos];
 					}
 				}
+				else if (event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE)
+				{
+					switch (cursorPos)
+					{
+					case 0:
+						background = 0;
+						stop = true;
+						quit = play(screen);
+						break;
+					case 1:
+						stop = true;
+						clear(screen.gScreenSurface);
+						settingsOrigin = 1;
+						settings(screen);
+						break;
+					case 2:
+						stop = true;
+						instructions(screen);
+						break;
+					}
+				}
 			}
 			
 
@@ -284,6 +353,26 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 				else if (event.jbutton.button == 1)
 				{
 					cout << "RIGHT\n";
+					switch (cursorPos)
+					{
+					case 0:
+						background = 0;
+						stop = true;
+						clear(screen.gScreenSurface);
+						quit = play(screen);
+						break;
+					case 1:
+						stop = true;
+						clear(screen.gScreenSurface);
+						settingsOrigin = 1;
+						settings(screen);
+						break;
+					case 2:
+						stop = true;
+						clear(screen.gScreenSurface);
+						instructions(screen);
+						break;
+					}
 				}
 				else if (event.jbutton.button == 2)
 				{
@@ -301,8 +390,11 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 			
 			
 		}	//Poll Event While Loop
-		void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, int arrowX, int arrowY);
-		menuAnimation(screen, frames, backgroundX, fonts, buttonY, arrowX, arrowY);
+
+
+
+		if (!quit)
+			menuAnimation(screen, frames, backgroundX, fonts, buttonY, arrowX, arrowY);
 
 		//cout << SDL_JoystickGetAxis(gGameController, 0);
 	}
@@ -314,7 +406,7 @@ void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, v
 	void clear(SDL_Surface*& gScreenSurface);
 	SDL_Delay(1000 / frames);
 	
-	//clear(screen.gScreenSurface);
+	clear(screen.gScreenSurface);
 	backgroundX = backgroundX - 1;
 	if (backgroundX == -960)
 		backgroundX = 0;
@@ -334,9 +426,9 @@ void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, v
 	
 }
 
-void play(Screen screen)
+bool play(Screen screen)
 {
-
+	return true;
 }
 
 void instructions(Screen screen)
@@ -351,7 +443,7 @@ void clear(SDL_Surface*& gScreenSurface)
 
 void settings(Screen screen)
 {
-
+	screen.loadMedia(screen.gScreenSurface, )
 }
 
 void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen screen)

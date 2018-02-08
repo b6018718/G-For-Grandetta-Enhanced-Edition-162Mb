@@ -43,8 +43,10 @@ bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface)
 	//Initalisation Flag
 	bool success = true;
 
+	SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
+
 	//Initalise SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		printf("SDL Initalisation failed. Error Message: %s\n", SDL_GetError());
 		success = false;

@@ -18,6 +18,8 @@ public:
 	Music();
 	~Music();
 
+	int volume = 5;
+
 	void PlayBattle();
 	void PlayCamp();
 	void PlayCasino();

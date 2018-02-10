@@ -148,12 +148,13 @@ void Music::FreeSounds()
 	Mix_FreeChunk(rat);
 }
 
-void Music::SetVolume(float volume)  //Volume should be a number equal or between 0 and 10
+void Music::SetVolume(float newVolume)  //Volume should be a number equal or between 0 and 10
 {
-	if (volume >= 0 && volume <= 10)
+	if (newVolume >= 0 && newVolume <= 10)
 	{
-		int intVol = (int) floor((volume / 10) * 128);
+		int intVol = (int)  floor((newVolume / 10) * 128);
 		Mix_VolumeMusic(intVol);
 		Mix_Volume(-1, intVol);
+		volume = newVolume;
 	}
 }

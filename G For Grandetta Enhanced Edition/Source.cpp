@@ -117,9 +117,9 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 	//double effectiveCurrentExp = 5;
 	//double effectiveExpLevelUp = 10;
 	bool play(Screen screen);
-	void settings(Screen screen, Music& music, Fonts fonts);
+	bool settings(Screen screen, Music& music, Fonts fonts);
 	void clear(SDL_Surface*& gScreenSurface);
-	void instructions(Screen screen);
+	bool instructions(Screen screen);
 	void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, int arrowX, int arrowY);
 	void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen screen);
 	//DrawEXPBar(25, 405, effectiveCurrentExp, effectiveExpLevelUp, "#ffff00", Screen screen);
@@ -167,9 +167,11 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 	{
 		while (SDL_PollEvent(&event))
 		{
+			//Exit Window Event
 			if (event.type == SDL_QUIT)
 				quit = true;
 
+			//Controller Joystick Event
 			if (event.type == SDL_JOYAXISMOTION)
 			{
 				//X axis motion
@@ -216,6 +218,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 				}
 			}
 
+			//Controller Movement Event
 			if (event.type == SDL_JOYHATMOTION)
 			{
 				if (event.jhat.value == SDL_HAT_UP)
@@ -242,7 +245,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 				}
 			}
 
-
+			//Mouse Movement Event
 			if (event.type == SDL_MOUSEMOTION)
 			{
 				mouseX = event.motion.x;	//Gets the mouse position
@@ -262,6 +265,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 				}
 			} 
 
+			//Mouse Button Event
 			if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED && stop == false)
 			{
 				for (int i = 0; i < buttonX.size(); i++)	//If mouse left clicks the button
@@ -278,14 +282,12 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 									quit = play(screen);
 									break;
 								case 1:
-									stop = true;
 									clear(screen.gScreenSurface);
 									settingsOrigin = 1;
-									settings(screen, music, fonts);
+									quit = settings(screen, music, fonts);
 									break;
 								case 2:
-									stop = true;
-									instructions(screen);
+									quit = instructions(screen);
 									break;
 							}
 						}
@@ -293,8 +295,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 				}
 			}
 			
-			
-
+			//Keyboard Event
 			if (event.type == SDL_KEYDOWN)
 			{
 				if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
@@ -328,18 +329,17 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 						stop = true;
 						clear(screen.gScreenSurface);
 						settingsOrigin = 1;
-						settings(screen, music, fonts);
+						quit = settings(screen, music, fonts);
 						break;
 					case 2:
 						stop = true;
-						instructions(screen);
+						quit = instructions(screen);
 						break;
 					}
 				}
 			}
 			
-
-
+			//Controller Button Event
 			if (event.type == SDL_JOYBUTTONDOWN)
 			{
 				if (event.jbutton.button == 0)
@@ -361,13 +361,13 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 						stop = true;
 						clear(screen.gScreenSurface);
 						settingsOrigin = 1;
-						settings(screen, music, fonts);
+						quit = settings(screen, music, fonts);
 						backgroundX = 0;
 						break;
 					case 2:
 						stop = true;
 						clear(screen.gScreenSurface);
-						instructions(screen);
+						quit = instructions(screen);
 						backgroundX = 0;
 						break;
 					}
@@ -386,9 +386,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 				}
 			}
 			
-			
 		}	//Poll Event While Loop
-
 
 
 		if (!quit)
@@ -428,9 +426,10 @@ bool play(Screen screen)
 	return true;
 }
 
-void instructions(Screen screen)
+bool instructions(Screen screen)
 {
 	bool quit = false;
+	bool exitGame = false;
 	//clear(screen.gScreenSurface);
 	screen.loadMedia(screen.gPlaySurface, "images/controls.bmp");
 	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
@@ -445,6 +444,13 @@ void instructions(Screen screen)
 
 		while (SDL_PollEvent(&event))
 		{
+			if (event.type == SDL_QUIT)
+			{
+				quit = true;
+				exitGame = true;
+			}
+
+			//Controller button event
 			if (event.type == SDL_JOYBUTTONDOWN)
 			{
 				if (event.jbutton.button == 0)
@@ -476,6 +482,7 @@ void instructions(Screen screen)
 			}
 		}
 	}
+	return exitGame;
 }
 
 void clear(SDL_Surface*& gScreenSurface)
@@ -483,11 +490,12 @@ void clear(SDL_Surface*& gScreenSurface)
 	SDL_FillRect(gScreenSurface, NULL, 0x000000);
 }
 
-void settings(Screen screen, Music& music, Fonts fonts)
+bool settings(Screen screen, Music& music, Fonts fonts)
 {
 	SDL_Event event;
 
 	bool quit = false;
+	bool gameExit = false;
 	screen.loadMedia(screen.gPlaySurface, "images/settingsScreenMenu.bmp");
 	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
 
@@ -507,14 +515,20 @@ void settings(Screen screen, Music& music, Fonts fonts)
 	int settingsBoxSize = settingsBoxWidth;
 	int settingsBoxHeight = 32;
 	float tempVol;
+	int cursorSelected = -1;
 
 	while (!quit)
 	{
 		while (SDL_PollEvent(&event))
 		{
+			//Exit Window Event
 			if (event.type == SDL_QUIT)
+			{
 				quit = true;
+				gameExit = true;
+			}
 
+			//Mouse Motion Event
 			if (event.type == SDL_MOUSEMOTION)
 			{
 				mouseX = event.motion.x;
@@ -534,6 +548,7 @@ void settings(Screen screen, Music& music, Fonts fonts)
 				}
 			}
 
+			//Left Click Event
 			if(event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED)
 			{
 				for (int i = 0; i < VolbuttonX.size(); i++)
@@ -550,7 +565,7 @@ void settings(Screen screen, Music& music, Fonts fonts)
 									{
 										tempVol = (float)music.volume - 1;
 										music.SetVolume(tempVol);
-
+										SDL_Delay(10);
 									}
 									break;
 								}
@@ -560,7 +575,7 @@ void settings(Screen screen, Music& music, Fonts fonts)
 									{
 										tempVol = (float)music.volume + 1;
 										music.SetVolume(tempVol);
-
+										SDL_Delay(10);
 									}
 									break;
 								}
@@ -569,16 +584,129 @@ void settings(Screen screen, Music& music, Fonts fonts)
 					}
 				}
 			}
-		}
 
+			//Keyboard Event
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_BACKSPACE || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_ESCAPE)
+					quit = true;
+				else
+				if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
+				{
+					settingsBoxX = VolbuttonX[0];
+					settingsBoxY = VolbuttonY[0];
+					settingsBoxVisible = true;
+					cursorSelected = 0;
+				}
+				else
+				if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+				{
+					settingsBoxX = VolbuttonX[1];
+					settingsBoxY = VolbuttonY[1];
+					settingsBoxVisible = true;
+					cursorSelected = 1;
+				}
+				else
+				if (event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_RETURN)
+				{
+					if (cursorSelected == 0)
+					{
+						if (music.volume > 0)
+						{
+							tempVol = (float)music.volume - 1;
+							music.SetVolume(tempVol);
+							SDL_Delay(10);
+						}
+					}
+					else if (cursorSelected == 1)
+					{
+						if (music.volume < 10)
+							{
+								tempVol = (float)music.volume + 1;
+								music.SetVolume(tempVol);
+								SDL_Delay(10);
+							}
+						}
+				}
+
+			}
+
+			//Controller move event
+			if (event.type == SDL_JOYHATMOTION)
+			{
+				if (event.jhat.type == SDL_HAT_LEFT)
+				{
+					settingsBoxX = VolbuttonX[0];
+					settingsBoxY = VolbuttonY[0];
+					settingsBoxVisible = true;
+					cursorSelected = 0;
+				}
+
+				if (event.jhat.type == SDL_HAT_RIGHT)
+				{
+					settingsBoxX = VolbuttonX[1];
+					settingsBoxY = VolbuttonY[1];
+					settingsBoxVisible = true;
+					cursorSelected = 1;
+				}
+			}
+
+			//Controller button event
+			if (event.type == SDL_JOYBUTTONDOWN)
+			{
+				if (event.jbutton.button == 0)
+				{
+					quit = true;
+				}
+
+				if (event.jbutton.button == 1)
+				{
+					if (cursorSelected == 0)
+					{
+						if (music.volume > 0)
+						{
+							tempVol = (float)music.volume - 1;
+							music.SetVolume(tempVol);
+							SDL_Delay(10);
+						}
+					}
+					else
+					if (cursorSelected == 1)
+					{
+						if (music.volume < 10)
+						{
+							tempVol = (float)music.volume + 1;
+							music.SetVolume(tempVol);
+							SDL_Delay(10);
+						}
+					}
+				}
+			}
+
+		}//POLL EVENT WHILE
 		SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
 
 		string volText = to_string(music.volume);
 		screen.displayText(volText, 430, 220, fonts.font48);
 
+		if (settingsBoxVisible)
+		{
+			screen.loadMedia(screen.gText, "images/VOL.bmp");
+			SDL_Rect boxPosition;
+			boxPosition.x = settingsBoxX;
+			boxPosition.y = settingsBoxY;
+			SDL_BlitSurface(screen.gText, NULL, screen.gScreenSurface, &boxPosition);
+			//SDL_UpdateWindowSurface(screen.gWindow);
+			//clear(screen.gText);
+			SDL_FreeSurface(screen.gText);
+		}
+
 		SDL_UpdateWindowSurface(screen.gWindow);
 		//clear(screen.gScreenSurface);
+		//clear(screen.gScreenSurface);
+		
 	}
+	return gameExit;
 }
 
 void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen screen)

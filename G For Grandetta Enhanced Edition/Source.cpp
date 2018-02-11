@@ -15,6 +15,7 @@
 #include "Screen.h"
 #include "Player.h"
 #include "SDL_gamecontroller.h"
+#include "Maps.h"
 using namespace std;
 
 const int JOYSTICK_DEAD_ZONE = 8000;
@@ -132,8 +133,8 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 	SDL_Event event;
 
 	//Mouse Variables
-	float mouseX;
-	float mouseY;
+	float mouseX = 0;
+	float mouseY = 0;
 	float arrowWidth = 48;
 	float arrowSize = 48;
 	float arrowHeight = 48;
@@ -433,45 +434,177 @@ bool play(Screen screen, Music music, Fonts fonts)
 
 	Player player;
 
-	bool classSelect(Screen screen, Music music, Fonts fonts);
+	bool classSelect(Screen screen, Music music, Fonts fonts, Player player);
 
-	gameExit = classSelect(screen, music, fonts);
+	gameExit = classSelect(screen, music, fonts, player);
 
 	
 	
 	return gameExit;
 }
 
-bool classSelect(Screen screen, Music music, Fonts fonts)
+bool classSelect(Screen screen, Music music, Fonts fonts, Player player)
 {
 	vector <int> ClassbuttonX = { 20, 326, 632 };
 	vector <int> ClassbuttonY = { 120, 120, 120 };
 	int Classbuttonwidth = 300;
 	int Classbuttonheight = 480;
 
-	
+	screen.loadMedia(screen.gPlaySurface, "images/ClassScreen.bmp");
+	screen.loadMedia(screen.gText, "images/classSel.bmp");
 
-	screen.loadMedia(screen.gPlaySurface, "images/classSel.bmp");
+	bool classBoxVisible = true;
+	int cursorSelected = 0;
+	int classSelected = -1;
 
-	bool classBoxVisible = false;
-
-	int ClassBoxX = 0;
-	int ClassBoxY = 0;
 	int ClassBoxWidth = 300;
 	int ClassBoxSize = ClassBoxWidth;
 	int ClassBoxHeight = 480;
+	SDL_Rect dest;
 
-	int mouseX;
-	int mouseY;
+	int mouseX = 0;
+	int mouseY = 0;
 
 	bool quit = false;
 	bool gameExit = false;
 
 	while (!quit)
 	{
+		SDL_Event event;
+
+		while (SDL_PollEvent(&event))
+		{
+			//Window Exit Event
+			if (event.type == SDL_QUIT)
+			{
+				gameExit = true;
+				quit = true;
+			}
+
+			//Controller Button Event
+			if (event.type == SDL_JOYBUTTONDOWN)
+			{
+				if (event.jbutton.button == 1)
+				{
+					classSelected = cursorSelected;
+				}
+			}
+
+			//Controller Movement Event
+			if (event.type == SDL_JOYHATMOTION)
+			{
+				if (cursorSelected > 0)
+				{
+					if (event.jhat.value == SDL_HAT_LEFT)
+					{
+						--cursorSelected;
+					}
+
+				}
+
+				if (cursorSelected < 2)
+				{
+					if (event.jhat.value == SDL_HAT_RIGHT)
+					{
+						++cursorSelected;
+					}
+				}
+			}
+
+			//Mouse Movement Event
+			if (event.type == SDL_MOUSEMOTION)
+			{
+				mouseX = event.motion.x;
+				mouseY = event.motion.y;
+
+				for (int i = 0; i < ClassbuttonX.size(); i++)
+				{
+					if (mouseX > ClassbuttonX[i] && mouseX < ClassbuttonX[i] + ClassBoxWidth)
+					{
+						if (mouseY > ClassbuttonY[i] && mouseY < ClassbuttonY[i] + ClassBoxHeight)
+						{
+							cursorSelected = i;
+						}
+					}
+				}
+			}
+
+			//Left click event
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED)
+			{
+				for (int i = 0; i < ClassbuttonX.size(); i++)
+				{
+					if (mouseX > ClassbuttonX[i] && mouseX < ClassbuttonX[i] + ClassBoxWidth)
+					{
+						if (mouseY > ClassbuttonY[i] && mouseY < ClassbuttonY[i] + ClassBoxHeight)
+						{
+							classSelected = cursorSelected;
+						}
+					}
+				}
+			}
+
+			//Keyboard
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
+				{
+					if (cursorSelected > 0)
+					{
+						--cursorSelected;
+					}
+				}
+
+				if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+				{
+					if (cursorSelected < 2)
+					{
+						++cursorSelected;
+					}
+				}
+
+				if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_e)
+				{
+					classSelected = cursorSelected;
+				}
+			}
+
+		}//Event Poll While Loop
+		
+
+		dest.x = ClassbuttonX[cursorSelected];
+		dest.y = ClassbuttonY[cursorSelected];
+
+		
+		SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
+		//SDL_UpdateWindowSurface(screen.gWindow);
+
+		SDL_BlitSurface(screen.gText, NULL, screen.gScreenSurface, &dest);
+		SDL_UpdateWindowSurface(screen.gWindow);
+
+		if (classSelected != -1)
+		{
+			if (classSelected == 0)
+			{
+				player.pClass = "Warrior";
+				
+			}
+			else if (classSelected == 1)
+			{
+				player.pClass = "Mage";
+			}
+			else if (classSelected == 2)
+			{
+				player.pClass = "Rogue";
+			}
+			player.initaliseStats();
+			quit = true;
+		}
+
 
 	}
-
+	SDL_FreeSurface(screen.gText);
+	SDL_FreeSurface(screen.gPlaySurface);
 	return gameExit;
 }
 

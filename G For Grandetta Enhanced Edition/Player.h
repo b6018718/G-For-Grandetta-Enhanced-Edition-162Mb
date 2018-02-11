@@ -25,6 +25,7 @@ public:
 	int	magDefence; //Character's magic defence
 	int luck; //Critical hits, dodging and missing
 	int gold; //Amount of currency
+	int currentMap; //Current map location (0-7)
 	string playerName;
 	string equippedWeapon;
 	string equippedChestPiece;

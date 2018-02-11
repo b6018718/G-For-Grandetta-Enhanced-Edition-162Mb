@@ -27,6 +27,7 @@ void Player::initaliseStats()
 	expLevelUp = 10;
 	currentExp = 0;
 	gold = 0;
+	currentMap = 0;
 
 	equippedWeapon = "bone";
 	equippedChestPiece = "basic";

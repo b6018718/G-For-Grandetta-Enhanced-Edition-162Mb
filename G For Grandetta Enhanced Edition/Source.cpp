@@ -433,17 +433,20 @@ bool play(Screen screen, Music music, Fonts fonts)
 	bool gameExit = false;
 
 	Player player;
+	Maps maps;
 
-	bool classSelect(Screen screen, Music music, Fonts fonts, Player player);
+	bool classSelect(Screen screen, Music music, Fonts fonts, Player& player);
 
 	gameExit = classSelect(screen, music, fonts, player);
+	screen.loadMedia(screen.gPlaySurface, "images/bg" + to_string(player.currentMap) + ".bmp");
+	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
+	
+	SDL_Delay(10000);
 
-	
-	
 	return gameExit;
 }
 
-bool classSelect(Screen screen, Music music, Fonts fonts, Player player)
+bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 {
 	vector <int> ClassbuttonX = { 20, 326, 632 };
 	vector <int> ClassbuttonY = { 120, 120, 120 };
@@ -529,7 +532,7 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player player)
 				}
 			}
 
-			//Left click event
+			//Left click Event
 			if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED)
 			{
 				for (int i = 0; i < ClassbuttonX.size(); i++)
@@ -544,7 +547,7 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player player)
 				}
 			}
 
-			//Keyboard
+			//Keyboard Event
 			if (event.type == SDL_KEYDOWN)
 			{
 				if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
@@ -577,8 +580,6 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player player)
 
 		
 		SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
-		//SDL_UpdateWindowSurface(screen.gWindow);
-
 		SDL_BlitSurface(screen.gText, NULL, screen.gScreenSurface, &dest);
 		SDL_UpdateWindowSurface(screen.gWindow);
 
@@ -612,7 +613,6 @@ bool instructions(Screen screen)
 {
 	bool quit = false;
 	bool exitGame = false;
-	//clear(screen.gScreenSurface);
 	screen.loadMedia(screen.gPlaySurface, "images/controls.bmp");
 	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
 
@@ -626,6 +626,7 @@ bool instructions(Screen screen)
 
 		while (SDL_PollEvent(&event))
 		{
+			//Exit Window Event
 			if (event.type == SDL_QUIT)
 			{
 				quit = true;
@@ -657,6 +658,7 @@ bool instructions(Screen screen)
 				}
 			}
 
+			//Keyboard Event
 			if (event.type == SDL_KEYDOWN)
 			{
 				if (event.key.keysym.sym == SDLK_BACKSPACE || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_ESCAPE)

@@ -114,6 +114,42 @@ bool Screen::loadMedia(SDL_Surface *& surface, string file)
 	return success;
 }
 
+void Screen::updateMap(SDL_Surface*& surface, Player player, MapZone mapZone)
+{
+	float canXC = (float)(SCREEN_WIDTH - player.spriteSizeX) / 2;	//Can X Camera, If there is room left for the map to move
+	float canYC = (float)(SCREEN_HEIGHT - player.spriteSizeY) / 2;	//Can Y Camera
+
+	SDL_Rect bg;
+	if (player.currentX < canXC)	//If the player is as far left as possible
+	{
+		bg.x = 0;
+	}
+	else if (player.currentX > canYC)	//If the player is as far right as possible
+	{
+		bg.x = SCREEN_WIDTH - mapZone.xDim;
+	}
+	else //otherwise...
+	{
+		bg.x = canXC - mapZone.xDim;	//the background needs to be as far across as possible
+	}
+
+	if (player.currentY < canYC) //If the player is as far up as possible
+	{
+		bg.y = 0;
+	}
+	else if(player.currentY > canYC) //If player is as far down as possible
+	{
+		bg.y = SCREEN_HEIGHT - mapZone.yDim + 160; //160???
+	}
+	else //otherwise
+	{
+		bg.y = canYC - mapZone.yDim;
+	}
+
+	SDL_BlitSurface(surface, NULL, gScreenSurface, &bg);
+	SDL_UpdateWindowSurface(gWindow);
+}
+
 void Screen::FreeSurfaces()
 {
 	SDL_FreeSurface(gScreenSurface);

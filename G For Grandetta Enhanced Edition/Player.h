@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Screen.h"
-
 using namespace std;
 
 class Player
@@ -28,6 +26,8 @@ public:
 	int currentMap; //Current map location (0-7)
 	int currentX;	//X Location of the player
 	int currentY;	//Y Location of the player
+	int spriteSizeX = 32;	//Size of the players sprite
+	int spriteSizeY = 32;	//Size of the players sprite
 	string playerName;
 	string equippedWeapon;
 	string equippedChestPiece;
@@ -43,7 +43,7 @@ public:
 
 	int getRandomInt(int min, int max);
 	void initaliseStats();
-	void levelUp(Screen screen);
-	void playerGainsExp(Screen screen, int exp);
+	void levelUp();
+	void playerGainsExp(int exp);
 };
 

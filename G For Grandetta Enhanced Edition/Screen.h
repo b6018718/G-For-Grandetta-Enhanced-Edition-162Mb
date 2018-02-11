@@ -1,5 +1,4 @@
 #pragma once
-
 #include "SDL.h"
 #include <iostream>
 #include <stdio.h>
@@ -7,6 +6,10 @@
 #include <stdlib.h>
 #include <string>
 #include "SDL_TTF.h"
+#include "Maps.h"
+#include "Player.h"
+#include "MapZone.h"
+
 const int SCREEN_WIDTH = 960;
 const int SCREEN_HEIGHT = 640;
 
@@ -35,6 +38,8 @@ public:
 	bool loadInitialMedia(SDL_Surface*& gHelloWorld);
 	
 	bool loadMedia(SDL_Surface*& surface, string file);
+
+	void updateMap(SDL_Surface*& surface, Player player, MapZone mapZone);
 
 	void FreeSurfaces();
 };

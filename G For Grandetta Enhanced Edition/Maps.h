@@ -9,11 +9,9 @@ class Maps
 public:
 	Maps();
 	~Maps();
-
-
-private:
 	vector <MapZone> zone;
-	
-	
+
+
+
 };
 

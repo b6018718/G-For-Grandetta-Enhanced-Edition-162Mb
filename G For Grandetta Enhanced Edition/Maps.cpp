@@ -5,14 +5,14 @@
 Maps::Maps()
 {
 	//Vector of Maps
-	zone.push_back(MapZone(60, 35, "Village"));
-	zone.push_back(MapZone(90, 55, "Field"));
-	zone.push_back(MapZone(90, 55, "Town"));
-	zone.push_back(MapZone(60, 45, "Castle"));
-	zone.push_back(MapZone(60, 45, "Goblin Camp"));
-	zone.push_back(MapZone(30, 25, "Nursary"));
-	zone.push_back(MapZone(60, 25, "Cave"));
-	zone.push_back(MapZone(30, 25, "Casino"));
+	zone.push_back(MapZone(60, 35, "images/bg0.bmp")); //Villages
+	zone.push_back(MapZone(90, 55, "images/bg1.bmp")); //Field
+	zone.push_back(MapZone(90, 55, "images/bg2.bmp")); //Town
+	zone.push_back(MapZone(60, 45, "images/bg3.bmp")); //Castle
+	zone.push_back(MapZone(60, 45, "images/bg4.bmp")); //Goblin Camp
+	zone.push_back(MapZone(30, 25, "images/bg5.bmp")); //Nursary
+	zone.push_back(MapZone(60, 25, "images/bg6.bmp")); //Cave
+	zone.push_back(MapZone(30, 25, "images/bg7.bmp")); //Casino
 
 	//Village Collisions
 	zone[0].collisions.push_back(Collision("villageTopWall", 0, 0, 60, 1, false, "none"));

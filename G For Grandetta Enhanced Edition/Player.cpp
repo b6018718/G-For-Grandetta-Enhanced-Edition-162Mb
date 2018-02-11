@@ -1,8 +1,9 @@
+#pragma once
 #include "Player.h"
 #include <time.h>
 #include <cstdlib>
 #include <string>
-
+#include <iostream>
 using namespace std;
 
 
@@ -91,7 +92,7 @@ void Player::initaliseStats()
 
 */
 
-void Player::levelUp(Screen screen)
+void Player::levelUp()
 {
 	if (pClass == "Warrior")
 	{
@@ -699,12 +700,12 @@ void Player::levelUp(Screen screen)
 	}
 }
 
-void Player::playerGainsExp(Screen screen, int exp)
+void Player::playerGainsExp(int exp)
 {
 	currentExp = currentExp + exp;
 	effectiveCurrentExp = effectiveCurrentExp + exp;
 	while ((currentExp >= expLevelUp) && (level < 16))
 	{
-		levelUp(screen);
+		levelUp();
 	}
 }

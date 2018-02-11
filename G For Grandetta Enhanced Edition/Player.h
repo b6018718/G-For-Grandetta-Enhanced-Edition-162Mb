@@ -41,5 +41,6 @@ public:
 	int getRandomInt(int min, int max);
 	void initaliseStats();
 	void levelUp(Screen screen);
+	void playerGainsExp(Screen screen, int exp);
 };
 

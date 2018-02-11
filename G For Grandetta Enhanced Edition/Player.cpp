@@ -1,7 +1,6 @@
 #include "Player.h"
 #include <time.h>
 #include <cstdlib>
-
 #include <string>
 
 using namespace std;
@@ -137,13 +136,7 @@ void Player::levelUp(Screen screen)
 			//Warrior MP Level UP
 			randomNum = getRandomInt(1, 100);
 			randomNum = randomNum + luck;
-			if (randomNum <= 30) //30% Chance
-			{
-				//Display Screen TBI
-				maxMP = maxMP + 0;
-				levelUpString += "MP: +0 ";
-			}
-			else if (randomNum <= 70) //40% Chance
+			if (randomNum <= 70) //70% Chance
 			{
 				maxMP = maxMP + 1;
 				levelUpString += "MP: +1 ";
@@ -294,10 +287,421 @@ void Player::levelUp(Screen screen)
 	}
 	else if (pClass == "Mage")
 	{
+		++level;
+		expLevelUp = levelExpNeeded[level];
+		effectiveExpLevelUp = levelExpNeeded[level] - currentExp;
+		effectiveCurrentExp = 0;
 
+		levelUpString = "Null";
+		int randomNum;
+
+		//Mage HP Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 20) //20% Chance
+		{
+			//Display Screen TBI
+			maxHP = maxHP + 1;
+			levelUpString = "HP: +1 ";
+		}
+		else if (randomNum <= 60) //40% Chance
+		{
+			maxHP = maxHP + 2;
+			levelUpString = "HP: +2 ";
+		}
+		else if (randomNum <= 80) //20% Chance
+		{
+			maxHP = maxHP + 3;
+			levelUpString = "HP: +3 ";
+		}
+		else if (randomNum <= 90) //10% Chance
+		{
+			maxHP = maxHP + 4;
+			levelUpString = "HP: +4 ";
+		}
+		else //10% Chance
+		{
+			maxHP = maxHP + 5;
+			levelUpString = "HP: +5 ";
+		}
+
+
+		//Mage MP Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 30) //30% Chance
+		{
+			//Display Screen TBI
+			maxMP = maxMP + 4;
+			levelUpString += "MP: +4 ";
+		}
+		else if (randomNum <= 80) //50% Chance
+		{
+			maxMP = maxMP + 5;
+			levelUpString += "MP: +5 ";
+		}
+		else if (randomNum <= 90) //10% Chance
+		{
+			maxMP = maxMP + 6;
+			levelUpString += "MP: +6 ";
+		}
+		else if (randomNum <= 95) //5% Chance
+		{
+			maxMP = maxMP + 7;
+			levelUpString += "MP: +7 ";
+		}
+		else //5% Chance
+		{
+			maxMP = maxMP + 8;
+			levelUpString += "MP: +8 ";
+		}
+
+
+		//Mage Physical Attack Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 30) //30% Chance
+		{
+			//Display Screen TBI
+			phyAttack = phyAttack + 0;
+			levelUpString += "phyAtt: +0 ";
+		}
+		else if (randomNum <= 85) //55% Chance
+		{
+			phyAttack = phyAttack + 1;
+			levelUpString += "phyAtt: +1 ";
+		}
+		else if (randomNum <= 90) //5% Chance
+		{
+			phyAttack = phyAttack + 2;
+			levelUpString += "phyAtt: +2 ";
+		}
+		else if (randomNum <= 95) //10% Chance
+		{
+			phyAttack = phyAttack + 3;
+			levelUpString += "phyAtt: +3 ";
+		}
+		else //5% Chance
+		{
+			phyAttack = phyAttack + 4;
+			levelUpString += "phyAtt: +4 ";
+		}
+
+
+		//Mage Physical Defence Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 35) //35% Chance
+		{
+			//Display Screen TBI
+			phyDefence = phyDefence + 0;
+			levelUpString += "phyDef: +0 ";
+		}
+		else if (randomNum <= 95) //60% Chance
+		{
+			phyDefence = phyDefence + 1;
+			levelUpString += "phyDef: +1 ";
+		}
+		else if (randomNum <= 99) //4% Chance
+		{
+			phyDefence = phyDefence + 2;
+			levelUpString += "phyDef: +2 ";
+		}
+		else //1% Chance
+		{
+			phyDefence = phyDefence + 3;
+			levelUpString += "phyDef: +3 ";
+		}
+
+
+		//Mage Magic Attack Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 30) //30% Chance
+		{
+			//Display Screen TBI
+			magAttack = magAttack + 1;
+			levelUpString += "magAtt: +1 ";
+		}
+		else if (randomNum <= 75) //45% Chance
+		{
+			magAttack = magAttack + 2;
+			levelUpString += "magAtt: +2 ";
+		}
+		else if (randomNum <= 85) //10% Chance
+		{
+			magAttack = magAttack + 3;
+			levelUpString += "magAtt: +3 ";
+		}
+		else if (randomNum <= 95) //10% Chance
+		{
+			magAttack = magAttack + 4;
+			levelUpString += "magAtt: +4 ";
+		}
+		else //5% Chance
+		{
+			magAttack = magAttack + 5;
+			levelUpString += "magAtt: +5 ";
+		}
+
+		//Mage Magic Defence Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 35) //35% Chance
+		{
+			//Display Screen TBI
+			magDefence = magDefence + 1;
+			levelUpString += "magDef: +1 ";
+		}
+		else if (randomNum <= 95) //60% Chance
+		{
+			magDefence = magDefence + 2;
+			levelUpString += "magAtt: +2 ";
+		}
+		else if (randomNum <= 99) //4% Chance
+		{
+			magDefence = magDefence + 3;
+			levelUpString += "magAtt: +3 ";
+		}
+		else //1% Chance
+		{
+			magDefence = magDefence + 4;
+			levelUpString += "magAtt: +4 ";
+		}
+
+
+		//Mage Luck Level UP
+		randomNum = getRandomInt(1, 100);
+		if (randomNum <= 20) //20% Chance
+		{
+			//Display Screen TBI
+			luck = luck + 0;
+			levelUpString += "Luck: +0 ";
+		}
+		else if (randomNum <= 95) //75% Chance
+		{
+			luck = luck + 1;
+			levelUpString += "Luck: +1 ";
+
+		}
+		else //5% Chance
+		{
+			luck = luck + 2;
+			levelUpString += "Luck: +2 ";
+		}
 	}
 	else if (pClass == "Rogue")
 	{
+		++level;
+		expLevelUp = levelExpNeeded[level];
+		effectiveExpLevelUp = levelExpNeeded[level] - currentExp;
+		effectiveCurrentExp = 0;
 
+		levelUpString = "Null";
+		int randomNum;
+
+		//Rogue HP Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 5) //5% Chance
+		{
+			//Display Screen TBI
+			maxHP = maxHP + 1;
+			levelUpString = "HP: +1 ";
+		}
+		else if (randomNum <= 25) //20% Chance
+		{
+			maxHP = maxHP + 2;
+			levelUpString = "HP: +2 ";
+		}
+		else if (randomNum <= 60) //35% Chance
+		{
+			maxHP = maxHP + 3;
+			levelUpString = "HP: +3 ";
+		}
+		else if (randomNum <= 90) //30% Chance
+		{
+			maxHP = maxHP + 4;
+			levelUpString = "HP: +4 ";
+		}
+		else //10% Chance
+		{
+			maxHP = maxHP + 5;
+			levelUpString = "HP: +5 ";
+		}
+
+
+		//Rogue MP Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 10) //10% Chance
+		{
+			//Display Screen TBI
+			maxMP = maxMP + 1;
+			levelUpString += "MP: +1 ";
+		}
+		else if (randomNum <= 60) //50% Chance
+		{
+			maxMP = maxMP + 2;
+			levelUpString += "MP: +2 ";
+		}
+		else if (randomNum <= 80) //20% Chance
+		{
+			maxMP = maxMP + 3;
+			levelUpString += "MP: +3 ";
+		}
+		else if (randomNum <= 95) //15% Chance
+		{
+			maxMP = maxMP + 4;
+			levelUpString += "MP: +4 ";
+		}
+		else //5% Chance
+		{
+			maxMP = maxMP + 5;
+			levelUpString += "MP: +5 ";
+		}
+
+
+		//Rogue Physical Attack Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 10) //10% Chance
+		{
+			//Display Screen TBI
+			phyAttack = phyAttack + 0;
+			levelUpString += "phyAtt: +0 ";
+		}
+		else if (randomNum <= 60) //50% Chance
+		{
+			phyAttack = phyAttack + 1;
+			levelUpString += "phyAtt: +1 ";
+		}
+		else if (randomNum <= 85) //25% Chance
+		{
+			phyAttack = phyAttack + 2;
+			levelUpString += "phyAtt: +2 ";
+		}
+		else if (randomNum <= 95) //10% Chance
+		{
+			phyAttack = phyAttack + 3;
+			levelUpString += "phyAtt: +3 ";
+		}
+		else //5% Chance
+		{
+			phyAttack = phyAttack + 4;
+			levelUpString += "phyAtt: +4 ";
+		}
+
+
+		//Rogue Physical Defence Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 25) //25% Chance
+		{
+			//Display Screen TBI
+			phyDefence = phyDefence + 0;
+			levelUpString += "phyDef: +0 ";
+		}
+		else if (randomNum <= 95) //70% Chance
+		{
+			phyDefence = phyDefence + 1;
+			levelUpString += "phyDef: +1 ";
+		}
+		else if (randomNum <= 99) //4% Chance
+		{
+			phyDefence = phyDefence + 2;
+			levelUpString += "phyDef: +2 ";
+		}
+		else //1% Chance
+		{
+			phyDefence = phyDefence + 3;
+			levelUpString += "phyDef: +3 ";
+		}
+
+
+		//Rogue Magic Attack Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 10) //10% Chance
+		{
+			//Display Screen TBI
+			magAttack = magAttack + 0;
+			levelUpString += "magAtt: +0 ";
+		}
+		else if (randomNum <= 60) //50% Chance
+		{
+			magAttack = magAttack + 1;
+			levelUpString += "magAtt: +1 ";
+		}
+		else if (randomNum <= 85) //25% Chance
+		{
+			magAttack = magAttack + 2;
+			levelUpString += "magAtt: +2 ";
+		}
+		else if (randomNum <= 95) //10% Chance
+		{
+			magAttack = magAttack + 3;
+			levelUpString += "magAtt: +3 ";
+		}
+		else //5% Chance
+		{
+			magAttack = magAttack + 5;
+			levelUpString += "magAtt: +5 ";
+		}
+
+		//Rogue Magic Defence Level UP
+		randomNum = getRandomInt(1, 100);
+		randomNum = randomNum + luck;
+		if (randomNum <= 25) //25% Chance
+		{
+			//Display Screen TBI
+			magDefence = magDefence + 0;
+			levelUpString += "magDef: +0 ";
+		}
+		else if (randomNum <= 95) //70% Chance
+		{
+			magDefence = magDefence + 1;
+			levelUpString += "magAtt: +1 ";
+		}
+		else if (randomNum <= 99) //4% Chance
+		{
+			magDefence = magDefence + 2;
+			levelUpString += "magAtt: +2 ";
+		}
+		else //1% Chance
+		{
+			magDefence = magDefence + 3;
+			levelUpString += "magAtt: +3 ";
+		}
+
+
+		//Rogue Luck Level UP
+		randomNum = getRandomInt(1, 100);
+		if (randomNum <= 25) //25% Chance
+		{
+			//Display Screen TBI
+			luck = luck + 1;
+			levelUpString += "Luck: +0 ";
+		}
+		else //75% Chance
+		{
+			luck = luck + 2;
+			levelUpString += "Luck: +2 ";
+
+		}
+	}
+	else 
+	{
+		cout << "Class not found";
+	}
+}
+
+void Player::playerGainsExp(Screen screen, int exp)
+{
+	currentExp = currentExp + exp;
+	effectiveCurrentExp = effectiveCurrentExp + exp;
+	while ((currentExp >= expLevelUp) && (level < 16))
+	{
+		levelUp(screen);
 	}
 }

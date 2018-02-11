@@ -73,7 +73,13 @@ bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface)
 void Screen::displayText(string text, float x, float y, TTF_Font* newfont)
 {	
 	const char * charText = text.c_str();
-	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);	SDL_SetColorKey(gText, 1, colorkey);	SDL_Rect textLocation = {  x - (gText->w)/2, y, 0, 0 };	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);	SDL_FillRect(gText, NULL, 0x000000);	SDL_FreeSurface(gText);
+	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);
+	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);
+	SDL_SetColorKey(gText, 1, colorkey);
+	SDL_Rect textLocation = {  x - (gText->w)/2, y, 0, 0 };
+	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);
+	SDL_FillRect(gText, NULL, 0x000000);
+	SDL_FreeSurface(gText);
 }
 
 bool Screen::loadInitialMedia(SDL_Surface *& gHelloWorld)

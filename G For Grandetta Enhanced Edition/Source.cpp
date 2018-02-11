@@ -5,12 +5,15 @@
 #include <stdio.h>
 #include <sstream>
 #include <stdlib.h>
+#include <cstdlib>
+#include <time.h>
 #include <ctime>
 #include <math.h>
 #include <vector>
 #include "Music.h"
 #include "Fonts.h"
 #include "Screen.h"
+#include "Player.h"
 #include "SDL_gamecontroller.h"
 using namespace std;
 
@@ -18,6 +21,7 @@ const int JOYSTICK_DEAD_ZONE = 8000;
 
 int main(int argc, char* args[])
 {
+	srand(time(NULL));
 	void close(Screen screen, Music music, Fonts fonts);	//Function to free media and shut down SDL
 
 	//Initalise Screen Class
@@ -116,7 +120,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 	
 	//double effectiveCurrentExp = 5;
 	//double effectiveExpLevelUp = 10;
-	bool play(Screen screen);
+	bool play(Screen screen, Music music, Fonts fonts);
 	bool settings(Screen screen, Music& music, Fonts fonts);
 	void clear(SDL_Surface*& gScreenSurface);
 	bool instructions(Screen screen);
@@ -279,7 +283,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 								case 0:
 									background = 0;
 									stop = true;
-									quit = play(screen);
+									quit = play(screen, music, fonts);
 									break;
 								case 1:
 									clear(screen.gScreenSurface);
@@ -323,7 +327,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 					case 0:
 						background = 0;
 						stop = true;
-						quit = play(screen);
+						quit = play(screen, music, fonts);
 						break;
 					case 1:
 						stop = true;
@@ -348,14 +352,14 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 				}
 				else if (event.jbutton.button == 1)
 				{
-					cout << "RIGHT\n";
+					//cout << "RIGHT\n";
 					switch (cursorPos)
 					{
 					case 0:
 						background = 0;
 						stop = true;
 						clear(screen.gScreenSurface);
-						quit = play(screen);
+						quit = play(screen, music, fonts);
 						break;
 					case 1:
 						stop = true;
@@ -421,9 +425,54 @@ void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, v
 	
 }
 
-bool play(Screen screen)
+bool play(Screen screen, Music music, Fonts fonts)
 {
-	return true;
+	music.PlayVillage();
+	int classSelected;
+	bool gameExit = false;
+
+	Player player;
+
+	bool classSelect(Screen screen, Music music, Fonts fonts);
+
+	gameExit = classSelect(screen, music, fonts);
+
+	
+	
+	return gameExit;
+}
+
+bool classSelect(Screen screen, Music music, Fonts fonts)
+{
+	vector <int> ClassbuttonX = { 20, 326, 632 };
+	vector <int> ClassbuttonY = { 120, 120, 120 };
+	int Classbuttonwidth = 300;
+	int Classbuttonheight = 480;
+
+	
+
+	screen.loadMedia(screen.gPlaySurface, "images/classSel.bmp");
+
+	bool classBoxVisible = false;
+
+	int ClassBoxX = 0;
+	int ClassBoxY = 0;
+	int ClassBoxWidth = 300;
+	int ClassBoxSize = ClassBoxWidth;
+	int ClassBoxHeight = 480;
+
+	int mouseX;
+	int mouseY;
+
+	bool quit = false;
+	bool gameExit = false;
+
+	while (!quit)
+	{
+
+	}
+
+	return gameExit;
 }
 
 bool instructions(Screen screen)
@@ -591,50 +640,52 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 				if (event.key.keysym.sym == SDLK_BACKSPACE || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_ESCAPE)
 					quit = true;
 				else
-				if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
-				{
-					settingsBoxX = VolbuttonX[0];
-					settingsBoxY = VolbuttonY[0];
-					settingsBoxVisible = true;
-					cursorSelected = 0;
-				}
-				else
-				if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
-				{
-					settingsBoxX = VolbuttonX[1];
-					settingsBoxY = VolbuttonY[1];
-					settingsBoxVisible = true;
-					cursorSelected = 1;
-				}
-				else
-				if (event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_RETURN)
-				{
-					if (cursorSelected == 0)
+					if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
 					{
-						if (music.volume > 0)
-						{
-							tempVol = (float)music.volume - 1;
-							music.SetVolume(tempVol);
-							SDL_Delay(10);
-						}
+						settingsBoxX = VolbuttonX[0];
+						settingsBoxY = VolbuttonY[0];
+						settingsBoxVisible = true;
+						cursorSelected = 0;
 					}
-					else if (cursorSelected == 1)
-					{
-						if (music.volume < 10)
-							{
-								tempVol = (float)music.volume + 1;
-								music.SetVolume(tempVol);
-								SDL_Delay(10);
-							}
+					else
+						if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+						{
+							settingsBoxX = VolbuttonX[1];
+							settingsBoxY = VolbuttonY[1];
+							settingsBoxVisible = true;
+							cursorSelected = 1;
 						}
-				}
+						else
+						{
+							if (event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_RETURN)
+							{
+								if (cursorSelected == 0)
+								{
+									if (music.volume > 0)
+									{
+										tempVol = (float)music.volume - 1;
+										music.SetVolume(tempVol);
+										SDL_Delay(10);
+									}
+								}
+								else if (cursorSelected == 1)
+								{
+									if (music.volume < 10)
+									{
+										tempVol = (float)music.volume + 1;
+										music.SetVolume(tempVol);
+										SDL_Delay(10);
+									}
+								}
+							}
 
+						}
 			}
 
 			//Controller move event
 			if (event.type == SDL_JOYHATMOTION)
 			{
-				if (event.jhat.type == SDL_HAT_LEFT)
+				if (event.jhat.value == SDL_HAT_LEFT)
 				{
 					settingsBoxX = VolbuttonX[0];
 					settingsBoxY = VolbuttonY[0];
@@ -642,7 +693,7 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 					cursorSelected = 0;
 				}
 
-				if (event.jhat.type == SDL_HAT_RIGHT)
+				if (event.jhat.value == SDL_HAT_RIGHT)
 				{
 					settingsBoxX = VolbuttonX[1];
 					settingsBoxY = VolbuttonY[1];
@@ -702,10 +753,12 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 		}
 
 		SDL_UpdateWindowSurface(screen.gWindow);
-		//clear(screen.gScreenSurface);
+		clear(screen.gScreenSurface);
+		
 		//clear(screen.gScreenSurface);
 		
 	}
+	SDL_FreeSurface(screen.gPlaySurface);
 	return gameExit;
 }
 

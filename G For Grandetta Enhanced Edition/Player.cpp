@@ -28,6 +28,8 @@ void Player::initaliseStats()
 	currentExp = 0;
 	gold = 0;
 	currentMap = 0;
+	currentX = 28 * 32;
+	currentY = 1 * 32;
 
 	equippedWeapon = "bone";
 	equippedChestPiece = "basic";

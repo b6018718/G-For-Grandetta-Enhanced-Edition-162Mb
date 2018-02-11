@@ -1,4 +1,9 @@
 #pragma once
+#include "MapZone.h"
+#include <vector>
+
+using namespace std;
+
 class Maps
 {
 public:
@@ -7,6 +12,8 @@ public:
 
 
 private:
+	vector <MapZone> zone;
+	
 	
 };
 

@@ -26,6 +26,8 @@ public:
 	int luck; //Critical hits, dodging and missing
 	int gold; //Amount of currency
 	int currentMap; //Current map location (0-7)
+	int currentX;	//X Location of the player
+	int currentY;	//Y Location of the player
 	string playerName;
 	string equippedWeapon;
 	string equippedChestPiece;

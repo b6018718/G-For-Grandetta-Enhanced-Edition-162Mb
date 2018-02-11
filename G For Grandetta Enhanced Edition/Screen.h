@@ -25,7 +25,8 @@ public:
 	SDL_Surface* gText = NULL;
 
 	SDL_Color foregroundColor = { 0, 0, 0 };
-	SDL_Color backgroundColor = { 0, 255, 255 };
+	SDL_Color backgroundColor = { 0, 255, 255 };
+
 
 	bool init(SDL_Window*& gWindow, SDL_Surface*& gScreenSurface);
 	

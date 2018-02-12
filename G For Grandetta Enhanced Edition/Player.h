@@ -10,6 +10,7 @@ public:
 	~Player();
 
 	string pClass; //Character's class
+	string name; //Player's name
 	int level;	//Character's level
 	int expLevelUp;	//To next level up
 	int currentExp; //Current experience points

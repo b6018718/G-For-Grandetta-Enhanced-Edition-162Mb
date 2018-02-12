@@ -70,16 +70,94 @@ bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface)
 	return success;
 }
 
-void Screen::displayText(string text, float x, float y, TTF_Font* newfont)
+void Screen::displayText(string text, float x, float y, TTF_Font* newfont) //Centered Middle
 {	
 	const char * charText = text.c_str();
 	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);
 	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);
 	SDL_SetColorKey(gText, 1, colorkey);
-	SDL_Rect textLocation = {  x - (gText->w)/2, y, 0, 0 };
+	SDL_Rect textLocation = {  x - (gText->w)/2, y + 6, 0, 0 };
 	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);
 	SDL_FillRect(gText, NULL, 0x000000);
 	SDL_FreeSurface(gText);
+}
+
+void Screen::displayLeftText(string text, float x, float y, TTF_Font* newfont)	//Centered Left
+{
+	const char * charText = text.c_str();
+	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);
+	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);
+	SDL_SetColorKey(gText, 1, colorkey);
+	SDL_Rect textLocation = { x, y - 24, 0, 0 };
+	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);
+	SDL_FillRect(gText, NULL, 0x000000);
+	SDL_FreeSurface(gText);
+}
+
+bool Screen::messageBox(string line1, string line2, TTF_Font* font)	//35 Character Limit Per Line
+{
+	gTemp = gScreenSurface;
+	gMessage = SDL_LoadBMP("images/messageBox.bmp");
+	SDL_BlitSurface(gMessage, NULL, gScreenSurface, 0);
+
+	foregroundColor = { 255, 255, 255 };
+	displayLeftText(line1, 48, 528, font);
+	if (line2 != "")
+	{
+		displayLeftText(line2, 48, 600, font);
+	}
+
+	SDL_UpdateWindowSurface(gWindow);
+	SDL_FreeSurface(gMessage);
+	SDL_Event event;
+
+	bool gameExit = false;
+	bool quit = false;
+
+	while (!quit)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			//Window Exit Event
+			if (event.type == SDL_QUIT)
+			{
+				gameExit = true;
+				quit = true;
+			}
+
+			//Controller Button Event
+			if (event.type == SDL_JOYBUTTONDOWN)
+			{
+				if (event.jbutton.button == 1)
+				{
+					quit = true;
+				}
+			}
+
+			//Left click Event
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED)
+			{
+				quit = true;
+			}
+
+			//Keyboard Event
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_RETURN)
+				{
+					quit = true;
+				}
+
+			}
+
+		}//Event Poll While Loop
+	}
+	SDL_BlitSurface(gTemp, NULL, gScreenSurface, 0);
+	SDL_UpdateWindowSurface(gWindow);
+	SDL_FreeSurface(gTemp);
+	SDL_FreeSurface(gScreenSurface);
+	//SDL_FreeSurface(gMessage);
+	return gameExit;
 }
 
 bool Screen::loadInitialMedia(SDL_Surface *& gHelloWorld)

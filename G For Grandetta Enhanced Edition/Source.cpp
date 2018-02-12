@@ -416,9 +416,9 @@ void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, v
 	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, &dest);
 	
 	//					Text			X			Y			Font
-	screen.displayText("Start", SCREEN_WIDTH/2, buttonY[0] + 6, fonts.font48);
-	screen.displayText("Settings", SCREEN_WIDTH / 2, buttonY[1] + 6, fonts.font48);
-	screen.displayText("Controls", SCREEN_WIDTH / 2, buttonY[2] + 6, fonts.font48);
+	screen.displayText("Start", SCREEN_WIDTH/2, buttonY[0], fonts.font48);
+	screen.displayText("Settings", SCREEN_WIDTH / 2, buttonY[1], fonts.font48);
+	screen.displayText("Controls", SCREEN_WIDTH / 2, buttonY[2], fonts.font48);
 	screen.displayText(">", arrowX, arrowY + 6, fonts.font48);
 
 	SDL_UpdateWindowSurface(screen.gWindow);
@@ -441,7 +441,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 	screen.loadMedia(screen.gPlaySurface, "images/bg" + to_string(player.currentMap) + ".bmp");
 	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
 	
-	SDL_Delay(10000);
+	gameExit = screen.messageBox("Enter your name:", "A", fonts.font24);
 
 	return gameExit;
 }
@@ -606,6 +606,7 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 	}
 	SDL_FreeSurface(screen.gText);
 	SDL_FreeSurface(screen.gPlaySurface);
+	SDL_FreeSurface(screen.gScreenSurface);
 	return gameExit;
 }
 

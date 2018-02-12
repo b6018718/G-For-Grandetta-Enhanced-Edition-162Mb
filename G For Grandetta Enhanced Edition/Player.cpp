@@ -18,7 +18,6 @@ Player::~Player()
 
 int Player::getRandomInt(int min, int max)
 {
-	
 	return rand() % max + min;
 }
 

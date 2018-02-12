@@ -26,6 +26,8 @@ public:
 	SDL_Surface* gPlaySurface = NULL;		//The image to load
 	
 	SDL_Surface* gText = NULL;
+	SDL_Surface* gMessage = NULL;
+	SDL_Surface* gTemp = NULL;
 
 	SDL_Color foregroundColor = { 0, 0, 0 };
 	SDL_Color backgroundColor = { 0, 255, 255 };
@@ -34,6 +36,10 @@ public:
 	bool init(SDL_Window*& gWindow, SDL_Surface*& gScreenSurface);
 	
 	void displayText(string text, float x, float y, TTF_Font* font);
+
+	void displayLeftText(string text, float x, float y, TTF_Font * newfont);
+
+	bool messageBox(string line1, string line2, TTF_Font* fonts);
 
 	bool loadInitialMedia(SDL_Surface*& gHelloWorld);
 	

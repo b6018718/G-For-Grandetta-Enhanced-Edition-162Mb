@@ -29,6 +29,7 @@ public:
 	int currentY;	//Y Location of the player
 	int spriteSizeX = 32;	//Size of the players sprite
 	int spriteSizeY = 32;	//Size of the players sprite
+	int spriteFrame;
 	string playerName;
 	string equippedWeapon;
 	string equippedChestPiece;
@@ -36,6 +37,20 @@ public:
 	string equippedGaunlet;
 	string equippedBoots;
 	string levelUpString;
+
+
+	struct Direction
+	{
+		bool left = false;
+		bool right = false;
+		bool up = false;
+		bool down = false;
+	};
+
+	Direction collision;
+	Direction dir;
+	Direction facing;
+	
 
 	int effectiveCurrentExp; //Current exp minus total exp
 	int effectiveExpLevelUp; //Next level up minus total exp

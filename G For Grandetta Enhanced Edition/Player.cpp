@@ -30,6 +30,8 @@ void Player::initaliseStats()
 	currentMap = 0;
 	currentX = 28 * 32;
 	currentY = 1 * 32;
+	name = "Steven";
+	int spriteFrame = 0;
 
 	equippedWeapon = "bone";
 	equippedChestPiece = "basic";

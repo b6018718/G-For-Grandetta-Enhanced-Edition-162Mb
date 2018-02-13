@@ -97,8 +97,6 @@ void close(Screen screen, Music music, Fonts fonts)
 	music.FreeSounds();
 	screen.FreeSurfaces();
 
-
-
 	//Quit SDL subsystems
 	SDL_Quit();
 	Mix_Quit();
@@ -155,6 +153,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 
 	SDL_JoystickEventState(SDL_ENABLE);
 
+	//Check Joystick
 	/*
 	int num_axes = SDL_JoystickNumAxes(gGameController);
 	int num_buttons = SDL_JoystickNumButtons(gGameController);
@@ -431,18 +430,31 @@ bool play(Screen screen, Music music, Fonts fonts)
 	music.PlayVillage();
 	int classSelected;
 	bool gameExit = false;
+	bool quit = false;
 
 	Player player;
 	Maps maps;
 
 	bool classSelect(Screen screen, Music music, Fonts fonts, Player& player);
+	bool setName(Screen screen, Fonts fonts, Player& player);
 
 	gameExit = classSelect(screen, music, fonts, player);
 	screen.loadMedia(screen.gPlaySurface, "images/bg" + to_string(player.currentMap) + ".bmp");
 	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
-	
-	gameExit = screen.messageBox("Enter your name:", "A", fonts.font24);
 
+	gameExit = screen.inputBox("Enter your name:", player.name, fonts.font24, player);
+
+	string classSprite = "images/" + player.pClass;
+	screen.loadMedia(screen.gSprite, classSprite);
+	void updateSprite(Screen screen, Player player, Maps maps);
+
+	while (!quit)
+	{
+		
+	}
+
+
+	SDL_FreeSurface(screen.gSprite);
 	return gameExit;
 }
 
@@ -587,16 +599,16 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 		{
 			if (classSelected == 0)
 			{
-				player.pClass = "Warrior";
+				player.pClass = "warrior";
 				
 			}
 			else if (classSelected == 1)
 			{
-				player.pClass = "Mage";
+				player.pClass = "mage";
 			}
 			else if (classSelected == 2)
 			{
-				player.pClass = "Rogue";
+				player.pClass = "rogue";
 			}
 			player.initaliseStats();
 			quit = true;
@@ -668,6 +680,131 @@ bool instructions(Screen screen)
 		}
 	}
 	return exitGame;
+}
+
+void updateSprite(Screen screen, Player player, Maps maps)
+{
+	SDL_Rect sheet;
+	sheet.x = 0;
+	sheet.y = 0;
+	sheet.h = player.spriteSizeX;
+	sheet.w = player.spriteSizeY;
+
+	SDL_Rect mapLoc;
+	mapLoc.x = player.currentX;
+	mapLoc.y = player.currentY;
+	
+	//No movement facing
+	if (!player.dir.left && !player.dir.right && !player.dir.up && !player.dir.down)
+	{
+		
+		if (player.facing.left)
+		{
+			sheet.x = 2 * 32;	//Facing Left not moving
+			sheet.y = 0 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+		}
+		else if (player.facing.up)
+		{
+			sheet.x = 0 * 32;	//Facing Up not moving
+			sheet.y = 2 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+		} 
+		else if (player.facing.right)
+		{
+			sheet.x = 0 * 32;	//Facing Right not moving
+			sheet.y = 0 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+		} 
+		else if (player.facing.down)
+		{
+			sheet.x = 1 * 32;	//Facing Down not moving
+			sheet.y = 1 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+		}
+	}
+	//Left Movement
+	else if (player.dir.left)
+	{
+		if (player.spriteFrame < 15)
+		{
+			sheet.x = 2 * 32;	//Moving Left First Frame
+			sheet.y = 0 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+		}
+		else
+		{
+			sheet.x = 0 * 32;	//Moving Left Second Frame
+			sheet.y = 1 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+			if (player.spriteFrame > 30)
+			{
+				player.spriteFrame = 0;
+			}
+		}
+	}
+	//Up Movement
+	else if (player.dir.up)
+	{
+		if (player.spriteFrame < 15)
+		{
+			sheet.x = 0 * 32;	//Moving Right First Frame
+			sheet.y = 2 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+		}
+		else
+		{
+			sheet.x = 1 * 32;
+			sheet.y = 2 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+			if (player.spriteFrame > 30)
+			{
+				player.spriteFrame = 0;
+			}
+		}
+	}
+	//Right Movement
+	else if (player.dir.right)
+	{
+		if (player.spriteFrame < 15)
+		{
+			sheet.x = 0 * 32;	//Moving Right First Frame
+			sheet.y = 0 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+		}
+		else
+		{
+			sheet.x = 1 * 32;	//Moving Right Second Frame
+			sheet.y = 0 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+			if (player.spriteFrame > 30)
+			{
+				player.spriteFrame = 0;
+			}
+		}
+	}
+	//Down Movement
+	else
+	{
+		if (player.spriteFrame < 15)
+		{
+			sheet.x = 1 * 32;	//Moving Down First Frame
+			sheet.y = 1 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+		}
+		else
+		{
+			sheet.x = 2 * 32;	//Moving Down Second Frame
+			sheet.y = 1 * 32;
+			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+			if (player.spriteFrame > 30)
+			{
+				player.spriteFrame = 0;
+			}
+		}
+	}
+	
+	SDL_UpdateWindowSurface(screen.gWindow);
 }
 
 void clear(SDL_Surface*& gScreenSurface)
@@ -890,8 +1027,6 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 
 		SDL_UpdateWindowSurface(screen.gWindow);
 		clear(screen.gScreenSurface);
-		
-		//clear(screen.gScreenSurface);
 		
 	}
 	SDL_FreeSurface(screen.gPlaySurface);

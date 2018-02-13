@@ -85,11 +85,13 @@ void Screen::displayText(string text, float x, float y, TTF_Font* newfont) //Cen
 void Screen::displayLeftText(string text, float x, float y, TTF_Font* newfont)	//Centered Left
 {
 	const char * charText = text.c_str();
+
 	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);
 	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);
 	SDL_SetColorKey(gText, 1, colorkey);
 	SDL_Rect textLocation = { x, y - 24, 0, 0 };
 	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);
+	SDL_UpdateWindowSurface(gWindow);
 	SDL_FillRect(gText, NULL, 0x000000);
 	SDL_FreeSurface(gText);
 }
@@ -160,6 +162,82 @@ bool Screen::messageBox(string line1, string line2, TTF_Font* font)	//35 Charact
 	return gameExit;
 }
 
+
+bool Screen::inputBox(string line1, string line2, TTF_Font* font, Player& player)	//9 Character Limit
+{
+	gTemp = gScreenSurface;
+	gMessage = SDL_LoadBMP("images/messageBox.bmp");
+	SDL_BlitSurface(gMessage, NULL, gScreenSurface, 0);
+
+	foregroundColor = { 255, 255, 255 };
+	displayLeftText(line1, 48, 528, font);
+	if (line2 != "")
+	{
+		displayLeftText(line2, 48, 600, font);
+	}
+
+	SDL_Event event;
+	bool gameExit = false;
+	bool quit = false;
+
+	while (!quit)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			//Exit Window Event
+			if (event.type == SDL_QUIT)
+			{
+				quit = true;
+				gameExit = true;
+			}
+
+			//Keyboard Event
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_BACKSPACE && player.name.length() > 0)
+				{
+					SDL_BlitSurface(gMessage, NULL, gScreenSurface, 0);
+					displayLeftText(line1, 48, 528, font);
+					player.name.pop_back();
+					if (player.name.length() > 0)
+						displayLeftText(player.name, 48, 600, font);
+				}
+				else if (event.key.keysym.sym == SDLK_RETURN)
+				{
+					quit = true;
+				}
+			}
+
+			//Text Input
+			if (event.type == SDL_TEXTINPUT && player.name.length() < 8)
+			{
+				SDL_BlitSurface(gMessage, NULL, gScreenSurface, 0);
+				displayLeftText(line1, 48, 528, font);
+				player.name += event.text.text;
+				displayLeftText(player.name, 48, 600, font);
+			}
+
+			//Controller Button Event
+			if (event.type == SDL_JOYBUTTONDOWN)
+			{
+				if (event.jbutton.button == 1)
+				{
+					quit = true;
+				}
+
+			}
+
+		}//Event poll while loop
+	}
+
+	SDL_BlitSurface(gTemp, NULL, gScreenSurface, 0);
+	SDL_UpdateWindowSurface(gWindow);
+	SDL_FreeSurface(gTemp);
+	SDL_FreeSurface(gMessage);
+	SDL_FreeSurface(gScreenSurface);
+	return gameExit;
+}
+
 bool Screen::loadInitialMedia(SDL_Surface *& gHelloWorld)
 {
 	//Load success flag
@@ -226,6 +304,7 @@ void Screen::updateMap(SDL_Surface*& surface, Player player, MapZone mapZone)
 
 	SDL_BlitSurface(surface, NULL, gScreenSurface, &bg);
 	SDL_UpdateWindowSurface(gWindow);
+	SDL_FreeSurface(surface);	//May break program, unsure :(
 }
 
 void Screen::FreeSurfaces()
@@ -238,4 +317,13 @@ void Screen::FreeSurfaces()
 
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
+
+	SDL_FreeSurface(gMessage);
+	gMessage = NULL;
+
+	SDL_FreeSurface(gTemp);
+	gTemp = NULL;
+
+	SDL_FreeSurface(gSprite);
+	gSprite = NULL;
 }

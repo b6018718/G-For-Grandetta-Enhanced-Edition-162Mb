@@ -280,7 +280,7 @@ void Screen::updateMap(SDL_Surface*& surface, Player player, MapZone mapZone)
 	{
 		bg.x = 0;
 	}
-	else if (player.currentX > canYC)	//If the player is as far right as possible
+	else if (player.currentX > canXC)	//If the player is as far right as possible
 	{
 		bg.x = SCREEN_WIDTH - mapZone.xDim;
 	}
@@ -302,9 +302,12 @@ void Screen::updateMap(SDL_Surface*& surface, Player player, MapZone mapZone)
 		bg.y = canYC - mapZone.yDim;
 	}
 
+	bg.x = 0;
+	bg.y = 0;
+
 	SDL_BlitSurface(surface, NULL, gScreenSurface, &bg);
 	SDL_UpdateWindowSurface(gWindow);
-	SDL_FreeSurface(surface);	//May break program, unsure :(
+	//SDL_FreeSurface(surface);	//May break program, unsure :(
 }
 
 void Screen::FreeSurfaces()

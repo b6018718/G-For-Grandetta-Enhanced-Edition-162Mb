@@ -710,3 +710,63 @@ void Player::playerGainsExp(int exp)
 		levelUp();
 	}
 }
+
+void Player::moveLeft(Maps maps)
+{
+	//float canXC = (float)(SCREEN_WIDTH - player.spriteSizeX) / 2;	//Can X Camera, If there is room left for the map to move
+	//float canYC = (float)(SCREEN_HEIGHT - player.spriteSizeY) / 2;	//Can Y Camera
+
+	facing.up = false;
+	facing.down = false;
+	facing.left = true;
+	facing.right = false;
+
+
+	for (int i = 0; i < maps.zone[currentMap].collisions.size(); i++) 
+	{
+		if (currentX == maps.zone[currentMap].collisions[i].x + maps.zone[currentMap].xDim)	//If player is touching x collision
+			if (currentY < maps.zone[currentMap].collisions[i].y + maps.zone[currentMap].collisions[i].yDim) //If player is above bottom y of collision
+				if (spriteSizeY + currentY > maps.zone[currentMap].collisions[i].y) //If player is below the top y of collision
+					collision.left = true;
+	}
+
+	if (!collision.left) 
+	{
+		currentX -= 4;
+		/*
+		if (currentX > canXC) 
+		{
+			currentX -= 4;
+		}
+		else if (currentX > canXC) 
+		{
+			currentX -= 4;
+		}
+		else if (map.x <= canXC & player.x > 0) 
+		{
+			currentX -= 4;
+		}
+		else 
+		{
+			dir.left = false;
+		}
+		*/
+	}
+
+	dir.up = true;
+	dir.down = false;
+	dir.left = true;
+	dir.right = false;
+}
+
+void Player::moveRight()
+{
+}
+
+void Player::moveUp()
+{
+}
+
+void Player::moveDown()
+{
+}

@@ -442,17 +442,113 @@ bool play(Screen screen, Music music, Fonts fonts)
 	screen.loadMedia(screen.gPlaySurface, "images/bg" + to_string(player.currentMap) + ".bmp");
 	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
 
-	gameExit = screen.inputBox("Enter your name:", player.name, fonts.font24, player);
-
-	string classSprite = "images/" + player.pClass;
+	//Load Sprite
+	string classSprite = "images/" + player.pClass + ".bmp";
 	screen.loadMedia(screen.gSprite, classSprite);
-	void updateSprite(Screen screen, Player player, Maps maps);
+
+	void updateSprite(Screen screen, Player& player);
+	updateSprite(screen, player);
+
+	//Call input box for name entry
+	gameExit = screen.inputBox("Enter your name:", player.name, fonts.font24, player);
+	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
+	updateSprite(screen, player);
+
+	SDL_Event event;
 
 	while (!quit)
 	{
-		
-	}
+		while (SDL_PollEvent(&event))
+		{
+			//Window Exit Event
+			if (event.type == SDL_QUIT)
+			{
+				gameExit = true;
+				quit = true;
+			}
 
+			//Controller Button Event
+			if (event.type == SDL_JOYBUTTONDOWN)
+			{
+				if (event.jbutton.button == 0)
+				{
+					//Open Inventory
+				}
+				if (event.jbutton.button == 1)
+				{
+					//Interact
+				}
+			}
+
+			//Controller Movement Event
+			if (event.type == SDL_JOYHATMOTION)
+			{
+				if (event.jhat.value == SDL_HAT_LEFT)
+				{
+					//Move left
+				}
+
+				if (event.jhat.value == SDL_HAT_RIGHT)
+				{
+					//Move right
+				}
+
+				if (event.jhat.value == SDL_HAT_DOWN)
+				{
+					//Move down
+				}
+
+				if (event.jhat.value == SDL_HAT_UP)
+				{
+					//Move up
+				}
+			}
+
+			//Keyboard Event
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
+				{
+					//Move left
+
+					player.moveLeft(maps);
+					screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap]);
+					updateSprite(screen, player);
+					
+				}
+
+				else if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+				{
+					//Move right
+				}
+
+				else if (event.key.keysym.sym == SDLK_s || event.key.keysym.sym == SDLK_DOWN)
+				{
+					//Move down
+				}
+
+				else if (event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_UP)
+				{
+					//Move up
+				}
+
+				else if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_e)
+				{
+					//Interact
+				}
+
+				else if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_SPACE)
+				{
+					//Open Inventory
+				}
+
+				else if (event.key.keysym.sym == SDLK_ESCAPE)
+				{
+					//Open Inventory
+				}
+			}
+		}
+	}
 
 	SDL_FreeSurface(screen.gSprite);
 	return gameExit;
@@ -585,12 +681,9 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 			}
 
 		}//Event Poll While Loop
-		
 
 		dest.x = ClassbuttonX[cursorSelected];
 		dest.y = ClassbuttonY[cursorSelected];
-
-		
 		SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
 		SDL_BlitSurface(screen.gText, NULL, screen.gScreenSurface, &dest);
 		SDL_UpdateWindowSurface(screen.gWindow);
@@ -600,7 +693,6 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 			if (classSelected == 0)
 			{
 				player.pClass = "warrior";
-				
 			}
 			else if (classSelected == 1)
 			{
@@ -613,8 +705,6 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 			player.initaliseStats();
 			quit = true;
 		}
-
-
 	}
 	SDL_FreeSurface(screen.gText);
 	SDL_FreeSurface(screen.gPlaySurface);
@@ -682,7 +772,7 @@ bool instructions(Screen screen)
 	return exitGame;
 }
 
-void updateSprite(Screen screen, Player player, Maps maps)
+void updateSprite(Screen screen, Player& player)
 {
 	SDL_Rect sheet;
 	sheet.x = 0;
@@ -693,6 +783,8 @@ void updateSprite(Screen screen, Player player, Maps maps)
 	SDL_Rect mapLoc;
 	mapLoc.x = player.currentX;
 	mapLoc.y = player.currentY;
+	mapLoc.h = 0;
+	mapLoc.w = 0;
 	
 	//No movement facing
 	if (!player.dir.left && !player.dir.right && !player.dir.up && !player.dir.down)
@@ -716,7 +808,7 @@ void updateSprite(Screen screen, Player player, Maps maps)
 			sheet.y = 0 * 32;
 			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
 		} 
-		else if (player.facing.down)
+		else
 		{
 			sheet.x = 1 * 32;	//Facing Down not moving
 			sheet.y = 1 * 32;
@@ -804,6 +896,7 @@ void updateSprite(Screen screen, Player player, Maps maps)
 		}
 	}
 	
+	player.spriteFrame++;
 	SDL_UpdateWindowSurface(screen.gWindow);
 }
 

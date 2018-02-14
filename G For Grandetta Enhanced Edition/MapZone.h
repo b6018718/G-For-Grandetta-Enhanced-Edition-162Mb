@@ -9,8 +9,8 @@ public:
 	MapZone(int x, int y, string name);
 	~MapZone();
 
-	int xDim;
-	int yDim;
+	int xDim;	//X Size of Map
+	int yDim;	//Y Size Of Map
 	string name;
 	vector <Collision> collisions;
 

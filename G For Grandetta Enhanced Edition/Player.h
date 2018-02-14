@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Maps.h"
 using namespace std;
 
 class Player
@@ -61,5 +62,10 @@ public:
 	void initaliseStats();
 	void levelUp();
 	void playerGainsExp(int exp);
+
+	void moveLeft(Maps maps);
+	void moveRight();
+	void moveUp();
+	void moveDown();
 };
 

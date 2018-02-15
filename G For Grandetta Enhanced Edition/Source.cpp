@@ -145,6 +145,9 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 	//bool arrowVisible = false;
 	//arrow is the little pointer to the left of the button, visual element
 
+	SDL_GetColorKey;
+
+
 	//Background animation variables
 	int frames = 60;
 	int timerID = 1;
@@ -439,12 +442,18 @@ bool play(Screen screen, Music music, Fonts fonts)
 	bool setName(Screen screen, Fonts fonts, Player& player);
 
 	gameExit = classSelect(screen, music, fonts, player);
+	screen.gPlaySurface = NULL;
 	screen.loadMedia(screen.gPlaySurface, "images/bg" + to_string(player.currentMap) + ".bmp");
-	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
 
+	//screen.gPlaySurface = SDL_ConvertSurfaceFormat(screen.gTemp, SDL_GetWindowPixelFormat(screen.gWindow), 0);
+	//SDL_FreeSurface(screen.gTemp);
+
+	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
+	
 	//Load Sprite
 	string classSprite = "images/" + player.pClass + ".bmp";
 	screen.loadMedia(screen.gSprite, classSprite);
+
 
 	void updateSprite(Screen screen, Player& player);
 	updateSprite(screen, player);
@@ -456,8 +465,13 @@ bool play(Screen screen, Music music, Fonts fonts)
 
 	SDL_Event event;
 
+	
+
+	
+
 	while (!quit)
 	{
+		float startTime = (float) SDL_GetTicks();
 		while (SDL_PollEvent(&event))
 		{
 			//Window Exit Event
@@ -507,47 +521,75 @@ bool play(Screen screen, Music music, Fonts fonts)
 			//Keyboard Event
 			if (event.type == SDL_KEYDOWN)
 			{
-				if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
-				{
-					//Move left
 
-					player.moveLeft(maps);
-					screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap]);
-					updateSprite(screen, player);
-					
-				}
-
-				else if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
-				{
-					//Move right
-				}
-
-				else if (event.key.keysym.sym == SDLK_s || event.key.keysym.sym == SDLK_DOWN)
-				{
-					//Move down
-				}
-
-				else if (event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_UP)
-				{
-					//Move up
-				}
-
-				else if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_e)
+				if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_e)
 				{
 					//Interact
 				}
 
-				else if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_SPACE)
+				if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_SPACE)
 				{
 					//Open Inventory
+					//cout << "Player X: " << player.x/32 << "\n";
+					//cout << "Player Y: " << player.y/32 << "\n";
+					cout << "Map X: " << player.map.x/32 << "\n";
+					cout << "Map Y: " << player.map.y/32 << "\n";
 				}
 
-				else if (event.key.keysym.sym == SDLK_ESCAPE)
+				if (event.key.keysym.sym == SDLK_ESCAPE)
 				{
 					//Open Inventory
 				}
 			}
 		}
+
+		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+
+		if (!currentKeyStates[NULL])
+		{
+			if (currentKeyStates[SDL_SCANCODE_LEFT] || currentKeyStates[SDL_SCANCODE_A])
+			{
+				//Move left
+				player.moveLeft(maps);
+				//cout << "X: " << player.map.x << "\n";
+				//cout << "Y: " << player.map.y << "\n";
+			}
+			if (currentKeyStates[SDL_SCANCODE_RIGHT] || currentKeyStates[SDL_SCANCODE_D])
+			{
+				//Move left
+				player.moveRight(maps);
+				//cout << "X: " << player.map.x << "\n";
+				//cout << "Y: " << player.map.y << "\n";
+			}
+			if (currentKeyStates[SDL_SCANCODE_UP] || currentKeyStates[SDL_SCANCODE_W])
+			{
+				//Move left
+				player.moveUp(maps);
+				//cout << "X: " << player.map.x << "\n";
+				//cout << "Y: " << player.map.y << "\n";
+			}
+			if (currentKeyStates[SDL_SCANCODE_DOWN] || currentKeyStates[SDL_SCANCODE_S])
+			{
+				//Move left
+				player.moveDown(maps);
+
+				//cout << "X: " << player.map.x << "\n";
+				//cout << "Y: " << player.map.y << "\n";
+			}
+			
+			float endTime = (float)SDL_GetTicks();
+
+			while ((1000 / (endTime - startTime)) > 90)
+			{
+				endTime = (float)SDL_GetTicks();
+			}
+
+			screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap]);
+			updateSprite(screen, player);
+		}
+
+		
+		
 	}
 
 	SDL_FreeSurface(screen.gSprite);
@@ -781,8 +823,8 @@ void updateSprite(Screen screen, Player& player)
 	sheet.w = player.spriteSizeY;
 
 	SDL_Rect mapLoc;
-	mapLoc.x = player.currentX;
-	mapLoc.y = player.currentY;
+	mapLoc.x = player.x;
+	mapLoc.y = player.y;
 	mapLoc.h = 0;
 	mapLoc.w = 0;
 	
@@ -818,7 +860,7 @@ void updateSprite(Screen screen, Player& player)
 	//Left Movement
 	else if (player.dir.left)
 	{
-		if (player.spriteFrame < 15)
+		if (player.spriteFrame < 30)
 		{
 			sheet.x = 2 * 32;	//Moving Left First Frame
 			sheet.y = 0 * 32;
@@ -829,7 +871,7 @@ void updateSprite(Screen screen, Player& player)
 			sheet.x = 0 * 32;	//Moving Left Second Frame
 			sheet.y = 1 * 32;
 			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
-			if (player.spriteFrame > 30)
+			if (player.spriteFrame > 60)
 			{
 				player.spriteFrame = 0;
 			}
@@ -838,7 +880,7 @@ void updateSprite(Screen screen, Player& player)
 	//Up Movement
 	else if (player.dir.up)
 	{
-		if (player.spriteFrame < 15)
+		if (player.spriteFrame < 30)
 		{
 			sheet.x = 0 * 32;	//Moving Right First Frame
 			sheet.y = 2 * 32;
@@ -849,7 +891,7 @@ void updateSprite(Screen screen, Player& player)
 			sheet.x = 1 * 32;
 			sheet.y = 2 * 32;
 			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
-			if (player.spriteFrame > 30)
+			if (player.spriteFrame > 60)
 			{
 				player.spriteFrame = 0;
 			}
@@ -858,7 +900,7 @@ void updateSprite(Screen screen, Player& player)
 	//Right Movement
 	else if (player.dir.right)
 	{
-		if (player.spriteFrame < 15)
+		if (player.spriteFrame < 30)
 		{
 			sheet.x = 0 * 32;	//Moving Right First Frame
 			sheet.y = 0 * 32;
@@ -869,7 +911,7 @@ void updateSprite(Screen screen, Player& player)
 			sheet.x = 1 * 32;	//Moving Right Second Frame
 			sheet.y = 0 * 32;
 			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
-			if (player.spriteFrame > 30)
+			if (player.spriteFrame > 60)
 			{
 				player.spriteFrame = 0;
 			}
@@ -878,7 +920,7 @@ void updateSprite(Screen screen, Player& player)
 	//Down Movement
 	else
 	{
-		if (player.spriteFrame < 15)
+		if (player.spriteFrame < 30)
 		{
 			sheet.x = 1 * 32;	//Moving Down First Frame
 			sheet.y = 1 * 32;
@@ -889,14 +931,14 @@ void updateSprite(Screen screen, Player& player)
 			sheet.x = 2 * 32;	//Moving Down Second Frame
 			sheet.y = 1 * 32;
 			SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
-			if (player.spriteFrame > 30)
+			if (player.spriteFrame > 60)
 			{
 				player.spriteFrame = 0;
 			}
 		}
 	}
 	
-	player.spriteFrame++;
+	//player.spriteFrame++;
 	SDL_UpdateWindowSurface(screen.gWindow);
 }
 

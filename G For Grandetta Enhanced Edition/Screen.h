@@ -10,8 +10,8 @@
 #include "Player.h"
 #include "MapZone.h"
 
-const int SCREEN_WIDTH = 960;
-const int SCREEN_HEIGHT = 640;
+//const int SCREEN_WIDTH = 960;
+//const int SCREEN_HEIGHT = 640;
 
 using namespace std;
 
@@ -29,9 +29,12 @@ public:
 	SDL_Surface* gMessage = NULL;
 	SDL_Surface* gTemp = NULL;
 	SDL_Surface* gSprite = NULL;
+	
 
 	SDL_Color foregroundColor = { 0, 0, 0 };
 	SDL_Color backgroundColor = { 0, 255, 255 };
+
+	
 
 
 	bool init(SDL_Window*& gWindow, SDL_Surface*& gScreenSurface);
@@ -44,7 +47,7 @@ public:
 
 	bool inputBox(string line1, string line2, TTF_Font* fonts, Player& player);
 
-	bool loadInitialMedia(SDL_Surface*& gHelloWorld);
+	bool loadMapMedia(SDL_Surface*& surface, string file);
 	
 	bool loadMedia(SDL_Surface*& surface, string file);
 

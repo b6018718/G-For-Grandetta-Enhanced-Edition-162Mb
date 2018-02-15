@@ -4,6 +4,10 @@
 #include "Maps.h"
 using namespace std;
 
+const int SCREEN_WIDTH = 960;
+const int SCREEN_HEIGHT = 640;
+
+
 class Player
 {
 public:
@@ -26,11 +30,10 @@ public:
 	int luck; //Critical hits, dodging and missing
 	int gold; //Amount of currency
 	int currentMap; //Current map location (0-7)
-	int currentX;	//X Location of the player
-	int currentY;	//Y Location of the player
 	int spriteSizeX = 32;	//Size of the players sprite
 	int spriteSizeY = 32;	//Size of the players sprite
 	int spriteFrame;
+	int playerSpeed = 4;	//Speed of players movement per frame
 	string playerName;
 	string equippedWeapon;
 	string equippedChestPiece;
@@ -38,6 +41,17 @@ public:
 	string equippedGaunlet;
 	string equippedBoots;
 	string levelUpString;
+
+
+	int x;	//X Relative to window
+	int y;	//Y Relative to window
+
+
+	struct Map
+	{
+		int x = 58 * 32;//X Relative to map
+		int y = 1 * 32;//Y Relative to map
+	};
 
 
 	struct Direction
@@ -51,6 +65,7 @@ public:
 	Direction collision;
 	Direction dir;
 	Direction facing;
+	Map map;
 	
 
 	int effectiveCurrentExp; //Current exp minus total exp
@@ -64,8 +79,8 @@ public:
 	void playerGainsExp(int exp);
 
 	void moveLeft(Maps maps);
-	void moveRight();
-	void moveUp();
-	void moveDown();
+	void moveRight(Maps maps);
+	void moveUp(Maps maps);
+	void moveDown(Maps maps);
 };
 

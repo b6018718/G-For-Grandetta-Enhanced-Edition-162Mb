@@ -5,16 +5,16 @@ using namespace std;
 class Collision
 {
 public:
-	Collision(string name, int x, int y, int xDim, int yDim, bool interactable, string interactType, string signText1, string signText2, string function);
-	Collision(string name, int x, int y, int xDim, int yDim, bool interactable, string interactType, string signText1, string signText2);
-	Collision(string name, int x, int y, int xDim, int yDim, bool interactable, string interactType);
+	Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, string signText1, string signText2, string function);
+	Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, string signText1, string signText2);
+	Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType);
 	~Collision();
 
 	string name;
-	int x;		//X length of box
-	int y;		//Y length of box
-	int xDim;	//X Location on map
-	int yDim;	//Y Location on map
+	double x;		//X length of box
+	double y;		//Y length of box
+	double xDim;	//X Location on map
+	double yDim;	//Y Location on map
 	bool interactable;
 	string interactType;
 	string signText1;

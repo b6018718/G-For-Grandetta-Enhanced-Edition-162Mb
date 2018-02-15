@@ -28,8 +28,8 @@ void Player::initaliseStats()
 	currentExp = 0;
 	gold = 0;
 	currentMap = 0;
-	currentX = 28 * 32;
-	currentY = 1 * 32;
+	x = 28 * 32;
+	y = 1 * 32;
 	name = "Steven";
 	int spriteFrame = 0;
 
@@ -40,6 +40,7 @@ void Player::initaliseStats()
 	equippedBoots = "basic";
 	effectiveCurrentExp = currentExp;
 	effectiveExpLevelUp = expLevelUp;
+
 
 	if (pClass == "Warrior")
 	{
@@ -81,7 +82,7 @@ void Player::initaliseStats()
 }
 
 
-/*	Exp Philosophy; See Spreadsheet
+/*	Exp Philosophy: See Spreadsheet
 
 
 	Field Enemy = Avg 15 Exp
@@ -713,60 +714,239 @@ void Player::playerGainsExp(int exp)
 
 void Player::moveLeft(Maps maps)
 {
-	//float canXC = (float)(SCREEN_WIDTH - player.spriteSizeX) / 2;	//Can X Camera, If there is room left for the map to move
-	//float canYC = (float)(SCREEN_HEIGHT - player.spriteSizeY) / 2;	//Can Y Camera
+	float canXC = (float)(SCREEN_WIDTH - spriteSizeX) / 2;	//Can X Camera, If there is room left for the map to move
+	float canYC = (float)(SCREEN_HEIGHT - spriteSizeY) / 2;	//Can Y Camera
+
+	spriteFrame++;
 
 	facing.up = false;
 	facing.down = false;
 	facing.left = true;
 	facing.right = false;
 
+	dir.up = false;
+	dir.down = false;
+	dir.left = true;
+	dir.right = false;
+
+	bool collision = false;
 
 	for (int i = 0; i < maps.zone[currentMap].collisions.size(); i++) 
 	{
-		if (currentX == maps.zone[currentMap].collisions[i].x + maps.zone[currentMap].xDim)	//If player is touching x collision
-			if (currentY < maps.zone[currentMap].collisions[i].y + maps.zone[currentMap].collisions[i].yDim) //If player is above bottom y of collision
-				if (spriteSizeY + currentY > maps.zone[currentMap].collisions[i].y) //If player is below the top y of collision
-					collision.left = true;
+		if (map.x == maps.zone[currentMap].collisions[i].x + maps.zone[currentMap].collisions[i].xDim)	//If player is touching x collision
+		{
+			if (map.y < maps.zone[currentMap].collisions[i].y + maps.zone[currentMap].collisions[i].yDim) //If player is above bottom y of collision
+			{
+				if (spriteSizeY + map.y > maps.zone[currentMap].collisions[i].y) //If player is below the top y of collision
+				{
+					collision = true;
+					//cout << maps.zone[currentMap].collisions[i].name << "\n";
+				}
+			}
+		}
 	}
 
-	if (!collision.left) 
+	if (!collision) 
 	{
-		currentX -= 4;
-		/*
-		if (currentX > canXC) 
+		if (x > canXC) 
 		{
-			currentX -= 4;
+			x -= playerSpeed;
+			map.x -= playerSpeed;
 		}
-		else if (currentX > canXC) 
+		else if (map.x > canXC) 
 		{
-			currentX -= 4;
+			map.x -= playerSpeed;
 		}
-		else if (map.x <= canXC & player.x > 0) 
+		else if (map.x <= canXC && x > 0) 
 		{
-			currentX -= 4;
+			x -= playerSpeed;
+			map.x -= playerSpeed;
 		}
 		else 
 		{
 			dir.left = false;
 		}
-		*/
+			
 	}
+
+	
+}
+
+void Player::moveRight(Maps maps)
+{
+	float canXC = (float)(SCREEN_WIDTH - spriteSizeX) / 2;	//Can X Camera, If there is room left for the map to move
+	float canYC = (float)(SCREEN_HEIGHT - spriteSizeY) / 2;	//Can Y Camera
+
+	spriteFrame++;
+
+	facing.up = false;
+	facing.down = false;
+	facing.left = false;
+	facing.right = true;
+
+	dir.up = false;
+	dir.down = false;
+	dir.left = false;
+	dir.right = true;
+
+	bool collision = false;
+
+	for (int i = 0; i < maps.zone[currentMap].collisions.size(); i++)
+	{
+		if (map.x + spriteSizeX == maps.zone[currentMap].collisions[i].x)	//If player is touching x collision
+		{
+			if (map.y < maps.zone[currentMap].collisions[i].y + maps.zone[currentMap].collisions[i].yDim) //If player is above bottom y of collision
+			{
+				if (spriteSizeY + map.y > maps.zone[currentMap].collisions[i].y) //If player is below the top y of collision
+				{
+					collision = true;
+					//cout << maps.zone[currentMap].collisions[i].name << "\n";
+				}
+			}
+		}
+	}
+
+	if (!collision)
+	{
+		if (x < canXC)
+		{
+			x += playerSpeed;	//Far Left
+			map.x += playerSpeed;
+		}
+		else if (map.x < maps.zone[currentMap].xDim - (SCREEN_WIDTH / 2) - (spriteSizeX / 2))
+		{
+			map.x += playerSpeed;	//Middle
+		}
+		else if (map.x >= (maps.zone[currentMap].xDim - (SCREEN_WIDTH / 2) - (spriteSizeX / 2)) && x < (SCREEN_WIDTH - spriteSizeX))
+		{
+			x += playerSpeed;	//Far Right
+			map.x += playerSpeed;
+		}
+		else
+		{
+			dir.right = false;
+		}
+
+	}
+
+	
+}
+
+void Player::moveUp(Maps maps)
+{
+	float canXC = (float)(SCREEN_WIDTH - spriteSizeX) / 2;	//Can X Camera, If there is room left for the map to move
+	float canYC = (float)(SCREEN_HEIGHT - spriteSizeY) / 2;	//Can Y Camera
+
+	spriteFrame++;
+
+	facing.up = true;
+	facing.down = false;
+	facing.left = false;
+	facing.right = false;
 
 	dir.up = true;
 	dir.down = false;
-	dir.left = true;
+	dir.left = false;
 	dir.right = false;
+
+	bool collision = false;
+
+	for (int i = 0; i < maps.zone[currentMap].collisions.size(); i++)
+	{
+		if (map.y == maps.zone[currentMap].collisions[i].y + maps.zone[currentMap].collisions[i].yDim)	//If player is touching x collision
+		{
+			if (map.x < maps.zone[currentMap].collisions[i].x + maps.zone[currentMap].collisions[i].xDim) //If player is above bottom y of collision
+			{
+				if (map.x + spriteSizeX > maps.zone[currentMap].collisions[i].x) //If player is below the top y of collision
+				{
+					collision = true;
+					//cout << maps.zone[currentMap].collisions[i].name << "\n";
+				}
+			}
+		}
+	}
+
+	if (!collision)
+	{
+		if (y > canYC)
+		{
+			y -= playerSpeed;
+			map.y -= playerSpeed;
+		}
+		else if (map.y > canYC)
+		{
+			map.y -= playerSpeed;
+		}
+		else if (map.y <= canYC && y > 0)
+		{
+			y -= playerSpeed;
+			map.y -= playerSpeed;
+		}
+		else
+		{
+			dir.up = false;
+		}
+
+	}
+
 }
 
-void Player::moveRight()
+void Player::moveDown(Maps maps)
 {
-}
+	float canXC = (float)(SCREEN_WIDTH - spriteSizeX) / 2;	//Can X Camera, If there is room left for the map to move
+	float canYC = (float)(SCREEN_HEIGHT - spriteSizeY) / 2;	//Can Y Camera
 
-void Player::moveUp()
-{
-}
+	spriteFrame++;
 
-void Player::moveDown()
-{
+	facing.up = false;
+	facing.down = true;
+	facing.left = false;
+	facing.right = false;
+
+	dir.up = false;
+	dir.down = true;
+	dir.left = false;
+	dir.right = false;
+
+	bool collision = false;
+
+	for (int i = 0; i < maps.zone[currentMap].collisions.size(); i++)
+	{
+		if (map.y + spriteSizeY == maps.zone[currentMap].collisions[i].y)	//If player is touching x collision
+		{
+			if (map.x < maps.zone[currentMap].collisions[i].x + maps.zone[currentMap].collisions[i].xDim) //If player is above bottom y of collision
+			{
+				if (map.x + spriteSizeX > maps.zone[currentMap].collisions[i].x) //If player is below the top y of collision
+				{
+					collision = true;
+					//cout << maps.zone[currentMap].collisions[i].name << "\n";
+				}
+			}
+		}
+	}
+
+	if (!collision)
+	{
+		if (y < canYC)
+		{
+			y += playerSpeed;
+			map.y += playerSpeed;
+		}
+		else if (map.y < maps.zone[currentMap].yDim - (SCREEN_WIDTH / 2) - (spriteSizeY / 2))
+		{
+			map.y += playerSpeed;
+		}
+		else if (map.y >= maps.zone[currentMap].yDim - (SCREEN_WIDTH / 2) - (spriteSizeY / 2) && y < (SCREEN_HEIGHT - spriteSizeY))
+		{
+			y += playerSpeed;
+			map.y += playerSpeed;
+		}
+		else
+		{
+			dir.down = false;
+		}
+
+	}
+	
+
 }

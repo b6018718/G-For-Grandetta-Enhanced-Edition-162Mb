@@ -615,6 +615,8 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					}
 				}
 			}
+			
+
 			else if (player.facing.up == true) //Up collisions
 			{
 				if (player.map.y == maps.zone[player.currentMap].collisions[i].y + maps.zone[player.currentMap].collisions[i].yDim)	//Touching y co-ordinate
@@ -628,7 +630,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					}
 				}
 			}
-			else if (player.facing.right = true) //Right collisions
+			else if (player.facing.right == true) //Right collisions
 			{
 				if (player.map.x + player.spriteSizeX == maps.zone[player.currentMap].collisions[i].x) //Touching X co-ordinate
 				{

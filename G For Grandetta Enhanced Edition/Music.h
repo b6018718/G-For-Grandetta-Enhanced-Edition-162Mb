@@ -41,7 +41,7 @@ public:
 
 	void SetVolume(float volume);
 
-private:
+
 	Mix_Music *battle;
 	Mix_Music *camp;
 	Mix_Music *casino;

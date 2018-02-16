@@ -427,6 +427,7 @@ void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, v
 
 bool play(Screen screen, Music music, Fonts fonts)
 {
+	void clear(SDL_Surface*& gScreenSurface);
 	music.PlayVillage();
 	int classSelected;
 	bool gameExit = false;
@@ -564,13 +565,214 @@ bool play(Screen screen, Music music, Fonts fonts)
 				//Move left
 				player.moveDown(maps);
 			}
-
-
+			//@
 			//Move between areas
 			switch (player.currentMap)
-				case 0:
+			{
+				case 0: //Village Map
+					if (player.map.y == 29 * 32 && player.map.x >= 9 * 32 && player.map.x <= 12 * 32 && player.y == 19 * 32)
+					{
+						clear(screen.gPlaySurface);					//NEED THIS TO PREVENT MEMORY LEAKS
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
 
+
+						player.currentMap = 1;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+						player.map.y = 1 * 32;
+						player.y = 1 * 32;
+						player.questLoaded = false;
+						//Mix_FreeMusic(music.village);
+
+						if (screen.gText != NULL)
+						{
+							screen.gText = NULL;
+							SDL_FreeSurface(screen.gText);
+						}
+						
+						if (screen.gMessage != NULL)
+						{
+							screen.gMessage = NULL;
+							SDL_FreeSurface(screen.gMessage);
+						}
+
+						if (screen.gTemp != NULL)
+						{
+							screen.gTemp = NULL;
+							SDL_FreeSurface(screen.gTemp);
+						}
+						clear(screen.gScreenSurface);
+						cout << "Test \n";
+						SDL_FreeSurface(screen.gScreenSurface);
+					}
+					
 					break;
+				case 1:	//Field Map
+					if ((player.map.y <= 0) && (player.map.x >= 9 * 32) && (player.map.x <= 12 * 32) && (player.y == 0))
+					{
+
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+						if (player.currentQuest == 6 && player.currentQuestPoint == 0)
+						{
+							++player.currentQuestPoint;
+						}
+						player.currentMap = 0;
+						//clear(screen.gPlaySurface);
+						//SDL_FreeSurface(screen.gPlaySurface);
+						screen.loadMedia(screen.gPlaySurface, "images/bg0.bmp");
+						player.map.y = 28 * 32;
+						player.y = 18 * 32;
+						player.questLoaded = false;
+						
+						
+						
+						//MEMORY LEAK HERE
+						cout << "Line \n";
+					}
+					break;
+					/*
+				if (currentQuest === 6 && currentQuestPoint === 0){
+					canProgress();
+					incrementQuest();
+				}
+				cZ = 0;
+				map.y = 28 * 32;
+				bg.x = 0 * 32;
+				bg.y = -10 * 32;
+				player.y = 18 * 32;
+				playMusic(cZ);
+		}
+    else if(cZ == 1 && map.y == 49 * 32 && map.x >= 39 * 32 && map.x <= 44 * 32){
+				cZ = 2;
+				map.y = 1 * 32;
+				bg.x = 0 * 32;
+				bg.y = 0 * 32;
+				player.y = 1 * 32;
+				playMusic(cZ);
+    }
+    else if(cZ == 2 && map.y <= 0 && map.x >= 39 * 32 && map.x <= 44 * 32){
+				cZ = 1;
+				map.y = 48 * 32;
+				bg.x = 0 * 32;
+				bg.y = -10 * 32;
+				player.y = 18 * 32;
+				playMusic(cZ);
+    }
+    else if(cZ == 2 && map.y == 49 * 32 && map.x >= 39 * 32 && map.x <= 44 * 32){
+				cZ = 3;
+				map.y = 1 * 32;
+				bg.x = 0 * 32;
+				bg.y = -10 * 32;
+				player.y = 1 * 32;
+				playMusic(cZ);
+    }
+    else if(cZ == 3 && map.y <= 0 && map.x >= 39 * 32 && map.x <= 44 * 32){
+				cZ = 2;
+				map.y = 48 * 32;
+				bg.x = 0 * 32;
+				bg.y = -10 * 32;
+				player.y = 18 * 32;
+				playMusic(cZ);
+    }
+    else if(cZ == 1 && map.x == 89 * 32 && map.y >= 16 * 32 && map.y <= 19 * 32){
+				if (currentQuest === 2 && currentQuestPoint === 0){
+					canProgress();
+					incrementQuest();
+				}
+				cZ = 4;
+      	map.x = 1 * 32;
+      	map.y += 19 * 32;
+      	bg.x = 0 * 32;
+				bg.y = -20 * 32;
+      	player.x = 1 * 32;
+      	player.y = map.y - 20 * 32;
+				playMusic(cZ);
+    }
+    else if(cZ == 4 && map.x === 0 && map.y >= 35 * 32 && map.y <= 39 * 32){
+				cZ = 1;
+        map.x = 88 * 32;
+        map.y -= 19 * 32;
+        bg.x = -60 * 32;
+				bg.y = 6.5 * 32;
+        player.x = 28 * 32;
+        player.y = 9.5 * 32;
+				playMusic(cZ);
+    }
+		else if(cZ == 4 && map.x >= 31 * 32 && map.x <= 32 * 32 && map.y >= 5 * 32 && map.y <= 6 * 32){
+        cZ = 5;
+        map.x -= 16.5 * 32;
+        map.y = 19 * 32;
+        bg.x = 0;
+        bg.y = 0;
+        player.x = map.x;
+        player.y = 18 * 32;
+        playMusic(cZ);
+    }
+    else if(cZ == 5 && map.x >= 14 * 32 && map.x <= 15 * 32 && map.y == 20 * 32) {
+        cZ = 4;
+        map.x += 16.5 * 32;
+        map.y = 7 * 32;
+        bg.x = 17 * 32;
+        bg.y = 0;
+        player.x = 14.5 * 32;
+        player.y = 7 * 32;
+        playMusic(cZ);
+		}
+  	else if(cZ == 1 && map.x >= 3 * 32 && map.x <= 5 * 32 && map.y == 31 * 32) {
+		 		if (currentQuest === 1 && currentQuestPoint === 1){
+			 		collisions[3][8].signText1 = "got that staff yet?";
+			 		collisions[3][8].signText2 = "lazy bastard";
+			 		canProgress();
+			 		incrementQuest();
+		 		}
+		 		else if(currentQuest === 4 && currentQuestPoint === 0){
+			 		canProgress();
+			 		incrementQuest();
+		 		}
+        cZ = 6;
+        player.y = 18 * 32;
+        player.x = 25 * 32 + (player.x - 3 * 32);
+        bg.x = -30 * 32;
+        bg.y = 0;
+        map.x = 55 * 32 + (map.x - 3 * 32);
+        map.y = 18 * 32;
+        playMusic(cZ);
+    }
+    else if (cZ == 6 && map.x >= 55 * 32 && map.x <= 57 * 32 && map.y >= 604){
+        cZ = 1;
+        player.x = 3 * 32 + (player.x - 25 * 32);
+        player.y = 9.5 * 32;
+        bg.x = 0;
+        bg.y = -21.875 * 32;
+        map.x = 3 * 32 + (map.x - 55 * 32);
+        map.y = 31.375 * 32;
+        playMusic(cZ);
+    }
+    else if (cZ == 2 && map.x >= 84 * 32 && map.x <= 86 * 32 && map.y == 5 * 32){
+        cZ = 7;
+        player.x = 3 * 32 + (player.x - 24 * 32);
+        player.y = 18.5 * 32;
+        bg.x = 0;
+        bg.y = 0;
+        map.x = 3 * 32 + (map.x - 84 * 32);
+        map.y = 18.5 * 32;
+        playMusic(cZ);
+    }
+    else if (cZ == 7 && map.x >= 3 * 32 && map.x <= 5 * 32 && map.y == 19 * 32){
+         cZ = 2;
+        player.x = 24 * 32 + (player.x - 3 * 32);
+        player.y = 5.625 * 32;
+        bg.x = -60 * 32;
+        bg.y = 0;
+        map.x = 84 * 32 + (map.x - 3 * 32);
+        map.y = 5.625 * 32;
+        playMusic(cZ);
+    }
+					*/
+					break;
+			}
 
 			screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
 			updateSprite(screen, player);
@@ -581,7 +783,6 @@ bool play(Screen screen, Music music, Fonts fonts)
 			{
 				endTime = (float)SDL_GetTicks();
 			}
-
 			//cout << "Frame rate: " << 1000.0f / (endTime - startTime) << "\n";
 		}
 		
@@ -853,7 +1054,7 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 		SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
 		SDL_BlitSurface(screen.gText, NULL, screen.gScreenSurface, &dest);
 		SDL_UpdateWindowSurface(screen.gWindow);
-
+		SDL_FreeSurface(screen.gScreenSurface);
 		if (classSelected != -1)
 		{
 			if (classSelected == 0)
@@ -888,6 +1089,7 @@ bool instructions(Screen screen)
 	SDL_UpdateWindowSurface(screen.gWindow);
 
 	SDL_FreeSurface(screen.gPlaySurface);
+	SDL_FreeSurface(screen.gScreenSurface);
 
 	while (!quit)
 	{
@@ -1064,6 +1266,7 @@ void updateSprite(Screen screen, Player& player)
 	
 	//player.spriteFrame++;
 	SDL_UpdateWindowSurface(screen.gWindow);
+	SDL_FreeSurface(screen.gScreenSurface);
 }
 
 void clear(SDL_Surface*& gScreenSurface)
@@ -1082,6 +1285,7 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 
 	SDL_UpdateWindowSurface(screen.gWindow);
 	//SDL_FreeSurface(screen.gPlaySurface);
+	SDL_FreeSurface(screen.gScreenSurface);
 
 	bool settingsBoxVisible = false;
 	vector <int> VolbuttonX = { 300, 500 };
@@ -1311,5 +1515,6 @@ void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string c
 	SDL_FillRect(screen.gPlaySurface, &expBar, SDL_MapRGB(screen.gPlaySurface->format, 255, 255, 0));
 
 	SDL_UpdateWindowSurface(screen.gWindow);
+	SDL_FreeSurface(screen.gScreenSurface);
 
 }

@@ -35,17 +35,11 @@ Music::Music()
 	if (cave == NULL)
 		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 
-	field = Mix_LoadMUS("sound/field.mp3");
-	if (field == NULL)
-		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
-
 	menu = Mix_LoadMUS("sound/menu.ogg");
 	if (menu == NULL)
 		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 
-	village = Mix_LoadMUS("sound/village.mp3");
-	if (village == NULL)
-		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+	
 
 	hit = Mix_LoadWAV("sound/hit.wav");
 	if (hit == NULL)
@@ -94,11 +88,17 @@ void Music::PlayCave()
 
 void Music::PlayField()
 {
+	field = Mix_LoadMUS("sound/field.mp3");
+	if (field == NULL)
+		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 	Mix_PlayMusic(field, -1);
 }
 
 void Music::PlayVillage()
 {
+	village = Mix_LoadMUS("sound/village.mp3");
+	if (village == NULL)
+		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 	Mix_PlayMusic(village, -1);
 }
 

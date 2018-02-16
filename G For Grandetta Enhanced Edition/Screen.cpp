@@ -25,16 +25,8 @@ Screen::Screen()
 		}
 		else
 		{
-			//SDL_SetColorKey(gScreenSurface, SDL_TRUE, SDL_MapRGB(gScreenSurface->format, 0, 0xFF, 0xFF));
-			//SDL_SetColorKey(gPlaySurface, SDL_TRUE, SDL_MapRGB(gPlaySurface->format, 0, 0xFF, 0xFF));
-			//SDL_SetColorKey(gText, SDL_TRUE, SDL_MapRGB(gText->format, 0, 0xFF, 0xFF));
-			//SDL_SetColorKey(gMessage, SDL_TRUE, SDL_MapRGB(gMessage->format, 0, 0xFF, 0xFF));
-			//SDL_SetColorKey(gTemp, SDL_TRUE, SDL_MapRGB(gTemp->format, 0, 0xFF, 0xFF));
-			//SDL_SetColorKey(gSprite, SDL_TRUE, SDL_MapRGB(gSprite->format, 0, 0xFF, 0xFF));
-			//Apply image
-
 			
-
+			//Apply image
 			SDL_BlitSurface(gPlaySurface, NULL, gScreenSurface, NULL);
 			
 			//SDL_UpdateWindowSurface(gWindow);
@@ -108,6 +100,7 @@ void Screen::displayLeftText(string text, float x, float y, TTF_Font* newfont)	/
 	SDL_UpdateWindowSurface(gWindow);
 	SDL_FillRect(gText, NULL, 0x000000);
 	SDL_FreeSurface(gText);
+	SDL_FreeSurface(gScreenSurface);
 }
 
 bool Screen::messageBox(string line1, string line2, TTF_Font* font)	//35 Character Limit Per Line
@@ -391,7 +384,7 @@ void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, M
 				{
 					while (maps.findCollision(maps.zone[player.currentMap], "villageDog") != -1)
 						maps.removeItem(0, "villageDog");
-					loadMapMedia(gPlaySurface, "images/bg0.bmp");
+					//loadMapMedia(gPlaySurface, "images/bg0.bmp");
 				}
 				else if (player.currentQuest == 6)
 				{
@@ -416,11 +409,9 @@ void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, M
 				{
 					while (maps.findCollision(maps.zone[player.currentMap], "castleWizard") != -1)
 						maps.removeItem(0, "castleWizard");
-					loadMapMedia(gPlaySurface, "images/bg3.bmp");
+					//loadMapMedia(gPlaySurface, "images/bg3.bmp");
 				}
-					//(currentQuest >= 6){
-					//collisions[3][8] = new collisionObj("castleWizard", 0, 0, 0, 0, false, "none");
-				//}
+					
 		}
 	}
 	

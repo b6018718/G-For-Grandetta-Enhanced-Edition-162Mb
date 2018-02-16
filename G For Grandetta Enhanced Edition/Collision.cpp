@@ -2,7 +2,7 @@
 
 
 
-Collision::Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, string signText1, string signText2, string function)
+Collision::Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, vector <string> text, string function)
 {
 	this->name = name;
 	this->x = x * 32;
@@ -11,12 +11,11 @@ Collision::Collision(string name, double x, double y, double xDim, double yDim, 
 	this->yDim = yDim * 32;
 	this->interactable = interactable;
 	this->interactType = interactType;
-	this->signText1 = signText1;
-	this->signText2 = signText2;
+	this->text = text;
 	this->function = function;
 }
 
-Collision::Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, string signText1, string signText2)
+Collision::Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, vector <string> text)
 {
 	this->name = name;
 	this->x = x * 32;
@@ -25,8 +24,7 @@ Collision::Collision(string name, double x, double y, double xDim, double yDim, 
 	this->yDim = yDim * 32;
 	this->interactable = interactable;
 	this->interactType = interactType;
-	this->signText1 = signText1;
-	this->signText2 = signText2;
+	this->text = text;
 }
 
 Collision::Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType)

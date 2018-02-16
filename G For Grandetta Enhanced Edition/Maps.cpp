@@ -22,7 +22,7 @@ Maps::Maps()
 	zone[0].collisions.push_back(Collision("villageBottomWallRight", 13, 28, 47, 2, false, "none"));
 	zone[0].collisions.push_back(Collision("villageHouse1", 20, 12, 5.75, 5, false, "none"));
 	zone[0].collisions.push_back(Collision("villageHouse2", 33, 12, 5.5, 5, false, "none"));
-	zone[0].collisions.push_back(Collision("villageChest", 28, 1, 1, 1, true, "chest", "", "", "chestFunction"));
+	zone[0].collisions.push_back(Collision("villageChest", 28, 1, 1, 1, true, "chest", {"", "" }, "chestFunction"));
 	zone[0].collisions.push_back(Collision("villageLeftFence", 8, 25, 1, 3, false, "none"));
 	zone[0].collisions.push_back(Collision("villageRightFence", 13, 25, 1, 3, false, "none"));
 	zone[0].collisions.push_back(Collision("villageTopLeftFence", 1, 8, 9, 1, false, "none"));
@@ -33,13 +33,13 @@ Maps::Maps()
 	zone[0].collisions.push_back(Collision("villageGransBottomFence", 50, 14, 9, 1, false, "none"));
 	zone[0].collisions.push_back(Collision("villageGrave1", 2, 2, 1, 1, false, "none"));
 	zone[0].collisions.push_back(Collision("villageGrave2", 4, 2, 1, 1, false, "none"));
-	zone[0].collisions.push_back(Collision("villageGrave3", 6, 2, 1, 1, true, "sign", "It's hard to read" , "RIP Grandma"));
-	zone[0].collisions.push_back(Collision("villageGransGrave", 9, 2, 1, 1, true, "sign", "The grave reads:", "RIP Grandma"));
+	zone[0].collisions.push_back(Collision("villageGrave3", 6, 2, 1, 1, true, "sign", { "It's hard to read" , "Something about someone called Ethan", "Never heard of them"}));
+	zone[0].collisions.push_back(Collision("villageGransGrave", 9, 2, 1, 1, true, "sign", { "The grave reads:", "RIP Grandma" }));
 	zone[0].collisions.push_back(Collision("villageHomeRightWall", 58, 2, 1, 10, false, "none"));
 	zone[0].collisions.push_back(Collision("villageHomeBed", 55, 1, 1.5, 2, false, "none"));
 	zone[0].collisions.push_back(Collision("villageHomeBottomWall", 54, 5.5, 10, 9, false, "none"));
 	zone[0].collisions.push_back(Collision("villageHomeLeftWall", 54, 1, 1, 3, false, "none"));
-	zone[0].collisions.push_back(Collision("villageDog", 8, 5, 1, 1, true, "quest", "*Woof woof*", "I think it's telling me to leave...", "dogFunction"));
+	zone[0].collisions.push_back(Collision("villageDog", 8, 5, 1, 1, true, "quest", { "*Woof woof*", "I think it's telling me to leave..." }, "dogFunction"));
 	
 	
 
@@ -48,19 +48,19 @@ Maps::Maps()
 	zone[1].collisions.push_back(Collision("fieldRightFencePath", 13, 0, 1, 6, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldBottomFencePath", 9, 10, 9, 1, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldFenceSign", 14, 5, 4, 1, true, "sign"));
-	zone[1].collisions.push_back(Collision("fieldVillageSign", 18, 5, 1, 1, true, "sign", "The sign reads:", "To the Village"));
+	zone[1].collisions.push_back(Collision("fieldVillageSign", 18, 5, 1, 1, true, "sign", { "The sign reads:", "To the Village" }));
 	zone[1].collisions.push_back(Collision("fieldCaveEntrance", 1, 30, 7, 1, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldTopWall", 14, 0, 89, 1, false, "none"));
-	zone[1].collisions.push_back(Collision("fieldCaveSign", 4, 34, 1, 1, true, "sign", "The sign reads:", "To the Cave"));
+	zone[1].collisions.push_back(Collision("fieldCaveSign", 4, 34, 1, 1, true, "sign", { "The sign reads:", "To the Cave" }));
 	zone[1].collisions.push_back(Collision("fieldCaveLeftFence", 0, 31, 1, 6, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldLeftMoat", 0, 37, 39, 13, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldRightMoat", 44, 37, 46, 13, false, "none"));
-	zone[1].collisions.push_back(Collision("fieldCastleSign", 38, 34, 1, 1, true, "sign", "The sign reads:", "To Castletown"));
+	zone[1].collisions.push_back(Collision("fieldCastleSign", 38, 34, 1, 1, true, "sign", { "The sign reads:", "To Castletown" }));
 	zone[1].collisions.push_back(Collision("fieldTopField", 48, 3, 23, 12, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldBottomField", 48, 20, 23, 12, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldTopRightHedge", 89, 1, 1, 15, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldTopRightHedge", 89, 20, 1, 17, false, "none"));
-	zone[1].collisions.push_back(Collision("fieldCampSign", 78, 17, 1, 1, true, "sign", "The sign reads:", "To the Goblin Camp"));
+	zone[1].collisions.push_back(Collision("fieldCampSign", 78, 17, 1, 1, true, "sign", { "The sign reads:", "To the Goblin Camp" }));
 	zone[1].collisions.push_back(Collision("fieldTopTents", 83, 13, 6, 3, false, "none"));
 	zone[1].collisions.push_back(Collision("fieldBottomTents", 83, 20, 6, 3, false, "none"));
 
@@ -72,16 +72,16 @@ Maps::Maps()
 	zone[2].collisions.push_back(Collision("townSellStall", 13, 25, 2, 2, true, "sellShop"));
 	zone[2].collisions.push_back(Collision("townHatsStall", 9, 29, 2, 2, true, "hatShop"));
 	zone[2].collisions.push_back(Collision("townArmourStall", 13, 29, 2, 2, true, "equipShop"));
-	zone[2].collisions.push_back(Collision("townMarketSign", 19, 27, 1, 1, true, "sign", "The sign reads:", "The Market"));
+	zone[2].collisions.push_back(Collision("townMarketSign", 19, 27, 1, 1, true, "sign", { "The sign reads:", "The Market" }));
 	zone[2].collisions.push_back(Collision("townBottomLeftCourtYard", 0, 38, 32, 11, false, "none"));
 	zone[2].collisions.push_back(Collision("townBottomLeftWall", 0, 48, 39, 2, false, "none"));
-	zone[2].collisions.push_back(Collision("townCastleSign", 38, 45, 1, 1, true, "sign", "The sign reads:", "To the Castle"));
+	zone[2].collisions.push_back(Collision("townCastleSign", 38, 45, 1, 1, true, "sign", { "The sign reads:", "To the Castle" }));
 	zone[2].collisions.push_back(Collision("townTopRightWall", 44, 0, 7, 2, false, "none"));
 	zone[2].collisions.push_back(Collision("townLake", 34, 25, 15, 8, false, "none"));
 	zone[2].collisions.push_back(Collision("townTopRightCourtYard", 51, 0, 31, 12, false, "none"));
 	zone[2].collisions.push_back(Collision("townCasino", 82, 4, 6, 1, false, "none"));
 	zone[2].collisions.push_back(Collision("townRightWall", 88, 0, 2, 50, false, "none"));
-	zone[2].collisions.push_back(Collision("townChest", 82, 10, 1, 1, true, "chest", "", "", "chestFunction"));
+	zone[2].collisions.push_back(Collision("townChest", 82, 10, 1, 1, true, "chest", { "", "" }, "chestFunction"));
 	zone[2].collisions.push_back(Collision("townCasinoLeftFence", 82, 11, 3, 1, false, "none"));
 	zone[2].collisions.push_back(Collision("townCasinoRightFence", 87, 11, 1, 1, false, "none"));
 	zone[2].collisions.push_back(Collision("townBottomRightHouses", 52, 30, 38, 19, false, "none"));
@@ -93,19 +93,19 @@ Maps::Maps()
 	//Castle Collisions
 	zone[3].collisions.push_back(Collision("castleTopLeftWall", 0, 0, 39, 19, false, "none"));
 	zone[3].collisions.push_back(Collision("castleLeftWall", 0, 0, 10, 45, false, "none"));
-	zone[3].collisions.push_back(Collision("castleTopThrone", 14, 25, 1, 2, true, "quest", "I was informed of the incident.", "Talk to the wizard over yonder.", "kingFunction"s));
+	zone[3].collisions.push_back(Collision("castleTopThrone", 14, 25, 1, 2, true, "quest", { "I was informed of the incident.", "Talk to the wizard over yonder." }, "kingFunction"s));
 	zone[3].collisions.push_back(Collision("castleBottomThrone", 14, 28, 1, 2, false, "none"));
 	zone[3].collisions.push_back(Collision("castleBottomWall", 0, 37, 60, 1, false, "none"));
 	zone[3].collisions.push_back(Collision("castleBedrooms", 44, 0, 9, 25, false, "none"));
 	zone[3].collisions.push_back(Collision("castleBedroomOutcrop", 44, 25, 2, 1, false, "none"));
 	zone[3].collisions.push_back(Collision("castleWizardWall", 44, 30, 2, 8, false, "none"));
-	zone[3].collisions.push_back(Collision("castleWizard", 55, 32, 1, 2, true, "quest", "Who are you? I'm in the middle of ", "important work, leave please.", "wizFunction"));
+	zone[3].collisions.push_back(Collision("castleWizard", 55, 32, 1, 2, true, "quest", { "Who are you? I'm in the middle of ", "important work, leave please." }, "wizFunction"));
 	zone[3].collisions.push_back(Collision("castleRightWall", 58, 0, 1, 40, false, "none"));
-	zone[3].collisions.push_back(Collision("castlePrincessWall", 55, 24, 2, 1, true, "sign", "Looks like she's sleeping...", "I shouldn't disturb her."));
+	zone[3].collisions.push_back(Collision("castlePrincessWall", 55, 24, 2, 1, true, "sign", { "Looks like she's sleeping...", "I shouldn't disturb her." }));
 	zone[3].collisions.push_back(Collision("castleRightWallOutcrop", 57, 24, 1, 1, false, "none"));
 	zone[3].collisions.push_back(Collision("castleLeftWallOutcrop", 53, 24, 2, 1, false, "none"));
 	zone[3].collisions.push_back(Collision("castleTopBedroomWall", 52, 18, 10, 1, false, "none"));
-	zone[3].collisions.push_back(Collision("castlePrincessBed", 55, 19, 2, 2, true, "sign", "I just need to get that necklace.", "I'm sure she won't miss it."));
+	zone[3].collisions.push_back(Collision("castlePrincessBed", 55, 19, 2, 2, true, "sign", { "I just need to get that necklace.", "I'm sure she won't miss it." }));
 
 	//Goblin Camp Collisons
 	zone[4].collisions.push_back(Collision("1,1Tent", 10, 16, 3, 3, false, "none"));
@@ -127,13 +127,13 @@ Maps::Maps()
 	zone[4].collisions.push_back(Collision("9,2Tent", 50, 15, 3, 3, false, "none"));
 	zone[4].collisions.push_back(Collision("9,3Tent", 50, 25, 3, 3, false, "none"));
 	zone[4].collisions.push_back(Collision("10,1Tent", 53, 31, 3, 3, false, "none"));
-	zone[4].collisions.push_back(Collision("goblinChest", 48, 33, 1, 1, true, "quest", "You try to take the goblin staff", "But a goblin appears and stops you", "campChestFunc"));
+	zone[4].collisions.push_back(Collision("goblinChest", 48, 33, 1, 1, true, "quest", { "You try to take the goblin staff", "But a goblin appears and stops you" }, "campChestFunc"));
 
 	//Nursary Collsions
 	zone[5].collisions.push_back(Collision("nursaryLeftWall", 0, 0, 10, 19, false, "none"));
 	zone[5].collisions.push_back(Collision("nursaryLeftOutcrop", 9, 20, 5, 1, false, "none"));
 	zone[5].collisions.push_back(Collision("nursaryTopWall", 10, 13, 12, 1, false, "none"));
-	zone[5].collisions.push_back(Collision("nursaryChest", 10, 14, 1, 1, true, "chest", "", "", "chestFunction"));
+	zone[5].collisions.push_back(Collision("nursaryChest", 10, 14, 1, 1, true, "chest", { "", "" }, "chestFunction"));
 	zone[5].collisions.push_back(Collision("nursaryRightOutcrop", 16, 20, 10, 1, false, "none"));
 	zone[5].collisions.push_back(Collision("nursaryRightWall", 20, 14, 1, 10, false, "none"));
 	zone[5].collisions.push_back(Collision("nursaryTopLeftCot", 10, 15, 2, 1, false, "none"));
@@ -153,7 +153,7 @@ Maps::Maps()
 	zone[6].collisions.push_back(Collision("caveBottomRightOutcrop", 41, 19, 14, 1, false, "none"));
 	zone[6].collisions.push_back(Collision("caveLeftWall", 0, 6, 2, 20, false, "none"));
 	zone[6].collisions.push_back(Collision("caveBottomLeftWall", 1, 18, 15, 1, false, "none"));
-	zone[6].collisions.push_back(Collision("caveChest", 3, 16, 1, 1, true, "quest", "You try to take the orb", "But the spider protecting it appears", "caveChestFunc"));
+	zone[6].collisions.push_back(Collision("caveChest", 3, 16, 1, 1, true, "quest", { "You try to take the orb", "But the spider protecting it appears" }, "caveChestFunc"));
 
 	//Casino Collisions
 	zone[7].collisions.push_back(Collision("casinoLeftWall", 0, 0, 1, 20, false, "none"));

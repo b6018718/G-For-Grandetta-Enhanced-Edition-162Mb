@@ -667,12 +667,34 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 		if (maps.zone[player.currentMap].collisions[i].interactType == "chest")
 		{
 			//Chest function
-			exitGame = screen.messageBox(maps.zone[player.currentMap].collisions[i].signText1, maps.zone[player.currentMap].collisions[i].signText2, fonts.font24);
-			//Tempoary chest
+			int textLine = 0;
+			while (textLine < maps.zone[player.currentMap].collisions[i].text.size() && exitGame == false)
+			{
+				string firstLine = maps.zone[player.currentMap].collisions[i].text[textLine];
+				string secondLine = "";
+				if (textLine + 1 < maps.zone[player.currentMap].collisions[i].text.size())
+				{
+					secondLine = maps.zone[player.currentMap].collisions[i].text[textLine + 1];
+				}
+				exitGame = screen.messageBox(firstLine, firstLine, fonts.font24);
+				textLine = textLine + 2;
+			}
+			//Temp chest ONLY FOR NOW
 		}
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "sign")
 		{
-			exitGame = screen.messageBox(maps.zone[player.currentMap].collisions[i].signText1, maps.zone[player.currentMap].collisions[i].signText2, fonts.font24);
+			int textLine = 0;
+			while (textLine < maps.zone[player.currentMap].collisions[i].text.size() && exitGame == false)
+			{
+				string firstLine = maps.zone[player.currentMap].collisions[i].text[textLine];
+				string secondLine = "";
+				if (textLine + 1 < maps.zone[player.currentMap].collisions[i].text.size())
+				{
+					secondLine = maps.zone[player.currentMap].collisions[i].text[textLine + 1];
+				}
+				exitGame = screen.messageBox(firstLine, secondLine, fonts.font24);
+				textLine = textLine + 2;
+			}
 		}
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "quest")
 		{

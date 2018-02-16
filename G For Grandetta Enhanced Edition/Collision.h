@@ -1,12 +1,13 @@
 #pragma once
 #include <string>
+#include <vector>
 using namespace std;
 
 class Collision
 {
 public:
-	Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, string signText1, string signText2, string function);
-	Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, string signText1, string signText2);
+	Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, vector <string> text, string function);
+	Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType, vector <string> text);
 	Collision(string name, double x, double y, double xDim, double yDim, bool interactable, string interactType);
 	~Collision();
 
@@ -17,9 +18,8 @@ public:
 	double yDim;	//Y Location on map
 	bool interactable = false;
 	string interactType = "";
-	string signText1 = "";
-	string signText2 = "";
+	vector <string> text;
 	string function = "";
-	int textBoxes = 0;
+	
 };
 

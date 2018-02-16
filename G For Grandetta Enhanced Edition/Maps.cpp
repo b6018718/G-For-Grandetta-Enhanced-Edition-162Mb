@@ -5,14 +5,14 @@
 Maps::Maps()
 {
 	//Vector of Maps
-	zone.push_back(MapZone(60, 35, "images/bg0.bmp")); //Villages
-	zone.push_back(MapZone(90, 55, "images/bg1.bmp")); //Field
-	zone.push_back(MapZone(90, 55, "images/bg2.bmp")); //Town
-	zone.push_back(MapZone(60, 45, "images/bg3.bmp")); //Castle
-	zone.push_back(MapZone(60, 45, "images/bg4.bmp")); //Goblin Camp
-	zone.push_back(MapZone(30, 25, "images/bg5.bmp")); //Nursary
-	zone.push_back(MapZone(60, 25, "images/bg6.bmp")); //Cave
-	zone.push_back(MapZone(30, 25, "images/bg7.bmp")); //Casino
+	zone.push_back(MapZone(60, 35, "images/bg0.bmp")); //Villages 0
+	zone.push_back(MapZone(90, 55, "images/bg1.bmp")); //Field 1
+	zone.push_back(MapZone(90, 55, "images/bg2.bmp")); //Town 2
+	zone.push_back(MapZone(60, 45, "images/bg3.bmp")); //Castle 3
+	zone.push_back(MapZone(60, 45, "images/bg4.bmp")); //Goblin Camp 4
+	zone.push_back(MapZone(30, 25, "images/bg5.bmp")); //Nursary 5
+	zone.push_back(MapZone(60, 25, "images/bg6.bmp")); //Cave 6
+	zone.push_back(MapZone(30, 25, "images/bg7.bmp")); //Casino 7
 
 	//Village Collisions
 	zone[0].collisions.push_back(Collision("villageTopWall", 0, 0, 60, 1, true, "sign", { "You see a tall hedge", "It seems to go on forever", "It would be impossible", "to squeeze through this foilage" }));
@@ -39,7 +39,7 @@ Maps::Maps()
 	zone[0].collisions.push_back(Collision("villageHomeBed", 55, 1, 1.5, 2, true, "sign", { "You inspect Grandma's old bed","As you would expect the bed is cold" }));
 	zone[0].collisions.push_back(Collision("villageHomeBottomWall", 54, 5.5, 10, 9, true, "sign", { "The house looks empty", "The house sounds empty", "It even smells empty!" }));
 	zone[0].collisions.push_back(Collision("villageHomeLeftWall", 54, 1, 1, 3, true, "sign", { "It's a wall", "There's no two ways about it" }));
-	zone[0].collisions.push_back(Collision("villageDog", 8, 5, 1, 1, true, "quest", { "*Woof woof*", "I think it's telling me to leave..." }, "dogFunction"));
+	
 	
 	
 
@@ -171,6 +171,40 @@ Maps::Maps()
 }
 
 
+
+
 Maps::~Maps()
 {
+}
+
+int Maps::findCollision(MapZone mapZone, string name)
+{
+	bool found = false;
+	int i = 0;
+	while (found == false && i < mapZone.collisions.size())
+	{
+		if (mapZone.collisions[i].name == name)
+		{
+			found = true;
+		}
+		else
+		{
+			i++;
+		}
+	}
+	if (found == true)
+		return i;
+	else
+	{
+		return -1;
+	}
+}
+
+void Maps::removeItem(int map, string name)
+{
+	int pos = findCollision(zone[map], name);
+	if (pos != -1)
+	{
+		zone[map].collisions.erase(zone[map].collisions.begin() + pos);
+	}
 }

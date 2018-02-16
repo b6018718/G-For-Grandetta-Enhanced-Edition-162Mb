@@ -11,7 +11,8 @@ public:
 	~Maps();
 	vector <MapZone> zone;
 
-
+	int findCollision(MapZone mapZone, string name);
+	void removeItem(int map, string name);
 
 };
 

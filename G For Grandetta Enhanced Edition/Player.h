@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include "Maps.h"
+#include "questPoint.h"
+#include <sstream>
 using namespace std;
 
 const int SCREEN_WIDTH = 960;
@@ -34,6 +36,8 @@ public:
 	int spriteSizeY = 32;	//Size of the players sprite
 	int spriteFrame;
 	int playerSpeed = 4;	//Speed of players movement per frame
+	int currentQuestPoint = 0; //Current Quest Number
+	int currentQuest = 0;
 	string playerName;
 	string equippedWeapon;
 	string equippedChestPiece;
@@ -42,6 +46,17 @@ public:
 	string equippedBoots;
 	string levelUpString;
 
+	bool questLoaded;
+
+
+
+	//vector <questPoint> quests;
+
+
+
+	questPoint * quests[8][3];
+
+	
 
 	int x;	//X Relative to window
 	int y;	//Y Relative to window

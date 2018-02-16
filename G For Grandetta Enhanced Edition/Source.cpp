@@ -67,7 +67,6 @@ int main(int argc, char* args[])
 		printf("Warning: No joysticks connected!\n");
 	}
 	
-	
 	void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameController);
 	MainMenu(screen, music, fonts, gGameController);
 	//SDL_Delay(2000);
@@ -80,10 +79,7 @@ int main(int argc, char* args[])
 		gGameController = NULL;
 	}
 
-	
-
 	system("pause");
-
 	//Quit SDL
 	SDL_Quit();
 
@@ -178,7 +174,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 			if (event.type == SDL_QUIT)
 				quit = true;
 
-			//Controller Joystick Event
+			//Controller Axis Event
 			if (event.type == SDL_JOYAXISMOTION)
 			{
 				//X axis motion
@@ -395,12 +391,13 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 			
 		}	//Poll Event While Loop
 
-
 		if (!quit)
+		{
 			menuAnimation(screen, frames, backgroundX, fonts, buttonY, arrowX, arrowY);
+		}
 
 	}
-	SDL_GameControllerClose(controller);
+	SDL_GameControllerClose(controller); //Close Controller
 }
 
 void menuAnimation(Screen screen, int frames, float& backgroundX, Fonts fonts, vector <int> buttonY, int arrowX, int arrowY)
@@ -438,6 +435,8 @@ bool play(Screen screen, Music music, Fonts fonts)
 	Player player;
 	Maps maps;
 
+	player.questLoaded = true;
+
 	bool classSelect(Screen screen, Music music, Fonts fonts, Player& player);
 	bool setName(Screen screen, Fonts fonts, Player& player);
 	bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music);
@@ -446,28 +445,22 @@ bool play(Screen screen, Music music, Fonts fonts)
 	screen.gPlaySurface = NULL;
 	screen.loadMedia(screen.gPlaySurface, "images/bg" + to_string(player.currentMap) + ".bmp");
 
-	//screen.gPlaySurface = SDL_ConvertSurfaceFormat(screen.gTemp, SDL_GetWindowPixelFormat(screen.gWindow), 0);
-	//SDL_FreeSurface(screen.gTemp);
-
-	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
+	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap], maps);
 	
 	//Load Sprite
 	string classSprite = "images/" + player.pClass + ".bmp";
 	screen.loadMedia(screen.gSprite, classSprite);
-
-
 	void updateSprite(Screen screen, Player& player);
 	updateSprite(screen, player);
 
 	//Call input box for name entry
 	gameExit = screen.inputBox("Enter your name:", player.name, fonts.font24, player);
-	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap]);
+	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap], maps);
 	updateSprite(screen, player);
 
 	SDL_Event event;
 
-	
-
+	player.questLoaded = false;
 	
 
 	while (!quit)
@@ -517,7 +510,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 				{
 					player.moveUp(maps);
 				}
-				screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap]);
+				screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
 				updateSprite(screen, player);
 			}
 
@@ -571,10 +564,15 @@ bool play(Screen screen, Music music, Fonts fonts)
 				//Move left
 				player.moveDown(maps);
 			}
-			
-			
 
-			screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap]);
+
+			//Move between areas
+			switch (player.currentMap)
+				case 0:
+
+					break;
+
+			screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
 			updateSprite(screen, player);
 
 			//FPS Capped at 90
@@ -615,7 +613,6 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					}
 				}
 			}
-			
 
 			else if (player.facing.up == true) //Up collisions
 			{
@@ -630,6 +627,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					}
 				}
 			}
+
 			else if (player.facing.right == true) //Right collisions
 			{
 				if (player.map.x + player.spriteSizeX == maps.zone[player.currentMap].collisions[i].x) //Touching X co-ordinate

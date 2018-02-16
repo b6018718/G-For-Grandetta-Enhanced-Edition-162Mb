@@ -7,6 +7,7 @@
 #include <string>
 #include "SDL_TTF.h"
 #include "Fonts.h"
+#include "Maps.h"
 
 using namespace std;
 Screen::Screen()
@@ -322,7 +323,7 @@ bool Screen::loadMedia(SDL_Surface *& surface, string file)
 	return true;
 }
 
-void Screen::updateMap(SDL_Surface*& surface, Player player, MapZone mapZone)
+void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, Maps& maps)
 {
 	float canXC = (float)(SCREEN_WIDTH - player.spriteSizeX) / 2;	//Can X Camera, If there is room left for the map to move
 	float canYC = (float)(SCREEN_HEIGHT - player.spriteSizeY) / 2;	//Can Y Camera
@@ -363,11 +364,71 @@ void Screen::updateMap(SDL_Surface*& surface, Player player, MapZone mapZone)
 	//cout << "Background X " << bg.x/32 << "\n";
 	//cout << "Background Y " << bg.y/32 << "\n";
 	
+
+	//Display Dog
+	if (player.questLoaded == false)
+	{
+		switch (player.currentMap)
+		{
+			case 0:	//Village Events
+				if ((player.currentQuest == 0 && player.currentQuestPoint < 2) || player.currentQuest == 7)
+				{
+					while (maps.findCollision(maps.zone[player.currentMap], "villageWizard") != -1)
+						maps.removeItem(0, "villageWizard");
+					if (maps.findCollision(maps.zone[player.currentMap], "villageDog") == -1)
+						maps.zone[0].collisions.push_back(Collision("villageDog", 8, 5, 1, 1, true, "quest", { "*Woof woof*", "I think it's telling me to leave..." }, "dogFunction"));
+					if (!loadMedia(gTemp, "images/woof.bmp"))
+						cout << "Cannot load media";
+					SDL_Rect position;
+					position.x = (8 * 32);
+					position.y = (5 * 32);
+					SDL_BlitSurface(gTemp, NULL, gPlaySurface, &position);
+					player.questLoaded = true;
+					SDL_FreeSurface(gTemp);
+					//maps.removeItem(0, "villageDog");
+				}
+				else if (player.currentQuest == 0 && player.currentQuestPoint == 2)
+				{
+					while (maps.findCollision(maps.zone[player.currentMap], "villageDog") != -1)
+						maps.removeItem(0, "villageDog");
+					loadMapMedia(gPlaySurface, "images/bg0.bmp");
+				}
+				else if (player.currentQuest == 6)
+				{
+					if (maps.findCollision(maps.zone[player.currentMap], "villageWizard") == -1)
+						maps.zone[0].collisions.push_back(Collision("villageWizard", 9, 5, 1, 2, true, "quest", {"Prepare to die", " You fool!"}, "wizFunction"));
+				}
+			
+				break;
+			case 3:	//Castle Events
+				if (player.currentQuest < 6)
+				{
+					if (!loadMedia(gTemp, "images/overworldWizard.bmp"))
+						cout << "Cannot load media";
+					SDL_Rect position;
+					position.x = (55 * 32);
+					position.y = (32 * 32);
+					SDL_BlitSurface(gTemp, NULL, gPlaySurface, &position);
+					player.questLoaded = true;
+					SDL_FreeSurface(gTemp);
+				}
+				else if (player.currentQuest == 6)
+				{
+					while (maps.findCollision(maps.zone[player.currentMap], "castleWizard") != -1)
+						maps.removeItem(0, "castleWizard");
+					loadMapMedia(gPlaySurface, "images/bg3.bmp");
+				}
+					//(currentQuest >= 6){
+					//collisions[3][8] = new collisionObj("castleWizard", 0, 0, 0, 0, false, "none");
+				//}
+		}
+	}
+	
+
 	
 	//loadMedia(gPlaySurface, "images/bg0.bmp");
 	SDL_BlitSurface(gPlaySurface, NULL, gScreenSurface, &bg);
-	//SDL_UpdateWindowSurface(gWindow);
-	//SDL_FreeSurface(surface);	//May break program, unsure :(
+	
 }
 
 void Screen::FreeSurfaces()

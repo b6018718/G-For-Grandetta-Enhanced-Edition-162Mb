@@ -51,7 +51,7 @@ public:
 	
 	bool loadMedia(SDL_Surface*& surface, string file);
 
-	void updateMap(SDL_Surface*& surface, Player player, MapZone mapZone);
+	void updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, Maps& maps);
 
 	void FreeSurfaces();
 };

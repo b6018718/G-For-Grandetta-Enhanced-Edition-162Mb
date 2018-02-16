@@ -9,6 +9,38 @@ using namespace std;
 
 Player::Player()
 {
+	//get the bone from the dog
+	quests[0][0] = new questPoint("Find the dog", "in the village");
+	quests[0][1] = new questPoint("Defeat the dog", "in battle");
+	quests[0][2] = new questPoint("Speak to the king", "in the castle in Castletown");
+	quests[0][3] = new questPoint("Speak to the wizard", "in the castle in Castletown");
+	//get the sword from the cave
+	quests[1][0] = new questPoint("Speak to the king", "in the castle in Castletown");
+	quests[1][1] = new questPoint("Buy a sword", "from the market stall in Castletown");
+	//get the staff
+	quests[2][0] = new questPoint("Go to the camp", "to the right of the field");
+	quests[2][1] = new questPoint("Get the staff", "from the Goblin Camp");
+	quests[2][2] = new questPoint("Return the staff", "to the wizard in the castle");
+	//get the hat
+	quests[3][0] = new questPoint("Get the hat", "from the market stall");
+	quests[3][1] = new questPoint("Return the hat", "to the wizard in the castle");
+	//get the orb
+	quests[4][0] = new questPoint("Go to the cave", "to the left of the field");
+	quests[4][1] = new questPoint("Get the orb", "from the cave");
+	quests[4][2] = new questPoint("Return the orb", "to the wizard in the castle");
+	//get the necklace
+	quests[5][0] = new questPoint("Break into the castle", "to get the necklace");
+	quests[5][1] = new questPoint("Get the necklace", "from the Princess' room");
+	quests[5][2] = new questPoint("Get out of the castle", "to avoid capture");
+	quests[5][3] = new questPoint("Return the necklace", "to the wizard in the castle");
+	//fight the wizard
+	quests[6][0] = new questPoint("Go to the village", "to find the wizard");
+	quests[6][1] = new questPoint("Speak to the wizard", "to save the village");
+	quests[6][2] = new questPoint("Fight the wizard", "because he summoned a demon");
+	//fight the demon
+	quests[7][0] = new questPoint("Fight the demon", "to save the country from destruction");
+	//speak to the king / end game
+	quests[8][0] = new questPoint("Speak to the king", "in the castle in Castletown");
 }
 
 

@@ -154,6 +154,7 @@
     <ClCompile Include="MapZone.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="questPoint.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="MapZone.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="questPoint.h" />
     <ClInclude Include="Screen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -440,6 +440,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 
 	bool classSelect(Screen screen, Music music, Fonts fonts, Player& player);
 	bool setName(Screen screen, Fonts fonts, Player& player);
+	bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music);
 
 	gameExit = classSelect(screen, music, fonts, player);
 	screen.gPlaySurface = NULL;
@@ -499,23 +500,25 @@ bool play(Screen screen, Music music, Fonts fonts)
 			{
 				if (event.jhat.value == SDL_HAT_LEFT)
 				{
-					//Move left
+					player.moveLeft(maps);
 				}
 
 				if (event.jhat.value == SDL_HAT_RIGHT)
 				{
-					//Move right
+					player.moveRight(maps);
 				}
 
 				if (event.jhat.value == SDL_HAT_DOWN)
 				{
-					//Move down
+					player.moveDown(maps);
 				}
 
 				if (event.jhat.value == SDL_HAT_UP)
 				{
-					//Move up
+					player.moveUp(maps);
 				}
+				screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap]);
+				updateSprite(screen, player);
 			}
 
 			//Keyboard Event
@@ -525,6 +528,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 				if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_e)
 				{
 					//Interact
+					gameExit = interact(player, screen, maps, fonts, music);
 				}
 
 				if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_SPACE)
@@ -551,49 +555,147 @@ bool play(Screen screen, Music music, Fonts fonts)
 			{
 				//Move left
 				player.moveLeft(maps);
-				//cout << "X: " << player.map.x << "\n";
-				//cout << "Y: " << player.map.y << "\n";
 			}
 			if (currentKeyStates[SDL_SCANCODE_RIGHT] || currentKeyStates[SDL_SCANCODE_D])
 			{
 				//Move left
 				player.moveRight(maps);
-				//cout << "X: " << player.map.x << "\n";
-				//cout << "Y: " << player.map.y << "\n";
 			}
 			if (currentKeyStates[SDL_SCANCODE_UP] || currentKeyStates[SDL_SCANCODE_W])
 			{
 				//Move left
 				player.moveUp(maps);
-				//cout << "X: " << player.map.x << "\n";
-				//cout << "Y: " << player.map.y << "\n";
 			}
 			if (currentKeyStates[SDL_SCANCODE_DOWN] || currentKeyStates[SDL_SCANCODE_S])
 			{
 				//Move left
 				player.moveDown(maps);
-
-				//cout << "X: " << player.map.x << "\n";
-				//cout << "Y: " << player.map.y << "\n";
 			}
 			
-			float endTime = (float)SDL_GetTicks();
+			
 
+			screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap]);
+			updateSprite(screen, player);
+
+			//FPS Capped at 90
+			float endTime = (float)SDL_GetTicks();
 			while ((1000 / (endTime - startTime)) > 90)
 			{
 				endTime = (float)SDL_GetTicks();
 			}
 
-			screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap]);
-			updateSprite(screen, player);
+			//cout << "Frame rate: " << 1000.0f / (endTime - startTime) << "\n";
 		}
-
-		
 		
 	}
 
 	SDL_FreeSurface(screen.gSprite);
 	return gameExit;
+}
+
+bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music)
+{
+	bool exitGame = false;
+	int i = 0;
+	bool found = false;
+	while (i < maps.zone[player.currentMap].collisions.size() && found == false)
+	{
+		if (maps.zone[player.currentMap].collisions[i].interactable == true)
+		{
+			if (player.facing.left == true)	//Left collisions
+			{
+				if (player.map.x == maps.zone[player.currentMap].collisions[i].x + maps.zone[player.currentMap].collisions[i].xDim)	//Touching X co-ordinate
+				{
+					if (player.map.y < maps.zone[player.currentMap].collisions[i].y + maps.zone[player.currentMap].collisions[i].yDim)	//Within end of y co-ordinate
+					{
+						if (player.map.y + player.spriteSizeY > maps.zone[player.currentMap].collisions[i].y) //Within start of the y co-ordinate
+						{
+							found = true;
+						}
+					}
+				}
+			}
+			else if (player.facing.up == true) //Up collisions
+			{
+				if (player.map.y == maps.zone[player.currentMap].collisions[i].y + maps.zone[player.currentMap].collisions[i].yDim)	//Touching y co-ordinate
+				{
+					if (player.map.x < maps.zone[player.currentMap].collisions[i].x + maps.zone[player.currentMap].collisions[i].xDim) //Within end of the x co-ordinate
+					{
+						if (player.map.x + player.spriteSizeX > maps.zone[player.currentMap].collisions[i].x) //Within start of the x coordinate
+						{
+							found = true;
+						}
+					}
+				}
+			}
+			else if (player.facing.right = true) //Right collisions
+			{
+				if (player.map.x + player.spriteSizeX == maps.zone[player.currentMap].collisions[i].x) //Touching X co-ordinate
+				{
+					if (player.map.y < maps.zone[player.currentMap].collisions[i].y + maps.zone[player.currentMap].collisions[i].yDim) //Within end of Y co-ordinate
+					{
+						if (player.map.x + player.spriteSizeY > maps.zone[player.currentMap].collisions[i].y) //Within start of Y co-ordinate
+						{
+							found = true;
+						}
+					}
+				}
+			}
+			else if (player.facing.down == true)
+			{
+				if (player.map.y + player.spriteSizeY == maps.zone[player.currentMap].collisions[i].y) //Touching Y co-ordinate
+				{
+					if (player.map.x < maps.zone[player.currentMap].collisions[i].x + maps.zone[player.currentMap].collisions[i].xDim) //Within end of X co-ordinate
+					{
+						if (player.map.x + player.spriteSizeX > maps.zone[player.currentMap].collisions[i].x) //Within start of X co-ordinate
+						{
+							found = true;
+						}
+					}
+				}
+			}
+
+		}
+		if (found == false)
+		{
+			i++;
+		}
+	}//Collisons while loop
+
+	if (found == true)
+	{
+		if (maps.zone[player.currentMap].collisions[i].interactType == "chest")
+		{
+			//Chest function
+			exitGame = screen.messageBox(maps.zone[player.currentMap].collisions[i].signText1, maps.zone[player.currentMap].collisions[i].signText2, fonts.font24);
+			//Tempoary chest
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "sign")
+		{
+			exitGame = screen.messageBox(maps.zone[player.currentMap].collisions[i].signText1, maps.zone[player.currentMap].collisions[i].signText2, fonts.font24);
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "quest")
+		{
+			//Quest Function
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "buyShop")
+		{
+			//Potion shop function
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "sellShop")
+		{
+			//Sell potion shop function
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "hatShop")
+		{
+			//Hat shop function
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "equipShop")
+		{
+			//Quest Function
+		}
+	}
+	return exitGame;
 }
 
 bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)

@@ -33,7 +33,7 @@ Maps::Maps()
 	zone[0].collisions.push_back(Collision("villageGransBottomFence", 50, 14, 9, 1, false, "none"));
 	zone[0].collisions.push_back(Collision("villageGrave1", 2, 2, 1, 1, false, "none"));
 	zone[0].collisions.push_back(Collision("villageGrave2", 4, 2, 1, 1, false, "none"));
-	zone[0].collisions.push_back(Collision("villageGrave3", 6, 2, 1, 1, false, "none"));
+	zone[0].collisions.push_back(Collision("villageGrave3", 6, 2, 1, 1, true, "sign", "It's hard to read" , "RIP Grandma"));
 	zone[0].collisions.push_back(Collision("villageGransGrave", 9, 2, 1, 1, true, "sign", "The grave reads:", "RIP Grandma"));
 	zone[0].collisions.push_back(Collision("villageHomeRightWall", 58, 2, 1, 10, false, "none"));
 	zone[0].collisions.push_back(Collision("villageHomeBed", 55, 1, 1.5, 2, false, "none"));

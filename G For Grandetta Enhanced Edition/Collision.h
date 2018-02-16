@@ -15,10 +15,11 @@ public:
 	double y;		//Y length of box
 	double xDim;	//X Location on map
 	double yDim;	//Y Location on map
-	bool interactable;
-	string interactType;
-	string signText1;
-	string signText2;
-	string function;
+	bool interactable = false;
+	string interactType = "";
+	string signText1 = "";
+	string signText2 = "";
+	string function = "";
+	int textBoxes = 0;
 };
 

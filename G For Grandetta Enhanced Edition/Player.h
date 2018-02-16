@@ -62,7 +62,6 @@ public:
 		bool down = false;
 	};
 
-	Direction collision;
 	Direction dir;
 	Direction facing;
 	Map map;

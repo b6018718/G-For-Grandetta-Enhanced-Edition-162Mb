@@ -94,8 +94,11 @@ void Screen::displayText(string text, float x, float y, TTF_Font* newfont) //Cen
 
 void Screen::displayLeftText(string text, float x, float y, TTF_Font* newfont)	//Centered Left
 {
+	if (text == "")
+	{
+		text = "NULL";
+	}
 	const char * charText = text.c_str();
-
 	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);
 	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);
 	SDL_SetColorKey(gText, 1, colorkey);
@@ -325,8 +328,6 @@ void Screen::updateMap(SDL_Surface*& surface, Player player, MapZone mapZone)
 	float canYC = (float)(SCREEN_HEIGHT - player.spriteSizeY) / 2;	//Can Y Camera
 
 	SDL_Rect bg;
-
-	
 
 	if (player.x < canXC)
 	{

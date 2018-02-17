@@ -152,6 +152,7 @@
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Maps.cpp" />
     <ClCompile Include="MapZone.cpp" />
+    <ClCompile Include="Mobs.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="questPoint.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Maps.h" />
     <ClInclude Include="MapZone.h" />
+    <ClInclude Include="Mobs.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="questPoint.h" />

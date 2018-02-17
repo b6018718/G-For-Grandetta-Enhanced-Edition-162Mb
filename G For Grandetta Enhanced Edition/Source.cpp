@@ -566,218 +566,281 @@ bool play(Screen screen, Music music, Fonts fonts)
 				player.moveDown(maps);
 			}
 			//@
-			//Move between areas
+			//Move between areas switch statement
 			switch (player.currentMap)
 			{
 				case 0: //Village Map
 					if (player.map.y == 29 * 32 && player.map.x >= 9 * 32 && player.map.x <= 12 * 32 && player.y == 19 * 32)
 					{
+						//Village -> Field
 						clear(screen.gPlaySurface);					//NEED THIS TO PREVENT MEMORY LEAKS
-						SDL_FreeSurface(screen.gPlaySurface);
-						screen.gPlaySurface = NULL;
-
+						SDL_FreeSurface(screen.gPlaySurface);		//MEMORY FIX
+						screen.gPlaySurface = NULL;					//MEMORY FIX
 
 						player.currentMap = 1;
 						screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
 						player.map.y = 1 * 32;
 						player.y = 1 * 32;
 						player.questLoaded = false;
-						//Mix_FreeMusic(music.village);
 
-						if (screen.gText != NULL)
-						{
-							screen.gText = NULL;
-							SDL_FreeSurface(screen.gText);
-						}
-						
-						if (screen.gMessage != NULL)
-						{
-							screen.gMessage = NULL;
-							SDL_FreeSurface(screen.gMessage);
-						}
-
-						if (screen.gTemp != NULL)
-						{
-							screen.gTemp = NULL;
-							SDL_FreeSurface(screen.gTemp);
-						}
-						clear(screen.gScreenSurface);
-						cout << "Test \n";
-						SDL_FreeSurface(screen.gScreenSurface);
+						music.PlayField();
 					}
-					
 					break;
 				case 1:	//Field Map
 					if ((player.map.y <= 0) && (player.map.x >= 9 * 32) && (player.map.x <= 12 * 32) && (player.y == 0))
 					{
+						//Field -> Village
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						if (player.currentQuest == 6 && player.currentQuestPoint == 0)
+							++player.currentQuestPoint;
+
+						player.currentMap = 0;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp");
+						player.map.y = 28 * 32;
+						player.y = 18 * 32;
+						player.questLoaded = false;
+
+						music.PlayVillage();
+					}
+					else if (player.map.y == 49 * 32 && player.map.x >= 39 * 32 && player.map.x <= 44 * 32)
+					{
+						//Field -> Castle Town
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg2.bmp");
+
+						player.currentMap = 2;
+						player.map.y = 1 * 32;
+						player.y = 1 * 32;
+
+						player.questLoaded = false;
+						music.PlayCastleTown();
+					}
+					else if (player.map.x == 89 * 32 && player.map.y >= 16 * 32 && player.map.y <= 19 * 32)
+					{
+						//Field -> Goblin Camp
+						if (player.currentQuest ==2 && player.currentQuestPoint == 0) {
+							player.currentQuestPoint++;
+						}
 
 						clear(screen.gPlaySurface);
 						SDL_FreeSurface(screen.gPlaySurface);
 						screen.gPlaySurface = NULL;
-						if (player.currentQuest == 6 && player.currentQuestPoint == 0)
-						{
-							++player.currentQuestPoint;
-						}
-						player.currentMap = 0;
-						//clear(screen.gPlaySurface);
-						//SDL_FreeSurface(screen.gPlaySurface);
-						screen.loadMedia(screen.gPlaySurface, "images/bg0.bmp");
-						player.map.y = 28 * 32;
-						player.y = 18 * 32;
+
+						player.currentMap = 4;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg4.bmp");
+
+						player.map.x = 1 * 32;
+						player.map.y += 19 * 32;
+						player.x = 1 * 32;
+						player.y = player.map.y - 20 * 32;
+
 						player.questLoaded = false;
-						
-						
-						
-						//MEMORY LEAK HERE
-						cout << "Line \n";
+						music.PlayCamp();
+					}
+					else if (player.map.x >= 3 * 32 && player.map.x <= 5 * 32 && player.map.y == 31 * 32)
+					{
+						//Field -> Cave
+						if (player.currentQuest == 1 && player.currentQuestPoint == 1)
+						{
+							player.currentQuest++;
+						}
+						else if (player.currentQuest == 4 && player.currentQuestPoint == 0)
+						{
+							player.currentQuestPoint++;
+						}
+
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						player.currentMap = 6;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg6.bmp");
+
+						player.y = 18 * 32;
+						player.x = 25 * 32 + (player.x - 3 * 32);
+						player.map.x = 55 * 32 + (player.map.x - 3 * 32);
+						player.map.y = 18 * 32;
+
+						player.questLoaded = false;
+						music.PlayCave();
+
 					}
 					break;
-					/*
-				if (currentQuest === 6 && currentQuestPoint === 0){
-					canProgress();
-					incrementQuest();
-				}
-				cZ = 0;
-				map.y = 28 * 32;
-				bg.x = 0 * 32;
-				bg.y = -10 * 32;
-				player.y = 18 * 32;
-				playMusic(cZ);
-		}
-    else if(cZ == 1 && map.y == 49 * 32 && map.x >= 39 * 32 && map.x <= 44 * 32){
-				cZ = 2;
-				map.y = 1 * 32;
-				bg.x = 0 * 32;
-				bg.y = 0 * 32;
-				player.y = 1 * 32;
-				playMusic(cZ);
-    }
-    else if(cZ == 2 && map.y <= 0 && map.x >= 39 * 32 && map.x <= 44 * 32){
-				cZ = 1;
-				map.y = 48 * 32;
-				bg.x = 0 * 32;
-				bg.y = -10 * 32;
-				player.y = 18 * 32;
-				playMusic(cZ);
-    }
-    else if(cZ == 2 && map.y == 49 * 32 && map.x >= 39 * 32 && map.x <= 44 * 32){
-				cZ = 3;
-				map.y = 1 * 32;
-				bg.x = 0 * 32;
-				bg.y = -10 * 32;
-				player.y = 1 * 32;
-				playMusic(cZ);
-    }
-    else if(cZ == 3 && map.y <= 0 && map.x >= 39 * 32 && map.x <= 44 * 32){
-				cZ = 2;
-				map.y = 48 * 32;
-				bg.x = 0 * 32;
-				bg.y = -10 * 32;
-				player.y = 18 * 32;
-				playMusic(cZ);
-    }
-    else if(cZ == 1 && map.x == 89 * 32 && map.y >= 16 * 32 && map.y <= 19 * 32){
-				if (currentQuest === 2 && currentQuestPoint === 0){
-					canProgress();
-					incrementQuest();
-				}
-				cZ = 4;
-      	map.x = 1 * 32;
-      	map.y += 19 * 32;
-      	bg.x = 0 * 32;
-				bg.y = -20 * 32;
-      	player.x = 1 * 32;
-      	player.y = map.y - 20 * 32;
-				playMusic(cZ);
-    }
-    else if(cZ == 4 && map.x === 0 && map.y >= 35 * 32 && map.y <= 39 * 32){
-				cZ = 1;
-        map.x = 88 * 32;
-        map.y -= 19 * 32;
-        bg.x = -60 * 32;
-				bg.y = 6.5 * 32;
-        player.x = 28 * 32;
-        player.y = 9.5 * 32;
-				playMusic(cZ);
-    }
-		else if(cZ == 4 && map.x >= 31 * 32 && map.x <= 32 * 32 && map.y >= 5 * 32 && map.y <= 6 * 32){
-        cZ = 5;
-        map.x -= 16.5 * 32;
-        map.y = 19 * 32;
-        bg.x = 0;
-        bg.y = 0;
-        player.x = map.x;
-        player.y = 18 * 32;
-        playMusic(cZ);
-    }
-    else if(cZ == 5 && map.x >= 14 * 32 && map.x <= 15 * 32 && map.y == 20 * 32) {
-        cZ = 4;
-        map.x += 16.5 * 32;
-        map.y = 7 * 32;
-        bg.x = 17 * 32;
-        bg.y = 0;
-        player.x = 14.5 * 32;
-        player.y = 7 * 32;
-        playMusic(cZ);
-		}
-  	else if(cZ == 1 && map.x >= 3 * 32 && map.x <= 5 * 32 && map.y == 31 * 32) {
-		 		if (currentQuest === 1 && currentQuestPoint === 1){
-			 		collisions[3][8].signText1 = "got that staff yet?";
-			 		collisions[3][8].signText2 = "lazy bastard";
-			 		canProgress();
-			 		incrementQuest();
-		 		}
-		 		else if(currentQuest === 4 && currentQuestPoint === 0){
-			 		canProgress();
-			 		incrementQuest();
-		 		}
-        cZ = 6;
-        player.y = 18 * 32;
-        player.x = 25 * 32 + (player.x - 3 * 32);
-        bg.x = -30 * 32;
-        bg.y = 0;
-        map.x = 55 * 32 + (map.x - 3 * 32);
-        map.y = 18 * 32;
-        playMusic(cZ);
-    }
-    else if (cZ == 6 && map.x >= 55 * 32 && map.x <= 57 * 32 && map.y >= 604){
-        cZ = 1;
-        player.x = 3 * 32 + (player.x - 25 * 32);
-        player.y = 9.5 * 32;
-        bg.x = 0;
-        bg.y = -21.875 * 32;
-        map.x = 3 * 32 + (map.x - 55 * 32);
-        map.y = 31.375 * 32;
-        playMusic(cZ);
-    }
-    else if (cZ == 2 && map.x >= 84 * 32 && map.x <= 86 * 32 && map.y == 5 * 32){
-        cZ = 7;
-        player.x = 3 * 32 + (player.x - 24 * 32);
-        player.y = 18.5 * 32;
-        bg.x = 0;
-        bg.y = 0;
-        map.x = 3 * 32 + (map.x - 84 * 32);
-        map.y = 18.5 * 32;
-        playMusic(cZ);
-    }
-    else if (cZ == 7 && map.x >= 3 * 32 && map.x <= 5 * 32 && map.y == 19 * 32){
-         cZ = 2;
-        player.x = 24 * 32 + (player.x - 3 * 32);
-        player.y = 5.625 * 32;
-        bg.x = -60 * 32;
-        bg.y = 0;
-        map.x = 84 * 32 + (map.x - 3 * 32);
-        map.y = 5.625 * 32;
-        playMusic(cZ);
-    }
-					*/
+				case 2:
+					if (player.map.y <= 0 && player.map.x >= 39 * 32 && player.map.x <= 44 * 32)
+					{
+						//Castle town -> field
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+
+						player.currentMap = 1;
+						player.map.y = 48 * 32;
+						player.y = 18 * 32;
+
+						player.questLoaded = false;
+						music.PlayField();
+					}
+					else if (player.map.y == 49 * 32 && player.map.x >= 39 * 32 && player.map.x <= 44 * 32)
+					{
+						//Castle town -> Castle
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg3.bmp");
+
+						player.currentMap = 3;
+						player.map.y = 1 * 32;
+						player.y = 1 * 32;
+
+						player.questLoaded = false;
+						music.PlayCastle();
+					}
+					else if (player.map.x >= 84 * 32 && player.map.x <= 86 * 32 && player.map.y == 5 * 32)
+					{
+						//Castle Town -> Casino
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg7.bmp");
+						player.currentMap = 7;
+
+						player.x = 3 * 32 + (player.x - 24 * 32);
+						player.y = 18.5 * 32;
+						player.map.x = 3 * 32 + (player.map.x - 84 * 32);
+						player.map.y = 18.5 * 32;
+
+						player.questLoaded = false;
+						music.PlayCasino();
+					}
+					break;
+				case 3:	//Castle
+					if (player.map.y <= 0 && player.map.x >= 39 * 32 && player.map.x <= 44 * 32)
+					{
+						//Castle -> Castle town
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg2.bmp");
+
+						player.currentMap = 2;
+						player.map.y = 48 * 32;
+						player.y = 18 * 32;
+
+						player.questLoaded = false;
+						music.PlayCastleTown();
+					}
+					break;
+				case 4:
+					if (player.map.x == 0 && player.map.y >= 35 * 32 && player.map.y <= 39 * 32)
+					{
+						//Camp -> Field
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						player.currentMap = 1;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+
+						player.map.x = 88 * 32;
+						player.map.y -= 19 * 32;
+						player.x = 28 * 32;
+						player.y = 9.5 * 32;
+
+						player.questLoaded = false;
+						music.PlayField();
+					}
+					else if (player.map.x >= 31 * 32 && player.map.x <= 32 * 32 && player.map.y >= 5 * 32 && player.map.y <= 6 * 32)
+					{
+						//Camp -> Nursary
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						player.currentMap = 5;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg5.bmp");
+
+						player.map.x -= 16.5 * 32;
+						player.map.y = 19 * 32;
+						player.x = player.map.x;
+						player.y = 18 * 32;
+						player.questLoaded = false;
+					}
+					break;
+				case 5:
+					if (player.map.x >= 14 * 32 && player.map.x <= 15 * 32 && player.map.y == 20 * 32)
+					{
+						//Nursary To Camp
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						player.currentMap = 4;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg4.bmp");
+
+						player.map.x += 16.5 * 32;
+						player.map.y = 7 * 32;
+						player.x = 14.5 * 32;
+						player.y = 7 * 32;
+						player.questLoaded = false;
+					}
+				case 6:
+					if (player.map.x >= 55 * 32 && player.map.x <= 57 * 32 && player.map.y >= 604)
+					{
+						//Cave -> Field
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						player.currentMap = 1;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+
+						player.x = 3 * 32 + (player.x - 25 * 32);
+						player.y = 9.5 * 32;
+						player.map.x = 3 * 32 + (player.map.x - 55 * 32);
+						player.map.y = 31.375 * 32;
+
+						player.questLoaded = false;
+						music.PlayField();
+					}
+					break;
+				case 7:
+					if (player.map.x >= 3 * 32 && player.map.x <= 5 * 32 && player.map.y == 19 * 32)
+					{
+						//Casino -> Castletown
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						player.currentMap = 2;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg2.bmp");
+
+						player.x = 24 * 32 + (player.x - 3 * 32);
+						player.y = 5.625 * 32;
+						player.map.x = 84 * 32 + (player.map.x - 3 * 32);
+						player.map.y = 5.625 * 32;
+
+						player.questLoaded = false;
+						music.PlayCastleTown();
+					}
 					break;
 			}
 
 			screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
 			updateSprite(screen, player);
 
-			//FPS Capped at 90
+			//FPS Capped at 75
 			float endTime = (float)SDL_GetTicks();
 			while ((1000 / (endTime - startTime)) > 90)
 			{

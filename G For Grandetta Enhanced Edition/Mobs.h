@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+#include "player.h"
+#include "Screen.h"
+#include "Fonts.h"
+#include "Music.h"
 
 using namespace std;
 
@@ -22,6 +26,8 @@ public:
 		int AI;
 		string imgSrc;
 		int goldDrop;
+		bool boss = false;
+		int hp = maxHP;
 
 		/*
 		mob(string enemyName, int maxHP, int physicalAttack, int magicalAttack, int physicalDefence, int magicDefence, int expDrop, int itemDrop, int AI, string imgSrc, int goldDrop;)
@@ -62,6 +68,16 @@ public:
 	mob mobDemonLord;
 
 		////////////////////////ENEMY CREATION FUNCTIONS
+	
+	int getRandomInt(int min, int max);
+	void generateEnemyStats(mob& mob);
+	mob determineMonster(int mapZone);
+	void mobWeakAttack(Player player, Screen screen, Fonts fonts, Music music);
+	int calculateDamageDealt(int attack, int defence);
+	int calculateEnemyHeal(int heal, mob monster);
+
+	
+	/*
 		function generateEnemyStats(maxHealth, phyAtt, phyDef, magAtt, magDef, exp) {
 		//generate enemy stats based on passed in parameters
 		enemyMaxHP = getRandomInt(maxHealth, maxHealth + 5);
@@ -743,6 +759,6 @@ public:
 			didPlayerLose();//checks to see if the player lost the fight
 			break;
 		}
-	}
+	} */
 };
 

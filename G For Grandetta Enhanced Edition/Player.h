@@ -47,6 +47,9 @@ public:
 	string levelUpString;
 
 	bool questLoaded;
+	float smokeBombEffect = 1;
+	float ironPotionEffect = 1;
+	float beserkPotionEffect = 1;
 
 
 

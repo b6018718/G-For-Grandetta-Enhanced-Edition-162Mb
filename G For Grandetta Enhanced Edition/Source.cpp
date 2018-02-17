@@ -16,6 +16,8 @@
 #include "Player.h"
 #include "SDL_gamecontroller.h"
 #include "Maps.h"
+#include "Mobs.h"
+
 using namespace std;
 
 const int JOYSTICK_DEAD_ZONE = 8000;

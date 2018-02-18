@@ -363,11 +363,447 @@ Mobs::mob Mobs::determineMonster(int mapZone)
 	return monster;
 }
 
-void Mobs::mobWeakAttack(Player player, Screen screen, Fonts fonts, Music music)
+void Mobs::mobWeakAttack(Player& player, Screen screen, Fonts fonts, Music music, mob enemy)
 {
 	screen.messageBox("The enemy prepares for", "a melee based attack!", fonts.font24);
-	music.PlayHit();
+	int movePower = 5;
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence * player.ironPotionEffect));
+		screen.messageBox("The enemy attacks you", "with a weak attack!", fonts.font24);
+		music.PlayHit();
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
 	
+}
+
+void Mobs::mobStrongAttack(Player& player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 20;
+	screen.messageBox("The enemy. prepares for", "a melee based attack!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		screen.messageBox("The enemy. attacks you", "with a strong attack!", fonts.font24);
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::mobTackle(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 10;
+	screen.messageBox("The enemy. prepares for", "a melee based attack!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		screen.messageBox("The enemy. tackles you", "with their full force!", fonts.font24);
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::mobSwordSlash(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 30;
+	screen.messageBox("The enemy. prepares for", "a melee based attack!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		screen.messageBox("The slashes their sword", "fiercely!", fonts.font24);
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::mobCastFreeze(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 10;
+	screen.messageBox("The enemy. starts chanting", "and tries to cast a spell!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		screen.messageBox("The enemy. freezes you", "lowering your defence!", fonts.font24);
+		
+		if (player.ironPotionEffect > 0.5) {
+			player.ironPotionEffect = player.ironPotionEffect / 2;
+		}
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::mobCastFire(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 15;
+	screen.messageBox("The enemy. starts chanting", "and tries to cast a spell!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		
+		screen.messageBox("The enemy. cast fire burning", "away your health!", fonts.font24);
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::mobCastThunder(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 25;
+	screen.messageBox("The enemy. starts chanting", "and tries to cast a spell!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		screen.messageBox("The enemy. zaps you", "with a thunderbolt!", fonts.font24);
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::mobBreathFire(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 30;
+	screen.messageBox("The enemy. breathes in deeply", "and prepares to exhale!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		screen.messageBox("The enemy. breathes fire", "which also lowers your attack!", fonts.font24);
+		if (player.beserkPotionEffect > 0.5) {
+			player.beserkPotionEffect = player.beserkPotionEffect / 2;
+		}
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::mobBegMercy(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	screen.messageBox("Please strong warrior, we are weak", "Let us go, we pose no threat!", fonts.font24);
+}
+
+void Mobs::mobTryToRun(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	screen.messageBox("The younglings turn around", "and try to run!", fonts.font24);
+}
+
+void Mobs::mobReason(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	screen.messageBox("Fighting doesn't solve anything", "Please let us live!", fonts.font24);
+}
+
+void Mobs::mobUltimateGNova(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 50;
+	screen.messageBox("Demon Lord Grandma casts", "Ultimate G Nova!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		screen.messageBox("Its power is... ", "OUT OF THIS WORLD!!!", fonts.font24);
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::mobHeal(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
+{
+	enemy.hp = enemy.hp + calculateEnemyHeal(200, enemy);
+	screen.messageBox("The enemy. casts a healing spell,", "They recover some of their health!", fonts.font24);
+	if (player.smokeBombEffect != 1) {
+		player.smokeBombEffect == 1;
+		screen.messageBox("The spell also reset the effects", " of your smoke bomb!", fonts.font24);
+	}
+}
+
+void Mobs::mobPotion(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
+{
+	enemy.hp = enemy.hp + calculateEnemyHeal(100, enemy);
+	screen.messageBox("The enemy. drinks a potion,", "They recover some of their health!", fonts.font24);
+}
+
+void Mobs::mobStickyWeb(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
+{
+	int movePower = 5;
+	screen.messageBox("The enemy. eyes you up", "its web shooter ready!", fonts.font24);
+	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
+		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		screen.messageBox("The enemy. traps you in their web,", "Lowering your attack!", fonts.font24);
+		if (player.beserkPotionEffect > 0.5) {
+			player.beserkPotionEffect = player.beserkPotionEffect / 2;
+		}
+	}
+	else {
+		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
+	}
+	
+}
+
+void Mobs::selectMonsterMove(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
+{
+	switch (enemy.AI) {
+
+	case 1: //BASIC
+		switch (getRandomInt(1, 2)) {
+		case 1:
+			mobWeakAttack(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			mobTackle(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	case 2: //KNIGHT
+		switch (getRandomInt(1, 3)) {
+		case 1:
+			mobStrongAttack(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			if (enemy.hp < enemy.maxHP) {
+				mobPotion(player, screen, fonts, music, enemy);
+			}
+			else {
+				mobSwordSlash(player, screen, fonts, music, enemy);
+			}
+			break;
+		case 3:
+			mobSwordSlash(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	case 3: //MAGE
+		switch (getRandomInt(1, 3)) {
+		case 1:
+			if (enemy.hp < enemy.maxHP) {
+				mobHeal(player, screen, fonts, music, enemy);
+			}
+			else {
+				mobCastFire(player, screen, fonts, music, enemy);
+			}
+			break;
+
+		case 2:
+			mobCastFreeze(player, screen, fonts, music, enemy);
+			break;
+		case 3:
+			mobCastFire(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	case 4: //SPIDER
+		switch (getRandomInt(1, 2)) {
+		case 1:
+			mobWeakAttack(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			mobStickyWeb(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	case 5: //GIANT SPIDER
+		switch (getRandomInt(1, 3)) {
+		case 1:
+			mobStrongAttack(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			mobTackle(player, screen, fonts, music, enemy);
+			break;
+		case 3:
+			mobStickyWeb(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	case 6: //SPIDER QUEEN
+		switch (getRandomInt(1, 3)) {
+		case 1:
+			mobBreathFire(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			mobStrongAttack(player, screen, fonts, music, enemy);
+			break;
+		case 3:
+			mobStickyWeb(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	case 7: //STRONG ATTACKER
+		switch (getRandomInt(1, 2)) {
+		case 1:
+			mobTackle(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			mobStrongAttack(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	case 8: //YOUNGLIN
+		switch (getRandomInt(1, 3)) {
+		case 1:
+			mobReason(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			mobTryToRun(player, screen, fonts, music, enemy);
+			break;
+		case 3:
+			mobBegMercy(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	case 9: //WIZARD
+		switch (getRandomInt(1, 4)) {
+		case 1:
+			mobCastFire(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			mobCastThunder(player, screen, fonts, music, enemy);
+			break;
+		case 3:
+			mobCastFreeze(player, screen, fonts, music, enemy);
+			break;
+		case 4:
+			if (enemy.hp < enemy.maxHP) {
+				mobHeal(player, screen, fonts, music, enemy);
+			}
+			else {
+				mobCastFire(player, screen, fonts, music, enemy);
+			}
+			break;
+		}
+		break;
+
+	case 10: //FINAL BOSS
+		switch (getRandomInt(1, 10)) {
+		case 1:
+			mobCastFire(player, screen, fonts, music, enemy);
+			break;
+		case 2:
+			if (enemy.hp < enemy.maxHP) {
+				mobHeal(player, screen, fonts, music, enemy);
+			}
+			else {
+				mobCastFire(player, screen, fonts, music, enemy);
+			}
+			break;
+		case 3:
+			mobCastFreeze(player, screen, fonts, music, enemy);
+			break;
+		case 4:
+			mobStrongAttack(player, screen, fonts, music, enemy);
+			break;
+		case 5:
+			mobBreathFire(player, screen, fonts, music, enemy);
+			break;
+		case 6:
+			mobCastThunder(player, screen, fonts, music, enemy);
+			break;
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+			mobUltimateGNova(player, screen, fonts, music, enemy);
+			break;
+		}
+		break;
+
+	}
+
+
+}
+
+void Mobs::enemyOpeningMessage(Screen screen, mob enemy, Player player, Fonts fonts)
+{
+	
+	if (enemy.enemyName == "Rabid Dog") {
+		screen.messageBox("Ruff Ruff!", "(I am a rabid dog) BARK!", fonts.font24);
+		}
+	if (enemy.enemyName == "A Group of Rats") {
+		screen.messageBox("As the Shepard, I won't", "let you beat my Congregation", fonts.font24);
+		}
+	if (enemy.enemyName == "Goblin Younglings") {
+		screen.messageBox("*They appear weak...*", "*Maybe I should just walk away*", fonts.font24);
+		}
+	if (enemy.enemyName == "Goblin Boss") {
+		screen.messageBox("You invade my camp,", "kill my men and want my treasure?", fonts.font24);
+		screen.messageBox("Prepare to die by my", "sword arm!", fonts.font24);
+		}
+	if (enemy.enemyName == "Spider Queen") {
+		screen.messageBox("(Err... do spiders)", "(even make sounds?)", fonts.font24);
+		screen.messageBox("(WHATEVER!!! Prepare to)", "(die for trespassing into my cave!)", fonts.font24);
+		}
+	if (enemy.enemyName == "Wizard") {
+		screen.messageBox("Finally, the Demon Lord", "is reborn!", fonts.font24);
+		screen.messageBox("You have served your", "purpose " + player.name + " now!", fonts.font24);
+		screen.messageBox("So now I will offer your life", "to my Lord!!!!", fonts.font24);
+		}
+		//if (enemy.enemyName == "Rat") {
+		//if (enemy.enemyName == "Bat") {
+	if (enemy.enemyName == "Demon Lord Grandma!!!") {
+		screen.messageBox(player.name + " long time,", "no see my grandchild", fonts.font24);
+		screen.messageBox("Don't get full of yourself", "just because you beat my puppet", fonts.font24);
+		screen.messageBox("Why don't you join me?", "No, we both know that cannot be", fonts.font24);
+		screen.messageBox("Now raise your weapon", "and prepare to be CRUSHED!", fonts.font24);
+		screen.messageBox("By my demon might!!!!", "Die now" + player.name + "!", fonts.font24);
+		}
+}
+
+void Mobs::enemyDefeatMessage(Screen screen, mob enemy, Player player, Fonts fonts)
+{
+	if (enemy.enemyName == "Rabid Dog")
+	{
+		screen.messageBox("Ruff Ruff!", "(I am a dead dog) BARK!", fonts.font24);
+		player.incrementQuest();
+	}
+	else if (enemy.enemyName == "Goblin Boss") 
+	{
+		screen.messageBox("Fine, take our treasure...", "Just know that...", fonts.font24);
+		screen.messageBox("One day we shall rebuild", "We have the technology!", fonts.font24);
+		player.incrementQuest();
+		//phaseHolder = 0;
+	}
+	else if (enemy.enemyName == "Spider Queen") 
+	{
+		screen.messageBox("(We lost...)", "(Congratulations Hero)", fonts.font24);
+		screen.messageBox("(You killed a spider!)", "(such strength, such wow, such heroics)", fonts.font24);
+		player.incrementQuest();
+		//phaseHolder = 0;
+	}
+	else if (enemy.enemyName == "Wizard")
+	{
+		screen.messageBox("Master...", "Take my remaining magic...", fonts.font24);
+		screen.messageBox("and my soul...", "Avenge me!!!!", fonts.font24);
+		player.incrementQuest();
+		//phaseHolder = 0;
+	}
+	else if (enemy.enemyName == "Demon Lord Grandma!!!") 
+	{
+		screen.messageBox("So killed by my own", "Grandchild....?", fonts.font24);
+		screen.messageBox("On the one hand", "I am sad...", fonts.font24);
+		screen.messageBox("But on another...", "I now know that...", fonts.font24);
+		screen.messageBox("You also carry the", "demon lord's blood...", fonts.font24);
+		screen.messageBox("Maybe some day", "You will too will realise its power!", fonts.font24);
+		player.incrementQuest();
+		//phaseHolder = 0;
+	}
+}
+
+void Mobs::enemyTurn(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
+{
+	selectMonsterMove(player, screen, fonts, music, enemy);//selects different moves based on the enemy's AI set
 }
 
 int Mobs::calculateDamageDealt(int attack, int defence)
@@ -388,3 +824,5 @@ int Mobs::calculateEnemyHeal(int heal, mob monster)
 	}
 	return damageHealed;
 }
+
+

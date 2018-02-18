@@ -48,12 +48,58 @@ Player::~Player()
 {
 }
 
+void Player::equipWeapon(Equipment::weapon newWeapon)
+{
+	phyAttack -= equippedWeapon.weaponPhysDamage;
+	magAttack -= equippedWeapon.weaponMagicDamage;
+	equippedWeapon = newWeapon;
+	phyAttack += equippedWeapon.weaponPhysDamage;
+	magAttack += equippedWeapon.weaponMagicDamage;
+	hitChance = equippedWeapon.weaponAccuracy;
+}
+
+void Player::equipChestPiece(Equipment::chestPiece newChest)
+{
+	phyDefence -= equippedChestPiece.chestPhysDef;
+	magDefence -= equippedChestPiece.chestMagicDef;
+	equippedChestPiece = newChest;
+	phyDefence += equippedChestPiece.chestPhysDef;
+	magDefence += equippedChestPiece.chestMagicDef;
+}
+
+void Player::equipHelmet(Equipment::helmet newHelmet)
+{
+	phyDefence -= equippedHelmet.helmetPhysDef;
+	magDefence -= equippedHelmet.helmetMagicDef;
+	equippedHelmet = newHelmet;
+	phyDefence += equippedHelmet.helmetPhysDef;
+	magDefence += equippedHelmet.helmetMagicDef;
+}
+
+void Player::equipGauntlet(Equipment::gauntlet newGauntlet)
+{
+	phyDefence -= equippedGauntlet.gauntletPhysDef;
+	magDefence -= equippedGauntlet.gauntletMagicDef;
+	equippedGauntlet = newGauntlet;
+	phyDefence += equippedGauntlet.gauntletPhysDef;
+	magDefence += equippedGauntlet.gauntletMagicDef;
+}
+
+void Player::equipBoots(Equipment::boots newBoots)
+{
+	phyDefence -= equippedBoots.bootsPhysDef;
+	magDefence -= equippedBoots.bootsMagicDef;
+	equippedBoots = newBoots;
+	phyDefence += equippedBoots.bootsPhysDef;
+	magDefence += equippedBoots.bootsMagicDef;
+}
+
 int Player::getRandomInt(int min, int max)
 {
 	return rand() % max + min;
 }
 
-void Player::initaliseStats()
+void Player::initaliseStats(Equipment equipment)
 {
 	level = 1;
 	expLevelUp = 10;
@@ -65,11 +111,7 @@ void Player::initaliseStats()
 	name = "Steven";
 	int spriteFrame = 0;
 
-	equippedWeapon = "bone";
-	equippedChestPiece = "basic";
-	equippedHelmet = "basic";
-	equippedGaunlet = "basic";
-	equippedBoots = "basic";
+	
 	effectiveCurrentExp = currentExp;
 	effectiveExpLevelUp = expLevelUp;
 
@@ -110,6 +152,19 @@ void Player::initaliseStats()
 		magDefence = 4;
 		luck = 3;
 	}
+
+
+	equippedWeapon = equipment.bone;
+	equippedChestPiece = equipment.basicChest;
+	equippedHelmet = equipment.basicHelmet;
+	equippedGauntlet = equipment.basicGauntlet;
+	equippedBoots = equipment.basicBoots;
+
+	phyAttack += equippedWeapon.weaponPhysDamage;
+	phyDefence += equippedBoots.bootsPhysDef + equippedChestPiece.chestPhysDef + equippedGauntlet.gauntletPhysDef + equippedHelmet.helmetPhysDef;
+	magAttack += equippedWeapon.weaponMagicDamage;
+	magDefence += equippedBoots.bootsMagicDef + equippedChestPiece.chestMagicDef + equippedGauntlet.gauntletMagicDef + equippedHelmet.helmetMagicDef;
+	hitChance = equippedWeapon.weaponAccuracy;
 
 }
 
@@ -742,6 +797,15 @@ void Player::playerGainsExp(int exp)
 	{
 		levelUp();
 	}
+}
+
+void Player::incrementQuest()
+{
+	if (quests[currentQuest][currentQuestPoint + 1] == NULL)
+	{
+		++currentQuest;
+	}
+	++currentQuestPoint;
 }
 
 void Player::moveLeft(Maps maps)

@@ -17,6 +17,7 @@
 #include "SDL_gamecontroller.h"
 #include "Maps.h"
 #include "Mobs.h"
+#include "Equipment.h"
 
 using namespace std;
 
@@ -1120,6 +1121,9 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 		SDL_BlitSurface(screen.gText, NULL, screen.gScreenSurface, &dest);
 		SDL_UpdateWindowSurface(screen.gWindow);
 		SDL_FreeSurface(screen.gScreenSurface);
+
+		Equipment equipment;
+
 		if (classSelected != -1)
 		{
 			if (classSelected == 0)
@@ -1134,7 +1138,7 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 			{
 				player.pClass = "rogue";
 			}
-			player.initaliseStats();
+			player.initaliseStats(equipment);
 			quit = true;
 		}
 	}

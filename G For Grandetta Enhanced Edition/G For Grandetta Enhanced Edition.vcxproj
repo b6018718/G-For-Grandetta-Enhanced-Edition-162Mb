@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="Fonts.cpp" />
     <ClCompile Include="Maps.cpp" />
     <ClCompile Include="MapZone.cpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Equipment.h" />
     <ClInclude Include="Fonts.h" />
     <ClInclude Include="Maps.h" />
     <ClInclude Include="MapZone.h" />

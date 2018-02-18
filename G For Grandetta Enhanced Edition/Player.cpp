@@ -1043,6 +1043,4 @@ void Player::moveDown(Maps maps)
 		}
 
 	}
-	
-
 }

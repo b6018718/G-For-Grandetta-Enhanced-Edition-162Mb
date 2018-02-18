@@ -36,6 +36,7 @@ Mobs::Mobs()
 		mobRat.AI = 1;
 		mobRat.imgSrc = "images/rat.bmp";
 		mobRat.goldDrop = 30;
+		
 
 		//Bat
 		mobBat.enemyName=  "Bat";
@@ -115,127 +116,129 @@ Mobs::Mobs()
 		mobGiantSpider.imgSrc = "images/gaintspider.bmp";
 		mobGiantSpider.goldDrop = 750;
 
-			//Cockroach
-			mobCockroach.enemyName = "Cockroach";
-			mobCockroach.maxHP = 80;
-			mobCockroach.physicalAttack = 60;
-			mobCockroach.magicalAttack = 5;
-			mobCockroach.physicalDefence = 80;
-			mobCockroach.magicDefence = 45;
-			mobCockroach.expDrop = 120;
-			mobCockroach.itemDrop = 4;
-			mobCockroach.AI = 1;
-			mobCockroach.imgSrc = "images/cockroach.bmp";
-			mobCockroach.goldDrop = 650;
+		//Cockroach
+		mobCockroach.enemyName = "Cockroach";
+		mobCockroach.maxHP = 80;
+		mobCockroach.physicalAttack = 60;
+		mobCockroach.magicalAttack = 5;
+		mobCockroach.physicalDefence = 80;
+		mobCockroach.magicDefence = 45;
+		mobCockroach.expDrop = 120;
+		mobCockroach.itemDrop = 4;
+		mobCockroach.AI = 1;
+		mobCockroach.imgSrc = "images/cockroach.bmp";
+		mobCockroach.goldDrop = 650;
 
-			//Group of rats
-			mobRatGroup.enemyName = "A Group of Rats";
-			mobRatGroup.maxHP = 150;
-			mobRatGroup.physicalAttack = 50;
-			mobRatGroup.magicalAttack = 5;
-			mobRatGroup.physicalDefence = 30;
-			mobRatGroup.magicDefence = 35;
-			mobRatGroup.expDrop = 120;
-			mobRatGroup.itemDrop = 1;
-			mobRatGroup.AI = 7;
-			mobRatGroup.imgSrc = "images/ratGroup.bmp";
-			mobRatGroup.goldDrop = 1000;
+		//Group of rats
+		mobRatGroup.enemyName = "A Group of Rats";
+		mobRatGroup.maxHP = 150;
+		mobRatGroup.physicalAttack = 50;
+		mobRatGroup.magicalAttack = 5;
+		mobRatGroup.physicalDefence = 30;
+		mobRatGroup.magicDefence = 35;
+		mobRatGroup.expDrop = 120;
+		mobRatGroup.itemDrop = 1;
+		mobRatGroup.AI = 7;
+		mobRatGroup.imgSrc = "images/ratGroup.bmp";
+		mobRatGroup.goldDrop = 1000;
 
-			//Guard
-			mobGuard.enemyName = "Guard";
-			mobGuard.maxHP = 130;
-			mobGuard.physicalAttack = 75;
-			mobGuard.magicalAttack = 15;
-			mobGuard.physicalDefence = 70;
-			mobGuard.magicDefence = 22;
-			mobGuard.expDrop = 150;
-			mobGuard.itemDrop = 5;
-			mobGuard.AI = 2;
-			mobGuard.imgSrc = "images/guard.bmp";
-			mobGuard.goldDrop = 2500;
+		//Guard
+		mobGuard.enemyName = "Guard";
+		mobGuard.maxHP = 30;
+		mobGuard.physicalAttack = 25;
+		mobGuard.magicalAttack = 15;
+		mobGuard.physicalDefence = 25;
+		mobGuard.magicDefence = 5;
+		mobGuard.expDrop = 30;
+		mobGuard.itemDrop = 5;
+		mobGuard.AI = 2;
+		mobGuard.imgSrc = "images/guard.bmp";
+		mobGuard.goldDrop = 50;
 
-			//Guard Mage
-			mobGuardMage.enemyName = "Mage Knight";
-			mobGuardMage.maxHP = 120;
-			mobGuardMage.physicalAttack = 20;
-			mobGuardMage.magicalAttack = 6;
-			mobGuardMage.physicalDefence = 35;
-			mobGuardMage.magicDefence = 70;
-			mobGuardMage.expDrop = 200;
-			mobGuardMage.itemDrop = 2;
-			mobGuardMage.AI = 3;
-			mobGuardMage.imgSrc = "images/guardMage.bmp";
-			mobGuardMage.goldDrop = 3000;
+		
 
-			//Rabid Dog
-			mobRabidDog.enemyName = "Rabid Dog";
-			mobRabidDog.maxHP = 20;
-			mobRabidDog.physicalAttack = 8;
-			mobRabidDog.magicalAttack = 5;
-			mobRabidDog.physicalDefence = 10;
-			mobRabidDog.magicDefence = 5;
-			mobRabidDog.expDrop = 15;
-			mobRabidDog.itemDrop = 1;
-			mobRabidDog.AI = 1;
-			mobRabidDog.imgSrc = "images/rabiddog.bmp";
-			mobRabidDog.goldDrop = 100;
-			mobRabidDog.boss = true;
+		//Guard Mage
+		mobGuardMage.enemyName = "Mage Knight";
+		mobGuardMage.maxHP = 25;
+		mobGuardMage.physicalAttack = 10;
+		mobGuardMage.magicalAttack = 20;
+		mobGuardMage.physicalDefence = 20;
+		mobGuardMage.magicDefence = 70;
+		mobGuardMage.expDrop = 45;
+		mobGuardMage.itemDrop = 2;
+		mobGuardMage.AI = 3;
+		mobGuardMage.imgSrc = "images/guardMage.bmp";
+		mobGuardMage.goldDrop = 80;
 
-			//Goblin Boss
-			mobGoblinBoss.enemyName = "Goblin Boss";
-			mobGoblinBoss.maxHP = 250;
-			mobGoblinBoss.physicalAttack = 30;
-			mobGoblinBoss.magicalAttack = 10;
-			mobGoblinBoss.physicalDefence = 35;
-			mobGoblinBoss.magicDefence = 35;
-			mobGoblinBoss.expDrop = 210;
-			mobGoblinBoss.itemDrop = 5;
-			mobGoblinBoss.AI = 2;
-			mobGoblinBoss.imgSrc = "images/goblinboss.bmp";
-			mobGoblinBoss.goldDrop = 2500;
-			mobGoblinBoss.boss = true;
+		//Rabid Dog
+		mobRabidDog.enemyName = "Rabid Dog";
+		mobRabidDog.maxHP = 20;
+		mobRabidDog.physicalAttack = 8;
+		mobRabidDog.magicalAttack = 5;
+		mobRabidDog.physicalDefence = 10;
+		mobRabidDog.magicDefence = 5;
+		mobRabidDog.expDrop = 15;
+		mobRabidDog.itemDrop = 1;
+		mobRabidDog.AI = 1;
+		mobRabidDog.imgSrc = "images/rabiddog.bmp";
+		mobRabidDog.goldDrop = 100;
+		mobRabidDog.boss = true;
 
-			//Spider Queen
-			mobSpiderQueen.enemyName = "Spider Queen";
-			mobSpiderQueen.maxHP = 500;
-			mobSpiderQueen.physicalAttack = 65;
-			mobSpiderQueen.magicalAttack = 50;
-			mobSpiderQueen.physicalDefence = 45;
-			mobSpiderQueen.magicDefence = 30;
-			mobSpiderQueen.expDrop = 540;
-			mobSpiderQueen.itemDrop = 2;
-			mobSpiderQueen.AI = 3;
-			mobSpiderQueen.imgSrc = "images/queenspider.bmp";
-			mobSpiderQueen.goldDrop = 3000;
-			mobSpiderQueen.boss = true;
+		//Goblin Boss
+		mobGoblinBoss.enemyName = "Goblin Boss";
+		mobGoblinBoss.maxHP = 250;
+		mobGoblinBoss.physicalAttack = 30;
+		mobGoblinBoss.magicalAttack = 10;
+		mobGoblinBoss.physicalDefence = 35;
+		mobGoblinBoss.magicDefence = 35;
+		mobGoblinBoss.expDrop = 210;
+		mobGoblinBoss.itemDrop = 5;
+		mobGoblinBoss.AI = 2;
+		mobGoblinBoss.imgSrc = "images/goblinboss.bmp";
+		mobGoblinBoss.goldDrop = 2500;
+		mobGoblinBoss.boss = true;
 
-			//Wizard
-			mobWizard.enemyName = "Wizard";
-			mobWizard.maxHP = 250;
-			mobWizard.physicalAttack = 5;
-			mobWizard.magicalAttack = 65;
-			mobWizard.physicalDefence = 30;
-			mobWizard.magicDefence = 50;
-			mobWizard.expDrop = 2160;
-			mobWizard.itemDrop = 2;
-			mobWizard.AI = 9;
-			mobWizard.imgSrc = "images/wizard.bmp";
-			mobWizard.goldDrop = 5000;
-			mobWizard.boss = true;
+		//Spider Queen
+		mobSpiderQueen.enemyName = "Spider Queen";
+		mobSpiderQueen.maxHP = 500;
+		mobSpiderQueen.physicalAttack = 65;
+		mobSpiderQueen.magicalAttack = 50;
+		mobSpiderQueen.physicalDefence = 45;
+		mobSpiderQueen.magicDefence = 30;
+		mobSpiderQueen.expDrop = 540;
+		mobSpiderQueen.itemDrop = 2;
+		mobSpiderQueen.AI = 3;
+		mobSpiderQueen.imgSrc = "images/queenspider.bmp";
+		mobSpiderQueen.goldDrop = 3000;
+		mobSpiderQueen.boss = true;
 
-			//Demon
-				mobDemonLord.enemyName = "Demon Lord Grandma!!!";
-				mobDemonLord.maxHP = 1000;
-				mobDemonLord.physicalAttack = 100;
-				mobDemonLord.magicalAttack = 100;
-				mobDemonLord.physicalDefence = 75;
-				mobDemonLord.magicDefence = 75;
-				mobDemonLord.expDrop = 30000;
-				mobDemonLord.itemDrop = 2;
-				mobDemonLord.AI = 10;
-				mobDemonLord.imgSrc = "images/demon.bmp";
-				mobDemonLord.goldDrop = 7000;
-				mobDemonLord.boss = true;
+		//Wizard
+		mobWizard.enemyName = "Wizard";
+		mobWizard.maxHP = 250;
+		mobWizard.physicalAttack = 5;
+		mobWizard.magicalAttack = 65;
+		mobWizard.physicalDefence = 30;
+		mobWizard.magicDefence = 50;
+		mobWizard.expDrop = 2160;
+		mobWizard.itemDrop = 2;
+		mobWizard.AI = 9;
+		mobWizard.imgSrc = "images/wizard.bmp";
+		mobWizard.goldDrop = 5000;
+		mobWizard.boss = true;
+
+		//Demon
+		mobDemonLord.enemyName = "Demon Lord Grandma!!!";
+		mobDemonLord.maxHP = 1000;
+		mobDemonLord.physicalAttack = 100;
+		mobDemonLord.magicalAttack = 100;
+		mobDemonLord.physicalDefence = 75;
+		mobDemonLord.magicDefence = 75;
+		mobDemonLord.expDrop = 30000;
+		mobDemonLord.itemDrop = 2;
+		mobDemonLord.AI = 10;
+		mobDemonLord.imgSrc = "images/demon.bmp";
+		mobDemonLord.goldDrop = 7000;
+		mobDemonLord.boss = true;
 }
 
 
@@ -245,7 +248,10 @@ Mobs::~Mobs()
 
 int Mobs::getRandomInt(int max, int min)
 {
-	return rand() % min + max;
+	if (max == 0 && max == 0)
+		return 0;
+	else
+		return rand() % min + max;
 }
 
 void Mobs::generateEnemyStats(mob& mob)
@@ -750,7 +756,14 @@ void Mobs::enemyOpeningMessage(Screen screen, mob enemy, Player player, Fonts fo
 		screen.messageBox("You have served your", "purpose " + player.name + " now!", fonts.font24);
 		screen.messageBox("So now I will offer your life", "to my Lord!!!!", fonts.font24);
 		}
-		//if (enemy.enemyName == "Rat") {
+	if (enemy.enemyName == "Mage Knight"){
+		screen.messageBox("May I practise my magic", "against you warrior?", fonts.font24);
+	}
+	if (enemy.enemyName == "Guard") {
+		screen.messageBox("Let me test your strength", "Don't go easy on me!", fonts.font24);
+
+	}
+
 		//if (enemy.enemyName == "Bat") {
 	if (enemy.enemyName == "Demon Lord Grandma!!!") {
 		screen.messageBox(player.name + " long time,", "no see my grandchild", fonts.font24);
@@ -803,7 +816,7 @@ void Mobs::enemyDefeatMessage(Screen screen, mob enemy, Player player, Fonts fon
 
 void Mobs::enemyTurn(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
 {
-	selectMonsterMove(player, screen, fonts, music, enemy);//selects different moves based on the enemy's AI set
+	selectMonsterMove(player, screen, fonts, music, enemy); //selects different moves based on the enemy's AI set
 }
 
 int Mobs::calculateDamageDealt(int attack, int defence)

@@ -66,11 +66,11 @@ Equipment::Equipment()
 	masterChest.chestMagicDef = 30;
 
 	basicChest.chestCost = 0;
-	leatherChest.chestCost = 50;
-	chainmailChest.chestCost = 100;
-	kingChest.chestCost = 250;
-	apprenticeChest.chestCost = 400;
-	masterChest.chestCost = 500;
+	leatherChest.chestCost = 40;
+	chainmailChest.chestCost = 300;
+	kingChest.chestCost = 750;
+	apprenticeChest.chestCost = 1300;
+	masterChest.chestCost = 2500;
 
 	
 
@@ -97,10 +97,10 @@ Equipment::Equipment()
 
 	basicHelmet.helmetCost = 0;
 	leatherHelmet.helmetCost = 25;
-	chainmailHelmet.helmetCost = 250;
-	kingHelmet.helmetCost = 500;
-	apprenticeHelmet.helmetCost = 1500;
-	masterHelmet.helmetCost = 3000;
+	chainmailHelmet.helmetCost = 150;
+	kingHelmet.helmetCost = 650;
+	apprenticeHelmet.helmetCost = 800;
+	masterHelmet.helmetCost = 1500;
 
 	
 
@@ -126,11 +126,11 @@ Equipment::Equipment()
 	masterGauntlet.gauntletMagicDef = 9;
 
 	basicGauntlet.gauntletCost = 0;
-	leatherGauntlet.gauntletCost = 15;
-	chainmailGauntlet.gauntletCost = 50;
-	kingGauntlet.gauntletCost = 250;
-	apprenticeGauntlet.gauntletCost = 400;
-	masterGauntlet.gauntletCost = 500;
+	leatherGauntlet.gauntletCost = 20;
+	chainmailGauntlet.gauntletCost = 100;
+	kingGauntlet.gauntletCost = 350;
+	apprenticeGauntlet.gauntletCost = 500;
+	masterGauntlet.gauntletCost = 1000;
 
 	boots basicBoots;
 	boots leatherBoots;
@@ -161,11 +161,11 @@ Equipment::Equipment()
 	masterBoots.bootsMagicDef = 13;
 
 	basicBoots.bootsCost = 0;
-	leatherBoots.bootsCost = 25;
-	chainmailBoots.bootsCost = 50;
+	leatherBoots.bootsCost = 15;
+	chainmailBoots.bootsCost = 75;
 	kingBoots.bootsCost = 250;
 	apprenticeBoots.bootsCost = 400;
-	masterBoots.bootsCost = 500;
+	masterBoots.bootsCost = 800;
 
 }
 

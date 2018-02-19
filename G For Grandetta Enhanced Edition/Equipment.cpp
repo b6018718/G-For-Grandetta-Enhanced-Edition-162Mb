@@ -7,7 +7,7 @@ Equipment::Equipment()
 {
 	
 
-	bone.weaponName = "Grandma's Femur";
+	bone.weaponName = "Femur Bone";
 	stoneSword.weaponName = "Stone Sword";
 	steelSword.weaponName = "Steel Sword";
 	staff.weaponName = "Wooden Staff of Magic";

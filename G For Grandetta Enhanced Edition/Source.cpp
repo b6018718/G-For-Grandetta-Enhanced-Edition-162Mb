@@ -1840,6 +1840,56 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 							
 							switch (i)
 							{
+							case 0:
+								if (phaseHolder == 2)
+								{
+									if (player.level >= 2)
+									{
+										if (player.currentMP >= 2)
+										{
+											if (player.pClass == "warrior")
+											{
+												damage = player.magicFlameSlash();
+												enemy.hp -= damage;
+												drawBaseImage(player, screen, enemy, fonts);
+												SDL_UpdateWindowSurface(screen.gWindow);
+												gameExit = screen.messageBox("You set your sword on fire, ", "You slash with volcanic fury", fonts.font24);
+												gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+											}
+											else if (player.pClass == "mage")
+											{
+												damage = player.magicFire();
+												enemy.hp -= damage;
+												drawBaseImage(player, screen, enemy, fonts);
+												SDL_UpdateWindowSurface(screen.gWindow);
+												gameExit = screen.messageBox("Through the arcane arts, you summon", "a blaze that scorches the enemy!", fonts.font24);
+												gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+											}
+											else if (player.pClass == "rogue")
+											{
+												gameExit = screen.messageBox("You attempt to steal ", "an item from the enemy", fonts.font24);
+												bool steal = player.magicSteal();
+												if (steal == true)
+												{
+													gameExit = screen.messageBox("You stole a" + player.inventoryNames[enemy.itemDrop], "from the" + enemy.enemyName, fonts.font24);
+													player.inventory[enemy.itemDrop]++;
+												}
+												else
+												{
+													gameExit = screen.messageBox("Your steal attempt failed...", "", fonts.font24);
+												}
+												drawBaseImage(player, screen, enemy, fonts);
+												SDL_UpdateWindowSurface(screen.gWindow);
+											}
+											phaseHolder = 4;
+										}
+										else
+										{
+											gameExit = screen.messageBox("Not enough MP to cast", "", fonts.font24);
+											phaseHolder = 2;
+										}
+									}
+								}
 							case 1:
 								if (phaseHolder == 1)
 								{
@@ -1861,7 +1911,10 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 											gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, to_string(damage) + " Damage!", fonts.font24);
 									}
 									phaseHolder = 4;
-									SDL_Delay(500);
+								}
+								else if (phaseHolder == 2)
+								{
+									
 									
 								}
 								break;
@@ -1870,7 +1923,7 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 									phaseHolder = 2;  //Magic Menu
 								break;
 							case 4:
-								if (phaseHolder == 1) //If main phaseHolder
+								if (phaseHolder == 1) //If Main Menu
 									phaseHolder = 3;  //Item Menu
 								break;
 							case 5:
@@ -1967,9 +2020,15 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 			{
 				quit = true;
 			}
+			
 			if (phaseHolder == 4)
+			{
+				SDL_UpdateWindowSurface(screen.gWindow);
 				gameExit = didPlayerLose(player, enemy, screen, fonts, phaseHolder, mobs, combatCursorPos, gameExit);
-			SDL_UpdateWindowSurface(screen.gWindow);
+				SDL_UpdateWindowSurface(screen.gWindow);
+			}
+			else
+				SDL_UpdateWindowSurface(screen.gWindow);
 			
 		}
 		if (gameExit == true)
@@ -2133,6 +2192,7 @@ void wasEnemyDefeated(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fo
 			drawBaseImage(player, screen, enemy, fonts);
 			gameExit = screen.messageBox("Congratulations!", "You levelled up to level " + to_string(player.level), fonts.font24);
 			gameExit = screen.messageBox(levelUpString1, levelUpString2, fonts.font24);
+			gameExit = screen.messageBox("HP: " + to_string(player.maxHP) + " MP: " + to_string(player.maxMP) + " phyAtt: " + to_string(player.phyAttack) + " phyDef: " + to_string(player.phyDefence), "magAtt: " + to_string(player.magAttack) + " magDef: " + to_string(player.magDefence) + " Luck: " + to_string(player.luck), fonts.font24);
 		}
 		player.gold += enemy.goldDrop;
 		if (enemy.itemDrop != 0)
@@ -2154,10 +2214,13 @@ void wasEnemyDefeated(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fo
 
 bool didPlayerLose(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts, int& phaseHolder, Mobs mobs, int& combatCursorPos, bool& playerExit) {
 	//checks if the enemy was defeated, if defeated, game gives the play exp for winning and returns them to the main phaseHolder of the demo.
+	void drawBaseImage(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts);
 	bool quit = false;
 	if (player.currentHP <= 0) {
+		player.currentHP = 0;
+		drawBaseImage(player, screen, enemy, fonts);
+		SDL_UpdateWindowSurface(screen.gWindow);
 		phaseHolder = 0;
-		quit = screen.messageBox("You fainted & lost half your gold!", "Restart from the village!", fonts.font24);
 		player.gold = floor(player.gold / 2);
 		player.x = 28 * 32;
 		player.y = 1 * 32;
@@ -2166,11 +2229,11 @@ bool didPlayerLose(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts
 		player.currentMap = 0;
 		player.currentHP = player.maxHP;
 		player.currentMP = player.maxMP;
-		
+		quit = screen.messageBox("You fainted & lost half your gold!", "Restart from the village!", fonts.font24);
 	}
 	else {
 		phaseHolder = 1; //switches back to the player's turn
-		quit = screen.messageBox("It is now your turn again", " ", fonts.font24);
+		//quit = screen.messageBox("It is now your turn again", " ", fonts.font24);
 		combatCursorPos = 0;
 	}
 	return quit;
@@ -2254,10 +2317,10 @@ void drawMagicMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts,
 	else if (player.pClass == "mage")
 	{
 		if (player.level >= 2) {
-			screen.displayLeftText("Fire 			 2MP", 70, 528, fonts.font20);
+			screen.displayLeftText("Fire 2MP", 70, 528, fonts.font20);
 		}
 		if (player.level >= 3) {
-			screen.displayLeftText("Heal		4MP", 380, 528, fonts.font20);
+			screen.displayLeftText("Heal 4MP", 380, 528, fonts.font20);
 		}
 		if (player.level >= 5) {
 			screen.displayLeftText("Thunder 6MP", 680, 528, fonts.font20);
@@ -2272,7 +2335,7 @@ void drawMagicMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts,
 	else if (player.pClass ==  "rogue")
 	{
 		if (player.level >= 2) {
-			screen.displayLeftText("Steal		2MP", 70, 528, fonts.font20);
+			screen.displayLeftText("Steal 2MP", 70, 528, fonts.font20);
 		}
 		if (player.level >= 3) {
 			screen.displayLeftText("Life Steal 4MP", 380, 528, fonts.font20);

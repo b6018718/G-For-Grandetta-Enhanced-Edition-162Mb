@@ -157,6 +157,7 @@ bool Screen::messageBox(string line1, string line2, TTF_Font* font)	//35 Charact
 
 		}//Event Poll While Loop
 	}
+	SDL_Delay(500);
 	SDL_BlitSurface(gTemp, NULL, gScreenSurface, 0);
 	SDL_UpdateWindowSurface(gWindow);
 	SDL_FreeSurface(gTemp);

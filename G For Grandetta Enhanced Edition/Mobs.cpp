@@ -375,9 +375,10 @@ void Mobs::mobWeakAttack(Player& player, Screen screen, Fonts fonts, Music music
 	screen.messageBox("The enemy prepares for", "a melee based attack!", fonts.font24);
 	int movePower = 5;
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence * player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence * player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The enemy attacks you", "with a weak attack!", fonts.font24);
+		screen.messageBox("The enemy attacks you", "with a weak attack! " + to_string(damage) + " Damage!", fonts.font24);
 		
 	}
 	else {
@@ -391,9 +392,10 @@ void Mobs::mobStrongAttack(Player& player, Screen screen, Fonts fonts, Music mus
 	int movePower = 20;
 	screen.messageBox("The enemy prepares for", "a melee based attack!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The enemy attacks you", "with a strong attack!", fonts.font24);
+		screen.messageBox("The enemy attacks you", "with a strong attack! " + to_string(damage) + " Damage!", fonts.font24);
 	}
 	else {
 		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
@@ -406,9 +408,10 @@ void Mobs::mobTackle(Player & player, Screen screen, Fonts fonts, Music music, m
 	int movePower = 10;
 	screen.messageBox("The enemy prepares for", "a melee based attack!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The enemy tackles you", "with their full force!", fonts.font24);
+		screen.messageBox("The enemy tackles you", "with their full force! " + to_string(damage) + " Damage!" , fonts.font24);
 	}
 	else {
 		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
@@ -421,9 +424,10 @@ void Mobs::mobSwordSlash(Player & player, Screen screen, Fonts fonts, Music musi
 	int movePower = 30;
 	screen.messageBox("The enemy prepares for", "a melee based attack!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The slashes their sword", "fiercely!", fonts.font24);
+		screen.messageBox("The slashes their sword", "fiercely! " + to_string(damage) + " Damage!", fonts.font24);
 	}
 	else {
 		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
@@ -436,9 +440,10 @@ void Mobs::mobCastFreeze(Player & player, Screen screen, Fonts fonts, Music musi
 	int movePower = 10;
 	screen.messageBox("The enemy starts chanting", "and tries to cast a spell!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The enemy freezes you", "lowering your defence!", fonts.font24);
+		screen.messageBox("The enemy freezes you", "lowering your defence! " + to_string(damage) + " Damage!", fonts.font24);
 		
 		if (player.ironPotionEffect > 0.5) {
 			player.ironPotionEffect = player.ironPotionEffect / 2;
@@ -455,9 +460,10 @@ void Mobs::mobCastFire(Player & player, Screen screen, Fonts fonts, Music music,
 	int movePower = 15;
 	screen.messageBox("The enemy starts chanting", "and tries to cast a spell!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The enemy cast fire burning", "away your health!", fonts.font24);
+		screen.messageBox("The enemy cast fire burning", "away your health! " + to_string(damage) + " Damage!", fonts.font24);
 	}
 	else {
 		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
@@ -470,9 +476,10 @@ void Mobs::mobCastThunder(Player & player, Screen screen, Fonts fonts, Music mus
 	int movePower = 25;
 	screen.messageBox("The enemy starts chanting", "and tries to cast a spell!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage; 
 		music.PlayHit();
-		screen.messageBox("The enemy zaps you", "with a thunderbolt!", fonts.font24);
+		screen.messageBox("The enemy zaps you", "with a thunderbolt! " + to_string(damage) + " Damage!", fonts.font24);
 	}
 	else {
 		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
@@ -485,9 +492,10 @@ void Mobs::mobBreathFire(Player & player, Screen screen, Fonts fonts, Music musi
 	int movePower = 30;
 	screen.messageBox("The enemy breathes in deeply", "and prepares to exhale!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The enemy breathes fire", "which also lowers your attack!", fonts.font24);
+		screen.messageBox("The enemy breathes fire", "lowering your attack! " + to_string(damage) + " Damage!", fonts.font24);
 		if (player.berserkPotionEffect > 0.5) {
 			player.berserkPotionEffect = player.berserkPotionEffect / 2;
 		}
@@ -518,9 +526,10 @@ void Mobs::mobUltimateGNova(Player & player, Screen screen, Fonts fonts, Music m
 	int movePower = 50;
 	screen.messageBox("Demon Lord Grandma casts", "Ultimate G Nova!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("Its power is... ", "OUT OF THIS WORLD!!!", fonts.font24);
+		screen.messageBox("Its power is... ", "OUT OF THIS WORLD!!! " + to_string(damage) + " Damage!", fonts.font24);
 	}
 	else {
 		screen.messageBox("You dodged then enemies attack!", "You took no damage! GG!", fonts.font24);
@@ -530,8 +539,9 @@ void Mobs::mobUltimateGNova(Player & player, Screen screen, Fonts fonts, Music m
 
 void Mobs::mobHeal(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
 {
-	enemy.hp = enemy.hp + calculateEnemyHeal(200, enemy);
-	screen.messageBox("The enemy casts a healing spell,", "They recover some of their health!", fonts.font24);
+	int hpGain = calculateEnemyHeal(200, enemy);
+	enemy.hp = enemy.hp + hpGain;
+	screen.messageBox("The enemy casts a healing spell,", "They recover " + to_string(hpGain) + " HP!", fonts.font24);
 	if (player.smokeBombEffect != 1) {
 		player.smokeBombEffect == 1;
 		screen.messageBox("The spell also reset the effects", " of your smoke bomb!", fonts.font24);
@@ -540,8 +550,9 @@ void Mobs::mobHeal(Player & player, Screen screen, Fonts fonts, Music music, mob
 
 void Mobs::mobPotion(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
 {
-	enemy.hp = enemy.hp + calculateEnemyHeal(100, enemy);
-	screen.messageBox("The enemy drinks a potion,", "They recover some of their health!", fonts.font24);
+	int hpGain = calculateEnemyHeal(200, enemy);
+	enemy.hp = enemy.hp + hpGain;
+	screen.messageBox("The enemy drinks a potion,", "They recover " + to_string(hpGain) + " HP!", fonts.font24);
 }
 
 void Mobs::mobStickyWeb(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
@@ -549,9 +560,10 @@ void Mobs::mobStickyWeb(Player & player, Screen screen, Fonts fonts, Music music
 	int movePower = 5;
 	screen.messageBox("The enemy eyes you up", "its web shooter ready!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
-		player.currentHP = player.currentHP - calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
+		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The enemy traps you in their web,", "Lowering your attack!", fonts.font24);
+		screen.messageBox("The enemy traps you in their web,", "Lowering your attack!" + to_string(damage) + "Damage!", fonts.font24);
 		if (player.berserkPotionEffect > 0.5) {
 			player.berserkPotionEffect = player.berserkPotionEffect / 2;
 		}

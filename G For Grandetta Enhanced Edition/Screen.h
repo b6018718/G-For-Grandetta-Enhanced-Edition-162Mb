@@ -31,6 +31,7 @@ public:
 	SDL_Surface* gSprite = NULL;
 	SDL_Surface* gEnemy = NULL;
 	SDL_Surface* gBattleBg = NULL;
+	SDL_Surface* gBattleTextBox = NULL;
 
 	SDL_Color foregroundColor = { 0, 0, 0 };
 	SDL_Color backgroundColor = { 0, 255, 255 };

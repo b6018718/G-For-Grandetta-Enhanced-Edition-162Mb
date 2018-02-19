@@ -5,7 +5,7 @@
 Maps::Maps()
 {
 	//Vector of Maps
-	zone.push_back(MapZone(60, 35, "images/bg0.bmp")); //Villages 0
+	zone.push_back(MapZone(60, 35, "images/bg0.bmp")); //Village 0
 	zone.push_back(MapZone(90, 55, "images/bg1.bmp")); //Field 1
 	zone.push_back(MapZone(90, 55, "images/bg2.bmp")); //Town 2
 	zone.push_back(MapZone(60, 45, "images/bg3.bmp")); //Castle 3

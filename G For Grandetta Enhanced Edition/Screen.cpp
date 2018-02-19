@@ -25,12 +25,8 @@ Screen::Screen()
 		}
 		else
 		{
-			
 			//Apply image
 			SDL_BlitSurface(gPlaySurface, NULL, gScreenSurface, NULL);
-			
-			//SDL_UpdateWindowSurface(gWindow);
-			//SDL_Delay(2000);
 		}
 	}
 }
@@ -97,10 +93,10 @@ void Screen::displayLeftText(string text, float x, float y, TTF_Font* newfont)	/
 	SDL_SetColorKey(gText, 1, colorkey);
 	SDL_Rect textLocation = { x, y - 24, 0, 0 };
 	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);
-	SDL_UpdateWindowSurface(gWindow);
+	//SDL_UpdateWindowSurface(gWindow);
 	SDL_FillRect(gText, NULL, 0x000000);
 	SDL_FreeSurface(gText);
-	SDL_FreeSurface(gScreenSurface);
+	//SDL_FreeSurface(gScreenSurface);
 }
 
 bool Screen::messageBox(string line1, string line2, TTF_Font* font)	//35 Character Limit Per Line
@@ -183,6 +179,8 @@ bool Screen::inputBox(string line1, string line2, TTF_Font* font, Player& player
 		displayLeftText(line2, 48, 600, font);
 	}
 
+	SDL_UpdateWindowSurface(gWindow);
+
 	SDL_Event event;
 	bool gameExit = false;
 	bool quit = false;
@@ -249,10 +247,8 @@ bool Screen::loadMapMedia(SDL_Surface *& surface, string file)
 {
 	//Load success flag
 	bool success = true;
-
+	//Convert string to const char format
 	const char * load = file.c_str();
-
-
 
 	//Load image
 	gTemp = SDL_LoadBMP(load);
@@ -262,11 +258,7 @@ bool Screen::loadMapMedia(SDL_Surface *& surface, string file)
 		success = false;
 	}
 
-
 	surface = SDL_ConvertSurfaceFormat(gTemp, SDL_GetWindowPixelFormat(gWindow), 0);
-
-
-
 	SDL_FreeSurface(gTemp);
 	return success;
 }
@@ -274,28 +266,6 @@ bool Screen::loadMapMedia(SDL_Surface *& surface, string file)
 bool Screen::loadMedia(SDL_Surface *& surface, string file)
 {
 
-	/*
-	//Load success flag
-	bool success = true;
-
-	const char * load = file.c_str();
-
-
-	
-	//Load image
-	gTemp = SDL_LoadBMP(load);
-	if (gTemp == NULL)
-	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-		success = false;
-	}
-
-	//gText = SDL_ConvertSurface(gTemp, gTemp ->format, NULL);
-	surface = SDL_ConvertSurfaceFormat(gTemp, SDL_GetWindowPixelFormat(gWindow), 0);
-	SDL_FreeSurface(gTemp);
-	return success;
-
-	*/
 	const char * load = file.c_str();
 	surface = NULL;
 	SDL_Surface* loadedSurface = NULL;
@@ -441,4 +411,11 @@ void Screen::FreeSurfaces()
 
 	SDL_FreeSurface(gSprite);
 	gSprite = NULL;
+
+	SDL_FreeSurface(gBattleBg);
+	gBattleBg = NULL;
+	SDL_FreeSurface(gBattleTextBox);
+	gBattleTextBox = NULL;
+	SDL_FreeSurface(gEnemy);
+	gEnemy = NULL;
 }

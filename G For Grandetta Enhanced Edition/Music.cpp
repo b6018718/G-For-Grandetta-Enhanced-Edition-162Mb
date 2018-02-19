@@ -6,7 +6,7 @@ using namespace std;
 Music::Music()
 {
 	//Initialize SDL_mixer
-	if (Mix_OpenAudio(84100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	if (Mix_OpenAudio(126150, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
 		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 	}
@@ -47,6 +47,10 @@ Music::Music()
 
 	rat = Mix_LoadWAV("sound/rat.wav");
 	if (rat == NULL)
+		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+
+	encounter = Mix_LoadWAV("sound/encounter.wav");
+	if (encounter == NULL)
 		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 }
 
@@ -102,6 +106,8 @@ void Music::PlayVillage()
 	Mix_PlayMusic(village, -1);
 }
 
+
+
 void Music::PlayMenu()
 {
 	Mix_PlayMusic(menu, -1);
@@ -115,6 +121,11 @@ void Music::PlayRat()
 void Music::PlayHit()
 {
 	Mix_PlayChannel(-1, hit, 0);
+}
+
+void Music::PlayEncounter()
+{
+	Mix_PlayChannel(-1, encounter, 0);
 }
 
 void Music::PauseMusic()
@@ -132,6 +143,37 @@ void Music::HaltMusic()
 	Mix_HaltMusic();
 }
 
+void Music::PlayMap(int map)
+{
+	switch (map)
+	{
+	case 0:
+		PlayVillage();
+		break;
+	case 1:
+		PlayField();
+		break;
+	case 2:
+		PlayCastleTown();
+		break;
+	case 3:
+		PlayCastle();
+		break;
+	case 4:
+		PlayCamp();
+		break;
+	case 5:
+		PlayCamp();
+		break;
+	case 6:
+		PlayCave();
+		break;
+	case 7:
+		PlayCasino();
+		break;
+	}
+}
+
 void Music::FreeSounds()
 {
 	Mix_FreeMusic(battle);
@@ -146,6 +188,7 @@ void Music::FreeSounds()
 	
 	Mix_FreeChunk(hit);
 	Mix_FreeChunk(rat);
+	Mix_FreeChunk(encounter);
 }
 
 void Music::SetVolume(float newVolume)  //Volume should be a number equal or between 0 and 10

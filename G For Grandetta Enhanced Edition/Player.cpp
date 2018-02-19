@@ -116,7 +116,7 @@ void Player::initaliseStats(Equipment equipment)
 	effectiveExpLevelUp = expLevelUp;
 
 
-	if (pClass == "Warrior")
+	if (pClass == "warrior")
 	{
 		maxHP = 30;
 		currentHP = maxHP;
@@ -128,7 +128,7 @@ void Player::initaliseStats(Equipment equipment)
 		magDefence = 3;
 		luck = 1;
 	}
-	else if (pClass == "Mage")
+	else if (pClass == "mage")
 	{
 		maxHP = 20;
 		currentHP = maxHP;
@@ -140,7 +140,7 @@ void Player::initaliseStats(Equipment equipment)
 		magDefence = 6;
 		luck = 1;
 	}
-	else if (pClass == "Rogue")
+	else if (pClass == "rogue")
 	{
 		maxHP = 25;
 		currentHP = maxHP;
@@ -152,6 +152,7 @@ void Player::initaliseStats(Equipment equipment)
 		magDefence = 4;
 		luck = 3;
 	}
+
 
 
 	equippedWeapon = equipment.bone;
@@ -181,9 +182,9 @@ void Player::initaliseStats(Equipment equipment)
 
 */
 
-void Player::levelUp()
+void Player::levelUp(string& levelUpString1, string& levelUpString2)
 {
-	if (pClass == "Warrior")
+	if (pClass == "warrior")
 	{
 		if (level < 16)
 		{
@@ -192,7 +193,8 @@ void Player::levelUp()
 			effectiveExpLevelUp = levelExpNeeded[level] - currentExp;
 			effectiveCurrentExp = 0;
 
-			levelUpString = "Null";
+			levelUpString1 = "Null";
+			levelUpString2 = "Null";
 			int randomNum;
 
 			//Warrior HP Level UP
@@ -202,27 +204,27 @@ void Player::levelUp()
 			{
 				//Display Screen TBI
 				maxHP = maxHP + 2;
-				levelUpString = "HP: +2 ";
+				levelUpString1 = "HP: +2 ";
 			}
 			else if (randomNum <= 10) //5% Chance
 			{
 				maxHP = maxHP + 3;
-				levelUpString = "HP: +3 ";
+				levelUpString1 = "HP: +3 ";
 			}
 			else if (randomNum <= 45) //35% Chance
 			{
 				maxHP = maxHP + 4;
-				levelUpString = "HP: +4 ";
+				levelUpString1 = "HP: +4 ";
 			}
 			else if (randomNum <= 85) //40% Chance
 			{
 				maxHP = maxHP + 5;
-				levelUpString = "HP: +5 ";
+				levelUpString1 = "HP: +5 ";
 			}
 			else //15% Chance
 			{
 				maxHP = maxHP + 6;
-				levelUpString = "HP: +6 ";
+				levelUpString1 = "HP: +6 ";
 			}
 
 
@@ -232,22 +234,22 @@ void Player::levelUp()
 			if (randomNum <= 70) //70% Chance
 			{
 				maxMP = maxMP + 1;
-				levelUpString += "MP: +1 ";
+				levelUpString1 += "MP: +1 ";
 			}
 			else if (randomNum <= 90) //20% Chance
 			{
 				maxMP = maxMP + 2;
-				levelUpString += "MP: +2 ";
+				levelUpString1 += "MP: +2 ";
 			}
 			else if (randomNum <= 99) //9% Chance
 			{
 				maxMP = maxMP + 3;
-				levelUpString += "MP: +3 ";
+				levelUpString1 += "MP: +3 ";
 			}
 			else //1% Chance
 			{
 				maxMP = maxMP + 4;
-				levelUpString += "MP: +4 ";
+				levelUpString1 += "MP: +4 ";
 			}
 
 
@@ -258,27 +260,27 @@ void Player::levelUp()
 			{
 				//Display Screen TBI
 				phyAttack = phyAttack + 1;
-				levelUpString += "phyAtt: +1 ";
+				levelUpString1 += "phyAtt: +1 ";
 			}
 			else if (randomNum <= 75) //30% Chance
 			{
 				phyAttack = phyAttack + 2;
-				levelUpString += "phyAtt: +2 ";
+				levelUpString1 += "phyAtt: +2 ";
 			}
 			else if (randomNum <= 85) //10% Chance
 			{
 				phyAttack = phyAttack + 3;
-				levelUpString += "phyAtt: +3 ";
+				levelUpString1 += "phyAtt: +3 ";
 			}
 			else if (randomNum <= 95) //10% Chance
 			{
 				phyAttack = phyAttack + 4;
-				levelUpString += "phyAtt: +4 ";
+				levelUpString1 += "phyAtt: +4 ";
 			}
 			else //5% Chance
 			{
 				phyAttack = phyAttack + 5;
-				levelUpString += "phyAtt: +5 ";
+				levelUpString1 += "phyAtt: +5 ";
 			}
 
 
@@ -289,17 +291,17 @@ void Player::levelUp()
 			{
 				//Display Screen TBI
 				phyDefence = phyDefence + 1;
-				levelUpString += "phyDef: +1 ";
+				levelUpString1 += "phyDef: +1 ";
 			}
 			else if (randomNum <= 75) //15% Chance
 			{
 				phyDefence = phyDefence + 2;
-				levelUpString += "phyDef: +2 ";
+				levelUpString1 += "phyDef: +2 ";
 			}
 			else //5% Chance
 			{
 				phyDefence = phyDefence + 3;
-				levelUpString += "phyDef: +3 ";
+				levelUpString1 += "phyDef: +3 ";
 			}
 
 
@@ -310,27 +312,27 @@ void Player::levelUp()
 			{
 				//Display Screen TBI
 				magAttack = magAttack + 0;
-				levelUpString += "magAtt: +0 ";
+				levelUpString2 = "magAtt: +0 ";
 			}
 			else if (randomNum <= 85) //55% Chance
 			{
 				magAttack = magAttack + 1;
-				levelUpString += "magAtt: +1 ";
+				levelUpString2 = "magAtt: +1 ";
 			}
 			else if (randomNum <= 90) //5% Chance
 			{
 				magAttack = magAttack + 2;
-				levelUpString += "magAtt: +2 ";
+				levelUpString2 = "magAtt: +2 ";
 			}
 			else if (randomNum <= 95) //5% Chance
 			{
 				magAttack = magAttack + 3;
-				levelUpString += "magAtt: +3 ";
+				levelUpString2 = "magAtt: +3 ";
 			}
 			else //5% Chance
 			{
 				magAttack = magAttack + 4;
-				levelUpString += "magAtt: +4 ";
+				levelUpString2 = "magAtt: +4 ";
 			}
 
 			//Warrior Magic Defence Level UP
@@ -340,17 +342,17 @@ void Player::levelUp()
 			{
 				//Display Screen TBI
 				magDefence = magDefence + 0;
-				levelUpString += "magDef: +0 ";
+				levelUpString2 += "magDef: +0 ";
 			}
 			else if (randomNum <= 95) //35% Chance
 			{
 				magDefence = magDefence + 1;
-				levelUpString += "magAtt: +1 ";
+				levelUpString2 += "magAtt: +1 ";
 			}
 			else //5% Chance
 			{
 				magDefence = magDefence + 2;
-				levelUpString += "magAtt: +2 ";
+				levelUpString2 += "magAtt: +2 ";
 			}
 
 
@@ -360,32 +362,33 @@ void Player::levelUp()
 			{
 				//Display Screen TBI
 				luck = luck + 0;
-				levelUpString += "Luck: +0 ";
+				levelUpString2 += "Luck: +0 ";
 			}
 			else if (randomNum <= 95) //75% Chance
 			{
 				luck = luck + 1;
-				levelUpString += "Luck: +1 ";
+				levelUpString2 += "Luck: +1 ";
 
 			}
 			else //5% Chance
 			{
 				luck = luck + 2;
-				levelUpString += "Luck: +2 ";
+				levelUpString2 += "Luck: +2 ";
 			}
 
 
 		}
 		
 	}
-	else if (pClass == "Mage")
+	else if (pClass == "mage")
 	{
 		++level;
 		expLevelUp = levelExpNeeded[level];
 		effectiveExpLevelUp = levelExpNeeded[level] - currentExp;
 		effectiveCurrentExp = 0;
 
-		levelUpString = "Null";
+		levelUpString1 = "Null";
+		levelUpString2 = "Null";
 		int randomNum;
 
 		//Mage HP Level UP
@@ -395,27 +398,27 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			maxHP = maxHP + 1;
-			levelUpString = "HP: +1 ";
+			levelUpString1 = "HP: +1 ";
 		}
 		else if (randomNum <= 60) //40% Chance
 		{
 			maxHP = maxHP + 2;
-			levelUpString = "HP: +2 ";
+			levelUpString1 = "HP: +2 ";
 		}
 		else if (randomNum <= 80) //20% Chance
 		{
 			maxHP = maxHP + 3;
-			levelUpString = "HP: +3 ";
+			levelUpString1 = "HP: +3 ";
 		}
 		else if (randomNum <= 90) //10% Chance
 		{
 			maxHP = maxHP + 4;
-			levelUpString = "HP: +4 ";
+			levelUpString1 = "HP: +4 ";
 		}
 		else //10% Chance
 		{
 			maxHP = maxHP + 5;
-			levelUpString = "HP: +5 ";
+			levelUpString1 = "HP: +5 ";
 		}
 
 
@@ -426,27 +429,27 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			maxMP = maxMP + 4;
-			levelUpString += "MP: +4 ";
+			levelUpString1 += "MP: +4 ";
 		}
 		else if (randomNum <= 80) //50% Chance
 		{
 			maxMP = maxMP + 5;
-			levelUpString += "MP: +5 ";
+			levelUpString1 += "MP: +5 ";
 		}
 		else if (randomNum <= 90) //10% Chance
 		{
 			maxMP = maxMP + 6;
-			levelUpString += "MP: +6 ";
+			levelUpString1 += "MP: +6 ";
 		}
 		else if (randomNum <= 95) //5% Chance
 		{
 			maxMP = maxMP + 7;
-			levelUpString += "MP: +7 ";
+			levelUpString1 += "MP: +7 ";
 		}
 		else //5% Chance
 		{
 			maxMP = maxMP + 8;
-			levelUpString += "MP: +8 ";
+			levelUpString1 += "MP: +8 ";
 		}
 
 
@@ -457,27 +460,27 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			phyAttack = phyAttack + 0;
-			levelUpString += "phyAtt: +0 ";
+			levelUpString1 += "phyAtt: +0 ";
 		}
 		else if (randomNum <= 85) //55% Chance
 		{
 			phyAttack = phyAttack + 1;
-			levelUpString += "phyAtt: +1 ";
+			levelUpString1 += "phyAtt: +1 ";
 		}
 		else if (randomNum <= 90) //5% Chance
 		{
 			phyAttack = phyAttack + 2;
-			levelUpString += "phyAtt: +2 ";
+			levelUpString1 += "phyAtt: +2 ";
 		}
 		else if (randomNum <= 95) //10% Chance
 		{
 			phyAttack = phyAttack + 3;
-			levelUpString += "phyAtt: +3 ";
+			levelUpString1 += "phyAtt: +3 ";
 		}
 		else //5% Chance
 		{
 			phyAttack = phyAttack + 4;
-			levelUpString += "phyAtt: +4 ";
+			levelUpString1 += "phyAtt: +4 ";
 		}
 
 
@@ -488,22 +491,22 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			phyDefence = phyDefence + 0;
-			levelUpString += "phyDef: +0 ";
+			levelUpString1 += "phyDef: +0 ";
 		}
 		else if (randomNum <= 95) //60% Chance
 		{
 			phyDefence = phyDefence + 1;
-			levelUpString += "phyDef: +1 ";
+			levelUpString1 += "phyDef: +1 ";
 		}
 		else if (randomNum <= 99) //4% Chance
 		{
 			phyDefence = phyDefence + 2;
-			levelUpString += "phyDef: +2 ";
+			levelUpString1 += "phyDef: +2 ";
 		}
 		else //1% Chance
 		{
 			phyDefence = phyDefence + 3;
-			levelUpString += "phyDef: +3 ";
+			levelUpString1 += "phyDef: +3 ";
 		}
 
 
@@ -514,27 +517,27 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			magAttack = magAttack + 1;
-			levelUpString += "magAtt: +1 ";
+			levelUpString2 = "magAtt: +1 ";
 		}
 		else if (randomNum <= 75) //45% Chance
 		{
 			magAttack = magAttack + 2;
-			levelUpString += "magAtt: +2 ";
+			levelUpString2 = "magAtt: +2 ";
 		}
 		else if (randomNum <= 85) //10% Chance
 		{
 			magAttack = magAttack + 3;
-			levelUpString += "magAtt: +3 ";
+			levelUpString2 = "magAtt: +3 ";
 		}
 		else if (randomNum <= 95) //10% Chance
 		{
 			magAttack = magAttack + 4;
-			levelUpString += "magAtt: +4 ";
+			levelUpString2 = "magAtt: +4 ";
 		}
 		else //5% Chance
 		{
 			magAttack = magAttack + 5;
-			levelUpString += "magAtt: +5 ";
+			levelUpString2 = "magAtt: +5 ";
 		}
 
 		//Mage Magic Defence Level UP
@@ -544,22 +547,22 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			magDefence = magDefence + 1;
-			levelUpString += "magDef: +1 ";
+			levelUpString2 += "magDef: +1 ";
 		}
 		else if (randomNum <= 95) //60% Chance
 		{
 			magDefence = magDefence + 2;
-			levelUpString += "magAtt: +2 ";
+			levelUpString2 += "magAtt: +2 ";
 		}
 		else if (randomNum <= 99) //4% Chance
 		{
 			magDefence = magDefence + 3;
-			levelUpString += "magAtt: +3 ";
+			levelUpString2 += "magAtt: +3 ";
 		}
 		else //1% Chance
 		{
 			magDefence = magDefence + 4;
-			levelUpString += "magAtt: +4 ";
+			levelUpString2 += "magAtt: +4 ";
 		}
 
 
@@ -569,28 +572,29 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			luck = luck + 0;
-			levelUpString += "Luck: +0 ";
+			levelUpString2 += "Luck: +0 ";
 		}
 		else if (randomNum <= 95) //75% Chance
 		{
 			luck = luck + 1;
-			levelUpString += "Luck: +1 ";
+			levelUpString2 += "Luck: +1 ";
 
 		}
 		else //5% Chance
 		{
 			luck = luck + 2;
-			levelUpString += "Luck: +2 ";
+			levelUpString2 += "Luck: +2 ";
 		}
 	}
-	else if (pClass == "Rogue")
+	else if (pClass == "rogue")
 	{
 		++level;
 		expLevelUp = levelExpNeeded[level];
 		effectiveExpLevelUp = levelExpNeeded[level] - currentExp;
 		effectiveCurrentExp = 0;
 
-		levelUpString = "Null";
+		levelUpString1 = "Null";
+		levelUpString2 = "Null";
 		int randomNum;
 
 		//Rogue HP Level UP
@@ -600,27 +604,27 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			maxHP = maxHP + 1;
-			levelUpString = "HP: +1 ";
+			levelUpString1 = "HP: +1 ";
 		}
 		else if (randomNum <= 25) //20% Chance
 		{
 			maxHP = maxHP + 2;
-			levelUpString = "HP: +2 ";
+			levelUpString1 = "HP: +2 ";
 		}
 		else if (randomNum <= 60) //35% Chance
 		{
 			maxHP = maxHP + 3;
-			levelUpString = "HP: +3 ";
+			levelUpString1 = "HP: +3 ";
 		}
 		else if (randomNum <= 90) //30% Chance
 		{
 			maxHP = maxHP + 4;
-			levelUpString = "HP: +4 ";
+			levelUpString1 = "HP: +4 ";
 		}
 		else //10% Chance
 		{
 			maxHP = maxHP + 5;
-			levelUpString = "HP: +5 ";
+			levelUpString1 = "HP: +5 ";
 		}
 
 
@@ -631,27 +635,27 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			maxMP = maxMP + 1;
-			levelUpString += "MP: +1 ";
+			levelUpString1 += "MP: +1 ";
 		}
 		else if (randomNum <= 60) //50% Chance
 		{
 			maxMP = maxMP + 2;
-			levelUpString += "MP: +2 ";
+			levelUpString1 += "MP: +2 ";
 		}
 		else if (randomNum <= 80) //20% Chance
 		{
 			maxMP = maxMP + 3;
-			levelUpString += "MP: +3 ";
+			levelUpString1 += "MP: +3 ";
 		}
 		else if (randomNum <= 95) //15% Chance
 		{
 			maxMP = maxMP + 4;
-			levelUpString += "MP: +4 ";
+			levelUpString1 += "MP: +4 ";
 		}
 		else //5% Chance
 		{
 			maxMP = maxMP + 5;
-			levelUpString += "MP: +5 ";
+			levelUpString1 += "MP: +5 ";
 		}
 
 
@@ -662,27 +666,27 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			phyAttack = phyAttack + 0;
-			levelUpString += "phyAtt: +0 ";
+			levelUpString1 += "phyAtt: +0 ";
 		}
 		else if (randomNum <= 60) //50% Chance
 		{
 			phyAttack = phyAttack + 1;
-			levelUpString += "phyAtt: +1 ";
+			levelUpString1 += "phyAtt: +1 ";
 		}
 		else if (randomNum <= 85) //25% Chance
 		{
 			phyAttack = phyAttack + 2;
-			levelUpString += "phyAtt: +2 ";
+			levelUpString1 += "phyAtt: +2 ";
 		}
 		else if (randomNum <= 95) //10% Chance
 		{
 			phyAttack = phyAttack + 3;
-			levelUpString += "phyAtt: +3 ";
+			levelUpString1 += "phyAtt: +3 ";
 		}
 		else //5% Chance
 		{
 			phyAttack = phyAttack + 4;
-			levelUpString += "phyAtt: +4 ";
+			levelUpString1 += "phyAtt: +4 ";
 		}
 
 
@@ -693,22 +697,22 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			phyDefence = phyDefence + 0;
-			levelUpString += "phyDef: +0 ";
+			levelUpString1 += "phyDef: +0 ";
 		}
 		else if (randomNum <= 95) //70% Chance
 		{
 			phyDefence = phyDefence + 1;
-			levelUpString += "phyDef: +1 ";
+			levelUpString1 += "phyDef: +1 ";
 		}
 		else if (randomNum <= 99) //4% Chance
 		{
 			phyDefence = phyDefence + 2;
-			levelUpString += "phyDef: +2 ";
+			levelUpString1 += "phyDef: +2 ";
 		}
 		else //1% Chance
 		{
 			phyDefence = phyDefence + 3;
-			levelUpString += "phyDef: +3 ";
+			levelUpString1 += "phyDef: +3 ";
 		}
 
 
@@ -719,27 +723,27 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			magAttack = magAttack + 0;
-			levelUpString += "magAtt: +0 ";
+			levelUpString2 = "magAtt: +0 ";
 		}
 		else if (randomNum <= 60) //50% Chance
 		{
 			magAttack = magAttack + 1;
-			levelUpString += "magAtt: +1 ";
+			levelUpString2 = "magAtt: +1 ";
 		}
 		else if (randomNum <= 85) //25% Chance
 		{
 			magAttack = magAttack + 2;
-			levelUpString += "magAtt: +2 ";
+			levelUpString2 = "magAtt: +2 ";
 		}
 		else if (randomNum <= 95) //10% Chance
 		{
 			magAttack = magAttack + 3;
-			levelUpString += "magAtt: +3 ";
+			levelUpString2 = "magAtt: +3 ";
 		}
 		else //5% Chance
 		{
 			magAttack = magAttack + 5;
-			levelUpString += "magAtt: +5 ";
+			levelUpString2 = "magAtt: +5 ";
 		}
 
 		//Rogue Magic Defence Level UP
@@ -749,22 +753,22 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			magDefence = magDefence + 0;
-			levelUpString += "magDef: +0 ";
+			levelUpString2 += "magDef: +0 ";
 		}
 		else if (randomNum <= 95) //70% Chance
 		{
 			magDefence = magDefence + 1;
-			levelUpString += "magAtt: +1 ";
+			levelUpString2 += "magAtt: +1 ";
 		}
 		else if (randomNum <= 99) //4% Chance
 		{
 			magDefence = magDefence + 2;
-			levelUpString += "magAtt: +2 ";
+			levelUpString2 += "magAtt: +2 ";
 		}
 		else //1% Chance
 		{
 			magDefence = magDefence + 3;
-			levelUpString += "magAtt: +3 ";
+			levelUpString2 += "magAtt: +3 ";
 		}
 
 
@@ -774,12 +778,12 @@ void Player::levelUp()
 		{
 			//Display Screen TBI
 			luck = luck + 1;
-			levelUpString += "Luck: +0 ";
+			levelUpString2 += "Luck: +0 ";
 		}
 		else //75% Chance
 		{
 			luck = luck + 2;
-			levelUpString += "Luck: +2 ";
+			levelUpString2 += "Luck: +2 ";
 
 		}
 	}
@@ -787,17 +791,10 @@ void Player::levelUp()
 	{
 		cout << "Class not found";
 	}
+	
 }
 
-void Player::playerGainsExp(int exp)
-{
-	currentExp = currentExp + exp;
-	effectiveCurrentExp = effectiveCurrentExp + exp;
-	while ((currentExp >= expLevelUp) && (level < 16))
-	{
-		levelUp();
-	}
-}
+
 
 void Player::incrementQuest()
 {
@@ -1043,4 +1040,316 @@ void Player::moveDown(Maps maps)
 		}
 
 	}
+}
+
+int Player::magicFlameSlash()
+{
+	int magicCost = 2;//anount of magic required to cast the spell
+	int magicDamage = 15;
+	int attackStrength = floor((magAttack + phyAttack) / 2) + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicSheerWill()
+{
+	int magicCost = 4;//anount of magic required to cast the spell
+	int healPower = 30 + floor((magAttack / 2));//amount magic heals the player
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		healPower = 0;
+		
+	}
+	return healPower;
+}
+
+void Player::magicBulkUp()
+{
+	int magicCost = 6;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+		if (ironPotionEffect == 1) {
+			ironPotionEffect = 2;
+		}
+		else if (ironPotionEffect <= 2) {
+			ironPotionEffect = 4;
+		}
+		if (berserkPotionEffect <= 1) {
+			berserkPotionEffect = 2;
+		}
+		else if (berserkPotionEffect == 2) {
+			berserkPotionEffect = 4;
+		}
+	}
+	else {
+		
+	}
+	
+}
+
+int Player::magicTornadoSlash()
+{
+	int magicCost = 8;  //anount of magic required to cast the spell
+	int magicDamage = 50;
+	int attackStrength = floor((magAttack + phyAttack) / 2) + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicNovaSlash()
+{
+	int magicCost = 10;//anount of magic required to cast the spell
+	int magicDamage = 100;
+	int attackStrength = floor((magAttack + phyAttack) / 2) + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicFire()
+{
+	int magicCost = 2;	//anount of magic required to cast the spell
+	int magicDamage = 15;
+	int attackStrength = magAttack + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicHeal()
+{
+	int magicCost = 4;//anount of magic required to cast the spell
+	int healPower = 15 + floor((magAttack / 2));//amount magic heals the player
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+		if (berserkPotionEffect < 1) {
+			berserkPotionEffect = 1;
+			//setMessage("Your heal spell also cures", "your lowered attack stat!");
+		}
+		if (ironPotionEffect < 1) {
+			ironPotionEffect = 1;
+			
+			//setMessage("Your heal spell also cures", "your lowered defence stat!");
+		}
+	}
+	else {
+		healPower = 0;
+		
+	}
+
+	return healPower;
+}
+
+int Player::magicThunder()
+{
+	int magicCost = 6;  //anount of magic required to cast the spell
+	int magicDamage = 50;
+	int attackStrength = magAttack + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicDrainHealth()
+{
+	int magicCost = 8;//anount of magic required to cast the spell
+	int magicDamage = 30;
+	int attackStrength = magAttack + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+		currentHP = currentHP + calculatedamageHealed(floor(attackStrength / 2 * berserkPotionEffect));
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicNova()
+{
+	int magicCost = 10;//anount of magic required to cast the spell
+	int magicDamage = 100;
+	int attackStrength = magAttack + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+bool Player::magicSteal()
+{
+	int magicCost = 2;//anount of magic required to cast the spell
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+		if (luck + magAttack >= getRandomInt(1, 50)) {
+			return true;
+		}
+		else {
+			//setMessage("Your steal attempt", "failed!");
+		}
+	}
+	return false;
+}
+
+int Player::magicLifeSteal()
+{
+	int magicCost = 4;//anount of magic required to cast the spell
+	int magicDamage = 15;
+	int attackStrength = floor((magAttack + phyAttack) / 2) + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+		currentHP = currentHP + calculatedamageHealed(floor(attackStrength*berserkPotionEffect));
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicCashNGrab(int& goldDrop)
+{
+	int magicCost = 6;  //anount of magic required to cast the spell
+	int magicDamage = 50;
+	int attackStrength = magAttack + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+		gold = gold + ceil(goldDrop / 10);
+		//setMessage("You stole " + goldDrop / 10 + " gold", "from the enemy");
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicBackstab()
+{
+	int magicCost = 8;  //anount of magic required to cast the spell
+	int magicDamage = 50;
+	int attackStrength = floor((phyAttack + luck)*1.2) + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::magicNovaBlitz()
+{
+	int magicCost = 10;  //anount of magic required to cast the spell
+	int magicDamage = 100;
+	int attackStrength = floor((magAttack + phyAttack) / 2) + luck + magicDamage;
+	if (currentMP >= magicCost) {
+		currentMP = currentMP - magicCost;
+	}
+	else {
+		attackStrength = 0;
+		
+	}
+	return attackStrength;
+}
+
+int Player::calculatedamageHealed(int heal)
+{
+	int damageHealed = heal;
+	if ((heal + currentHP) > maxHP) {
+		damageHealed = maxHP - currentHP;
+	}
+	return damageHealed;
+}
+
+int Player::itemHealthPotion()
+{
+	int healPower = 50;
+	inventory[1] = inventory[1] - 1;
+	return healPower;
+}
+
+int Player::itemMagicPotion()
+{
+	int healPower = 30;
+	inventory[2] --;
+	return healPower;
+}
+
+void Player::itemSmokeBomb()
+{
+	smokeBombEffect = 0.5;
+	inventory[3] --;
+}
+
+void Player::itemIronSkinPotion()
+{
+	if (ironPotionEffect <= 1) {
+		ironPotionEffect = 2;
+		inventory[4] --;
+	}
+	else if (ironPotionEffect == 2) {
+		ironPotionEffect = 4;
+		inventory[4] --;
+	}
+}
+
+void Player::itemBerserkPotion()
+{
+	if (berserkPotionEffect <= 1) {
+		berserkPotionEffect = 2;
+		inventory[5] --;
+	}
+	else if (berserkPotionEffect == 2) {
+		berserkPotionEffect = 4;
+		inventory[5] --;
+	}
+}
+
+int Player::playerNormalAttack(bool& crit)
+{
+	int attackStrength = phyAttack;
+	if (getRandomInt(1 + luck, 50) > 50) {
+		//setMessage("Critical Hit!", "Your attack deals extra damage!");
+		crit = true;
+		attackStrength = attackStrength * 2;
+	}
+	else
+		crit = false;
+	return attackStrength;
 }

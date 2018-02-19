@@ -5,6 +5,7 @@
 #include "questPoint.h"
 #include "Equipment.h"
 #include <sstream>
+//#include "Mobs.h"
 using namespace std;
 
 const int SCREEN_WIDTH = 960;
@@ -89,7 +90,7 @@ public:
 	bool questLoaded;
 	float smokeBombEffect = 1;
 	float ironPotionEffect = 1;
-	float beserkPotionEffect = 1;	//Remember to reset these
+	float berserkPotionEffect = 1;	//Remember to reset these
 	int hitChance;
 
 	void equipWeapon(Equipment::weapon newWeapon);
@@ -109,8 +110,6 @@ public:
 		int y = 1 * 32; //Y Relative to map
 	};
 
-
-
 	struct Direction
 	{
 		bool left = false;
@@ -123,6 +122,32 @@ public:
 	Direction facing;
 	Map map;
 	
+	struct Inventory
+	{
+
+	};
+
+	int inventory[6] = { 0, 0, 0, 0, 0, 0 };
+
+	string inventoryNames[6] =
+	{	"NULL",	//null item  index 0
+		"Health potion",	//health potion index 1
+		"Magic potion", //mana potion index 2
+		"Smoke bomb",//smoke bomb index 3
+		"Iron skin potion",//iron skin potion index 4
+		"Berserk potion",//berserk potion index 5
+	};
+
+	int inventoryItemCost[6] =
+	{
+		0,	//null item  index 0
+		50,	//health potion index 1
+		100, //mana potion index 2
+		250,//smoke bomb index 3
+		750,//iron skin potion index 4
+		1250,//berserk potion index 5
+	};
+
 
 	int effectiveCurrentExp; //Current exp minus total exp
 	int effectiveExpLevelUp; //Next level up minus total exp
@@ -131,13 +156,41 @@ public:
 
 	int getRandomInt(int min, int max);
 	void initaliseStats(Equipment equipment);
-	void levelUp();
-	void playerGainsExp(int exp);
+	void levelUp(string& levelUpString1, string& levelUpString2);
 	void incrementQuest();
 
 	void moveLeft(Maps maps);
 	void moveRight(Maps maps);
 	void moveUp(Maps maps);
 	void moveDown(Maps maps);
+
+	int magicFlameSlash();
+	int magicSheerWill();
+	void magicBulkUp();
+	int magicTornadoSlash();
+	int magicNovaSlash();
+	int magicFire();
+	int magicHeal();
+	int magicThunder();
+	int magicDrainHealth();
+	int magicNova();
+	bool magicSteal();
+	int magicLifeSteal();
+	int magicCashNGrab(int& goldDrop);
+	int magicBackstab();
+	int magicNovaBlitz();
+
+	int calculatedamageHealed(int heal);
+
+	int itemHealthPotion();
+	int itemMagicPotion();
+	void itemSmokeBomb();
+	void itemIronSkinPotion();
+	void itemBerserkPotion();
+
+	int playerNormalAttack(bool& crit);
+
+	//void magicMenu(Mobs::mob mob);
+
 };
 

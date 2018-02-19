@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "player.h"
+#include "Player.h"
 #include "Screen.h"
 #include "Fonts.h"
 #include "Music.h"
@@ -72,7 +72,7 @@ public:
 	int getRandomInt(int min, int max);
 	void generateEnemyStats(mob& mob);
 	mob determineMonster(int mapZone);
-
+	
 
 	void mobWeakAttack(Player& player, Screen screen, Fonts fonts, Music music, mob enemy);
 	void mobStrongAttack(Player& player, Screen screen, Fonts fonts, Music music, mob enemy);
@@ -92,7 +92,7 @@ public:
 
 	void selectMonsterMove(Player& player, Screen screen, Fonts fonts, Music music, mob& enemy);
 	void enemyOpeningMessage(Screen screen, mob enemy, Player player, Fonts fonts);
-	void enemyDefeatMessage(Screen screen, mob enemy, Player player, Fonts fonts);
+	void enemyDefeatMessage(Screen& screen, mob enemy, Player& player, Fonts fonts);
 	void enemyTurn(Player& player, Screen screen, Fonts fonts, Music music, mob& enemy);
 
 

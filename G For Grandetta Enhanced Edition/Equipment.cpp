@@ -132,12 +132,6 @@ Equipment::Equipment()
 	apprenticeGauntlet.gauntletCost = 500;
 	masterGauntlet.gauntletCost = 1000;
 
-	boots basicBoots;
-	boots leatherBoots;
-	boots chainmailBoots;
-	boots kingBoots;
-	boots apprenticeBoots;
-	boots masterBoots;
 
 	basicBoots.bootsName = "Cloth Socks";
 	leatherBoots.bootsName = "Leather Battle Boots";

@@ -468,6 +468,10 @@ bool play(Screen screen, Music music, Fonts fonts)
 
 	player.questLoaded = false;
 	int battleBuffer = 0; //Inrements with every step
+	bool controllerLeft = false;
+	bool controllerRight = false;
+	bool controllerUp = false;
+	bool controllerDown = false;
 
 	while (!quit)
 	{
@@ -490,7 +494,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 				}
 				if (event.jbutton.button == 1)
 				{
-					//Interact
+					gameExit = interact(player, screen, maps, fonts, music);
 				}
 				if (event.jbutton.button == 2)
 				{
@@ -503,27 +507,79 @@ bool play(Screen screen, Music music, Fonts fonts)
 			{
 				if (event.jhat.value == SDL_HAT_LEFT)
 				{
-					player.moveLeft(maps);
+					controllerLeft = true;
+					controllerRight = false;
+					controllerUp = false;
+					controllerDown = false;
 					
 				}
 
 				if (event.jhat.value == SDL_HAT_RIGHT)
 				{
-					player.moveRight(maps);
+					controllerLeft = false;
+					controllerRight = true;
+					controllerUp = false;
+					controllerDown = false;
 				}
 
 				if (event.jhat.value == SDL_HAT_DOWN)
 				{
-					player.moveDown(maps);
+					controllerLeft = false;
+					controllerRight = false;
+					controllerUp = false;
+					controllerDown = true;
 				}
 
 				if (event.jhat.value == SDL_HAT_UP)
 				{
-					player.moveUp(maps);
+					controllerLeft = false;
+					controllerRight = false;
+					controllerUp = true;
+					controllerDown = false;
 				}
-				screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
-				updateSprite(screen, player);
-				++battleBuffer;
+
+				if (event.jhat.value == SDL_HAT_CENTERED)
+				{
+					controllerLeft = false;
+					controllerRight = false;
+					controllerUp = false;
+					controllerDown = false;
+				}
+
+				if (event.jhat.value == SDL_HAT_LEFTDOWN)
+				{
+					controllerLeft = true;
+					controllerRight = false;
+					controllerUp = false;
+					controllerDown = true;
+				}
+
+				if (event.jhat.value == SDL_HAT_LEFTUP)
+				{
+					controllerLeft = true;
+					controllerRight = false;
+					controllerUp = true;
+					controllerDown = false;
+				}
+
+				if (event.jhat.value == SDL_HAT_RIGHTDOWN)
+				{
+					controllerLeft = false;
+					controllerRight = true;
+					controllerUp = false;
+					controllerDown = true;
+				}
+
+				if (event.jhat.value == SDL_HAT_RIGHTUP)
+				{
+					controllerLeft = false;
+					controllerRight = true;
+					controllerUp = true;
+					controllerDown = false;
+				}
+				//screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
+				//updateSprite(screen, player);
+				//++battleBuffer;
 			}
 
 			//Keyboard Event
@@ -541,8 +597,8 @@ bool play(Screen screen, Music music, Fonts fonts)
 					//Open Inventory
 					//cout << "Player X: " << player.x/32 << "\n";
 					//cout << "Player Y: " << player.y/32 << "\n";
-					cout << "Map X: " << player.map.x/32 << "\n";
-					cout << "Map Y: " << player.map.y/32 << "\n";
+					//cout << "Map X: " << player.map.x/32 << "\n";
+					//cout << "Map Y: " << player.map.y/32 << "\n";
 				}
 
 				if (event.key.keysym.sym == SDLK_ESCAPE)
@@ -856,6 +912,29 @@ bool play(Screen screen, Music music, Fonts fonts)
 				break;
 		}
 
+		//Move Using Controller
+		if (controllerLeft == true)
+		{
+			player.moveLeft(maps);
+			++battleBuffer;
+		}
+		if (controllerRight == true)
+		{
+			player.moveRight(maps);
+			++battleBuffer;
+		}
+		if (controllerUp == true)
+		{
+			player.moveUp(maps);
+			++battleBuffer;
+		}
+		if (controllerDown == true)
+		{
+			player.moveDown(maps);
+			++battleBuffer;
+		}
+
+
 		screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
 		updateSprite(screen, player);
 
@@ -867,7 +946,21 @@ bool play(Screen screen, Music music, Fonts fonts)
 			{
 				//cout << "Battle!";
 				gameExit = turnBasedBattle(player, screen, maps, fonts, music, mobs);
+				quit = gameExit;
+				controllerLeft = false;
+				controllerRight = false;
+				controllerUp = false;
+				controllerDown = false;
 				battleBuffer = 0;
+				if (player.currentMap == 0)
+				{
+					SDL_FreeSurface(screen.gPlaySurface);
+					screen.gPlaySurface = NULL;
+					if(!screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp"))
+					{
+						//cout << "Can't load";
+					}
+				}
 			}
 		}
 
@@ -1620,44 +1713,272 @@ void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string c
 
 }
 
-
+//@
 bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs mobs)
 {
-	music.PlayBattle();
-
-	vector <int> buttonXCombat = { 19, 327, 636, 19, 327, 636 };
-	vector <int> buttonYCombat = { 481, 481, 481, 545, 545, 545 };
-	int combatButtonHeight = 60;
-	int combatButtonWidth = 306;
-	int combatCursorPos = 1;
-	string selectBackground(int mapNumber);
-
-	player.ironPotionEffect = 1;
-	player.beserkPotionEffect = 1;
-	player.smokeBombEffect = 1;
-
-	selectBackground(player.currentMap);
-	
+	//Generate random enemy based on location
 	Mobs::mob enemy;
 	enemy = mobs.determineMonster(player.currentMap);
 
-	if (!screen.loadMedia(screen.gEnemy, enemy.imgSrc))
-		cout << "Failed to enemy media";
+	//Play Encounter sound effect
+	if (enemy.enemyName == "Rat")
+		music.PlayRat();
+	else
+		music.PlayEncounter();
+	
+	//Select Background to display
+	bool boss = false;
+	string selectBackground(int mapNumber);
+
+	//Declare functions
+	void drawHealthBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen& screen, bool boss);
+	bool runAway(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts, int& phaseHolder, bool& gameExit);
+	bool didPlayerLose(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts, int& phaseHolder, Mobs mobs, int& combatCursorPos, bool& playerExit);
+	void wasEnemyDefeated(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts, int& phaseHolder, Mobs mobs, bool& gameExit, bool& quit);
+
+	//Set potion multipliers
+	player.ironPotionEffect = 1;
+	player.berserkPotionEffect = 1;
+	player.smokeBombEffect = 1;
+	
+	//Select Background based on location
+	selectBackground(player.currentMap);
+	
 	if (!screen.loadMedia(screen.gBattleBg, selectBackground(player.currentMap)))
 		cout << "Failed to load map media";
-	if (!screen.loadMedia(screen.gMessage, selectBackground(player.currentMap)))
-		cout << "Failed to load map media";
+	if (!screen.loadMedia(screen.gEnemy, enemy.imgSrc))
+		cout << "Failed to enemy media";
+	if (!screen.loadMedia(screen.gBattleTextBox, "images/messageHealth.bmp"));
+	{
+		//printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+	}
 
+
+	//Load health, enemy and message box
+	void drawBaseImage(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts);
+	drawBaseImage(player, screen, enemy, fonts);
+
+	//Create rect for enemy to spawn at
 	SDL_Rect enemyLoc;
 	enemyLoc.x = 330;
 	enemyLoc.y = 150;
 
-	SDL_BlitSurface(screen.gBattleBg, NULL, screen.gScreenSurface, 0);
-	SDL_BlitSurface(screen.gEnemy, NULL, screen.gScreenSurface, &enemyLoc);
-	SDL_BlitSurface(screen.gMessage, NULL, screen.gMessage, 0);
+	//Initalise Variables
+	bool quit = false;
+	bool gameExit = false;
+	int mouseX = 0;
+	int mouseY = 0;
+	vector <int> buttonXCombat = { 19, 327, 636, 19, 327, 636 };
+	vector <int> buttonYCombat = { 481, 481, 481, 545, 545, 545 };
+	int combatButtonHeight = 60;
+	int combatButtonWidth = 306;
+	int combatCursorPos = 1;	//The location of the cursor on screen
+	int phaseHolder = 1;		//Which phaseHolder the player is on (1 = Combat, 2 = Magic, 3 = Items, 4 = Enemy's Turn)
+	bool crit = false;
+	int damage;
+
+	//Start Battle Music
+	music.PlayBattle();
+
+	gameExit = screen.messageBox("A " + enemy.enemyName + " appeared!", "Time to fight for your life!", fonts.font24);
+	quit = gameExit;
+	mobs.enemyOpeningMessage(screen, enemy, player, fonts);
+
+	drawBaseImage(player, screen, enemy, fonts);
+
+	bool drawCombatCanvas(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int& combatCursorPos, Mobs mobs, Music music, int& phaseHolder);
+	void drawCombatMenu(Screen& screen, int combatCursorPos, Fonts& fonts);
+	drawCombatMenu(screen, combatCursorPos, fonts);
+	SDL_UpdateWindowSurface(screen.gWindow);
+
+	SDL_Event event;
+
+	while (!quit)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			//Exit Window Event
+			if (event.type == SDL_QUIT)
+			{
+				quit = true;
+				gameExit = true;
+			}
+
+			//Mouse Motion Event
+			if (event.type == SDL_MOUSEMOTION)
+			{
+				mouseX = event.motion.x;
+				mouseY = event.motion.y;
+				//Mose hover event
+				for (size_t i = 0; i < buttonXCombat.size(); i++)
+				{
+					if (mouseX > buttonXCombat[i] && mouseX < buttonXCombat[i] + combatButtonWidth)
+					{
+						if (mouseY > buttonYCombat[i] && mouseY < buttonYCombat[i] + combatButtonHeight)
+						{
+							combatCursorPos = i;
+						}
+					}
+				}
+			}
+
+			//Left Click Event
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED)
+			{
+				for (int i = 0; i < buttonXCombat.size(); i++)
+				{
+					if (mouseX > buttonXCombat[i] && mouseX < buttonXCombat[i] + combatButtonWidth)
+					{
+						if (mouseY > buttonYCombat[i] && mouseY < buttonYCombat[i] + combatButtonHeight)
+						{
+							/*  Menu
+								case 0		case 1		case 2
+								case 3		case 4		case 5
+
+								Phase Holder (1 = Main Menu, 2 = Magic Menu, 3 = Item Menu, 4 = Enemy Turn)
+							*/
+							
+							switch (i)
+							{
+							case 1:
+								if (phaseHolder == 1)
+								{
+									if (getRandomInt(1, 100) > player.hitChance)
+									{
+										
+										gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, "Attack Missed!", fonts.font24);
+									}
+									else
+									{
+										music.PlayHit();
+										damage = player.playerNormalAttack(crit);
+										enemy.hp -= damage;
+										drawBaseImage(player, screen, enemy, fonts);
+										SDL_UpdateWindowSurface(screen.gWindow);
+										if (crit == true)
+											gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, "Critical hit! " + to_string(damage) + " Damage!", fonts.font24);
+										else
+											gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, to_string(damage) + " Damage!", fonts.font24);
+									}
+									phaseHolder = 4;
+									SDL_Delay(500);
+									
+								}
+								break;
+							case 2:
+								if (phaseHolder == 1) //If Main Menu
+									phaseHolder = 2;  //Magic Menu
+								break;
+							case 4:
+								if (phaseHolder == 1) //If main phaseHolder
+									phaseHolder = 3;  //Item Menu
+								break;
+							case 5:
+								if (phaseHolder == 1) //Main Menu
+									quit = runAway(player, enemy, screen, fonts, phaseHolder, gameExit); //Run Away
+								else if (phaseHolder == 2 || phaseHolder == 3)
+									phaseHolder = 1;	//Return to Main Menu
+								break;
+
+							}
+						}
+					}
+				}
+			}
+
+			//Keyboard Event
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
+				{	
+						
+				}
+					
+				if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+				{
+						
+				}
+
+				if (event.key.keysym.sym == SDLK_s || event.key.keysym.sym == SDLK_DOWN)
+				{
+
+				}
+
+				if (event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_UP)
+				{
+
+				}
+						
+				if (event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE)
+				{
+								
+				}
+
+						
+			}
+
+			//Controller move event
+			if (event.type == SDL_JOYHATMOTION)
+			{
+				if (event.jhat.value == SDL_HAT_LEFT)
+				{
+					
+				}
+
+				if (event.jhat.value == SDL_HAT_RIGHT)
+				{
+					
+				}
+
+				if (event.jhat.value == SDL_HAT_UP)
+				{
+
+				}
+
+				if (event.jhat.value == SDL_HAT_DOWN)
+				{
+
+				}
+			}
+
+			//Controller button event
+			if (event.type == SDL_JOYBUTTONDOWN)
+			{
+				if (event.jbutton.button == 0)
+				{
+					
+				}
+
+				if (event.jbutton.button == 1)
+				{
+					
+				}
+			}
+			
+		}//POLL EVENT WHILE
+		drawBaseImage(player, screen, enemy, fonts);
+
+		
+		wasEnemyDefeated(player, enemy, screen, fonts, phaseHolder, mobs, gameExit, quit);
+		if (quit == false)
+		{
+			gameExit = drawCombatCanvas(player, screen, enemy, fonts, combatCursorPos, mobs, music, phaseHolder);
+			if (player.currentHP <= 0)
+			{
+				quit = true;
+			}
+			if (phaseHolder == 4)
+				gameExit = didPlayerLose(player, enemy, screen, fonts, phaseHolder, mobs, combatCursorPos, gameExit);
+			SDL_UpdateWindowSurface(screen.gWindow);
+			
+		}
+		if (gameExit == true)
+			quit = gameExit;
+	}
+
+
 
 	SDL_UpdateWindowSurface(screen.gWindow);
-	SDL_Delay(10000);
 
 	clear(screen.gEnemy);
 	SDL_FreeSurface(screen.gEnemy);
@@ -1667,12 +1988,26 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 	SDL_FreeSurface(screen.gBattleBg);
 	screen.gBattleBg = NULL;
 
-	clear(screen.gMessage);
-	SDL_FreeSurface(screen.gMessage);
-	screen.gMessage = NULL;
+	clear(screen.gBattleTextBox);
+	SDL_FreeSurface(screen.gBattleTextBox);
+	screen.gBattleTextBox = NULL;
 
-	return false;
+	if (player.currentMap == 10)		//Dog Boss Battle
+		player.currentMap = 0;			//Set to Village
+	else if (player.currentMap == 11)	//Goblin Boss Battle
+		player.currentMap = 4;			//Set to Camp
+	else if (player.currentMap == 12)	//Spider Boss Battle
+		player.currentMap = 6;			//Set to Cave
+	else if (player.currentMap == 13)	//Wizard Boss Battle
+		player.currentMap = 0;			//Set to Village
+	else if (player.currentMap == 14)	//Demon Boss Battle
+		player.currentMap = 0;			//Set to Village
+
+	music.PlayMap(player.currentMap);
+
+	return gameExit;
 }
+
 
 string selectBackground(int mapNumber)
 {
@@ -1704,17 +2039,30 @@ string selectBackground(int mapNumber)
 	return battleBackground;
 }
 
-void drawHealthBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen& screen)
+void drawHealthBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen& screen, bool boss)
 {
-	int percentFill = (currentStat / maxStat) * 100;
+	int percentFill;
+	int barLength;
+	if (boss == false)
+	{
+		percentFill = (currentStat / maxStat) * 100;
+		barLength = 104;
+	}
+	else
+	{
+		percentFill = (currentStat / maxStat) * 308;
+		barLength = 312;
+	}
+
 	if (percentFill < 0)
 		percentFill = 0;
 
-	SDL_Rect topRectangle = { posX + 4, posY, 104, 4 };			 // {X, Y, H, W}
-	SDL_Rect botRectangle = { posX + 4, posY + 28, 104, 4 };
+	SDL_Rect topRectangle = { posX + 4, posY, barLength, 4 };			 // {X, Y, H, W}
+	SDL_Rect botRectangle = { posX + 4, posY + 28, barLength, 4 };
 	SDL_Rect leftRectangle = { posX, posY + 4, 4,24 };
-	SDL_Rect rightRectangle = { posX + 108, posY + 4 , 4,24 };
+	SDL_Rect rightRectangle = { posX + barLength + 4, posY + 4 , 4,24 };
 	SDL_Rect bar = { posX + 6, posY + 6, percentFill, 20 };
+	SDL_Rect refreshBar = { posX + 6, posY + 6, barLength-4, 20 };
 
 	int r = 0;
 	int g = 0;
@@ -1722,30 +2070,305 @@ void drawHealthBar(int posX, int posY, double currentStat, double maxStat, strin
 
 	if (colour == "#0F0") //Green
 	{
-		 r = 0;
 		 g = 255;
-		 b = 0;
 	}
 	else if (colour == "#00F") //Blue "#00F"
 	{
-		 r = 0;
-		 g = 0;
 		 b = 255;
 	}
 	else if (colour == "#F00") //Red 
 	{
 		 r = 255;
-		 g = 0;
-		 b = 0;
 	}
 
-	SDL_FillRect(screen.gBattleBg, &topRectangle, SDL_MapRGB(screen.gBattleBg->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(screen.gBattleBg, &botRectangle, SDL_MapRGB(screen.gBattleBg->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(screen.gBattleBg, &leftRectangle, SDL_MapRGB(screen.gBattleBg->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(screen.gBattleBg, &rightRectangle, SDL_MapRGB(screen.gBattleBg->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(screen.gBattleBg, &bar, SDL_MapRGB(screen.gBattleBg->format, r, g, b));
+	SDL_FillRect(screen.gBattleTextBox, &refreshBar, SDL_MapRGB(screen.gBattleTextBox->format, 0, 0, 0));
+	SDL_FillRect(screen.gBattleTextBox, &topRectangle, SDL_MapRGB(screen.gBattleTextBox->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gBattleTextBox, &botRectangle, SDL_MapRGB(screen.gBattleTextBox->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gBattleTextBox, &leftRectangle, SDL_MapRGB(screen.gBattleTextBox->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gBattleTextBox, &rightRectangle, SDL_MapRGB(screen.gBattleTextBox->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gBattleTextBox, &bar, SDL_MapRGB(screen.gBattleTextBox->format, r, g, b));
 
 	//SDL_UpdateWindowSurface(screen.gWindow);
-	SDL_FreeSurface(screen.gScreenSurface);
+	//SDL_FreeSurface(screen.gScreenSurface);#
+}
 
+bool runAway(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts, int& phaseHolder, bool& gameExit)
+{
+	bool run = false;
+	if ((enemy.enemyName == "Rabid Dog") || (enemy.enemyName == "Goblin Boss") || (enemy.enemyName == "Spider Queen") || (enemy.enemyName == "Wizard") || (enemy.enemyName == "Demon Lord Grandma!!!")) {
+		gameExit = screen.messageBox("Escape Attempt Fail!", "You can't run from bosses", fonts.font24);
+		phaseHolder = 1; //Players turn
+	}
+	else if (getRandomInt(1 + player.luck, 50) > 30) 
+	{
+		gameExit = screen.messageBox("Escape Attempt Success!", " ", fonts.font24);
+		run = true;
+	}
+	else 
+	{
+		gameExit = screen.messageBox("Escape Attempt Failed", "Now its " + enemy.enemyName + "'s turn!", fonts.font24);
+		phaseHolder = 4; //Enemy's Turn
+	}
+	return run;
+}
+
+void wasEnemyDefeated(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts, int& phaseHolder, Mobs mobs, bool& gameExit, bool& quit) {
+	//checks if the enemy was defeated, if defeated, game gives the play exp for winning
+	int getRandomInt(int min, int max);
+	void drawBaseImage(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts);
+	if (enemy.hp <= 0) {
+		phaseHolder = 0;
+		gameExit = screen.messageBox("You defeated " + enemy.enemyName + "!", "You gained " + to_string(enemy.expDrop) + " exp and " + to_string(enemy.goldDrop) + " gold", fonts.font24);
+		mobs.enemyDefeatMessage(screen, enemy, player, fonts);
+		bool leveled = false;
+		string levelUpString1 = "";
+		string levelUpString2 = "";
+		player.currentExp = player.currentExp + enemy.expDrop;
+		player.effectiveCurrentExp = player.effectiveCurrentExp + enemy.expDrop;
+		while ((player.currentExp >= player.expLevelUp) && (player.level < 16) && gameExit == false)
+		{
+			player.levelUp(levelUpString1, levelUpString2);
+			player.currentHP = player.maxHP;
+			player.currentMP = player.maxMP;
+			drawBaseImage(player, screen, enemy, fonts);
+			gameExit = screen.messageBox("Congratulations!", "You levelled up to level " + to_string(player.level), fonts.font24);
+			gameExit = screen.messageBox(levelUpString1, levelUpString2, fonts.font24);
+		}
+		player.gold += enemy.goldDrop;
+		if (enemy.itemDrop != 0)
+		{
+			if (getRandomInt(1, 50) <= player.luck)
+			{
+				player.inventory[enemy.itemDrop]++;
+				gameExit = screen.messageBox("Enemy dropped an item!", "You got a " + player.inventoryNames[enemy.itemDrop] + "!", fonts.font24);
+			}
+		}
+
+		phaseHolder = 0;
+		quit = true;
+	}
+	else {
+		//phaseHolder = 4;//enemies turn
+	}
+}
+
+bool didPlayerLose(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts, int& phaseHolder, Mobs mobs, int& combatCursorPos, bool& playerExit) {
+	//checks if the enemy was defeated, if defeated, game gives the play exp for winning and returns them to the main phaseHolder of the demo.
+	bool quit = false;
+	if (player.currentHP <= 0) {
+		phaseHolder = 0;
+		quit = screen.messageBox("You fainted & lost half your gold!", "Restart from the village!", fonts.font24);
+		player.gold = floor(player.gold / 2);
+		player.x = 28 * 32;
+		player.y = 1 * 32;
+		player.map.x = 58 * 32;
+		player.map.y = 1 * 32;
+		player.currentMap = 0;
+		player.currentHP = player.maxHP;
+		player.currentMP = player.maxMP;
+		
+	}
+	else {
+		phaseHolder = 1; //switches back to the player's turn
+		quit = screen.messageBox("It is now your turn again", " ", fonts.font24);
+		combatCursorPos = 0;
+	}
+	return quit;
+}
+
+void drawBaseImage(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts)
+{
+	SDL_Rect enemyLoc;
+	enemyLoc.x = 330;
+	enemyLoc.y = 150;
+
+	drawHealthBar(25, 365, (double)player.currentHP, (double)player.maxHP, "#0F0", screen, false); //Player HP
+	drawHealthBar(25, 405, (double)player.currentMP, (double)player.maxMP, "#00F", screen, false); //Player MP
+
+	if (enemy.boss == true)
+		drawHealthBar(424 - 104, 50, (double)enemy.hp, (double)enemy.maxHP, "#F00", screen, true); //Boss Enemy with 3x health bar size
+	else
+		drawHealthBar(424, 50, (double)enemy.hp, (double)enemy.maxHP, "#F00", screen, false); //Normal Enemy
+
+	SDL_BlitSurface(screen.gBattleBg, NULL, screen.gScreenSurface, 0);
+	SDL_BlitSurface(screen.gEnemy, NULL, screen.gScreenSurface, &enemyLoc);
+	SDL_BlitSurface(screen.gBattleTextBox, NULL, screen.gScreenSurface, 0);
+
+	string HPString = to_string(player.currentHP);
+	HPString += "|";
+	HPString += to_string(player.maxHP);
+	HPString += "HP";
+
+	string MPString = to_string(player.currentMP);
+	MPString += "|";
+	MPString += to_string(player.maxMP);
+	MPString += "MP";
+
+	screen.displayLeftText(HPString, 143, 393, fonts.font20);
+	screen.displayLeftText(MPString, 143, 433, fonts.font20);
+	screen.displayText(enemy.enemyName, 480, 130 - 30, fonts.font24); //Display Enemy Name
+}
+
+void drawCombatMenu(Screen& screen, int combatCursorPos, Fonts& fonts)
+{
+	screen.displayLeftText("Attack", 420, 528, fonts.font24);
+	screen.displayLeftText("Use Items", 420, 600, fonts.font24);
+	screen.displayLeftText("Magic", 720, 528, fonts.font24);
+	screen.displayLeftText("Run Away", 720, 600, fonts.font24);
+	switch (combatCursorPos) {
+	case 1:
+		screen.displayLeftText((">"), 396, 528, fonts.font24);
+		break;
+	case 2:
+		screen.displayLeftText((">"), 696, 528, fonts.font24);
+		break;
+	case 4:
+		screen.displayLeftText((">"), 396, 600, fonts.font24);
+		break;
+	case 5:
+		screen.displayLeftText((">"), 696, 600, fonts.font24);
+		break;
+	}
+}
+
+void drawMagicMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int combatCursorPos) {
+	drawBaseImage(player, screen, enemy, fonts);
+	if (player.pClass == "warrior")
+	{
+		if (player.level >= 2) {
+			screen.displayLeftText("Flame S. 2MP", 70, 528, fonts.font20);
+		}
+		if (player.level >= 3) {
+			screen.displayLeftText("Sheer W. 4MP", 380, 528, fonts.font20);
+		}
+		if (player.level >= 5) {
+			screen.displayLeftText("Tornado S. 6MP", 680, 528, fonts.font20);
+		}
+		if (player.level >= 10) {
+			screen.displayLeftText(("Bulk Up 8MP"), 70, 600, fonts.font20);
+		}
+		if (player.level >= 15) {
+			screen.displayLeftText(("Nova S 10MP"), 375, 600, fonts.font20);
+		}
+	}
+	else if (player.pClass == "mage")
+	{
+		if (player.level >= 2) {
+			screen.displayLeftText("Fire 			 2MP", 70, 528, fonts.font20);
+		}
+		if (player.level >= 3) {
+			screen.displayLeftText("Heal		4MP", 380, 528, fonts.font20);
+		}
+		if (player.level >= 5) {
+			screen.displayLeftText("Thunder 6MP", 680, 528, fonts.font20);
+		}
+		if (player.level >= 10) {
+			screen.displayLeftText(("Drain H. 8MP"), 70, 600, fonts.font20);
+		}
+		if (player.level >= 15) {
+			screen.displayLeftText(("G Nova 10MP"), 375, 600, fonts.font20);
+		}
+	}
+	else if (player.pClass ==  "rogue")
+	{
+		if (player.level >= 2) {
+			screen.displayLeftText("Steal		2MP", 70, 528, fonts.font20);
+		}
+		if (player.level >= 3) {
+			screen.displayLeftText("Life Steal 4MP", 380, 528, fonts.font20);
+		}
+		if (player.level >= 5) {
+			screen.displayLeftText("Cash N Grab 6MP", 680, 528, fonts.font20);
+		}
+		if (player.level >= 10) {
+			screen.displayLeftText("Backstab 8MP", 70, 600, fonts.font20);
+		}
+		if (player.level >= 15) {
+			screen.displayLeftText("Nova B 10MP", 375, 600, fonts.font20);
+		}
+
+	}
+
+	screen.displayLeftText("return", 680, 600, fonts.font20);
+
+
+	switch (combatCursorPos) {
+	case 0:
+		screen.displayLeftText((">"), 24, 528, fonts.font20);
+		break;
+	case 1:
+		screen.displayLeftText((">"), 346, 528, fonts.font20);
+		break;
+	case 2:
+		screen.displayLeftText((">"), 656, 528, fonts.font20);
+		break;
+	case 3:
+		screen.displayLeftText((">"), 24, 600, fonts.font20);
+		break;
+	case 4:
+		screen.displayLeftText((">"), 346, 600, fonts.font20);
+		break;
+	case 5:
+		screen.displayLeftText((">"), 656, 600, fonts.font20);
+		break;
+	}
+}
+
+void drawItemMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int combatCursorPos) {
+	drawBaseImage(player, screen, enemy, fonts);
+	screen.displayLeftText(("Health P.X" + player.inventory[1]), 48, 528, fonts.font20);
+	screen.displayLeftText(("Ironskin P.X" + player.inventory[4]), 370, 528, fonts.font20);
+	screen.displayLeftText(("Berserk P.X" + player.inventory[5]), 680, 528, fonts.font20);
+	screen.displayLeftText(("Magic P.X" + player.inventory[2]), 48, 600, fonts.font20);
+	screen.displayLeftText(("Smoke B.X" + player.inventory[3]), 370, 600, fonts.font20);
+	screen.displayLeftText("return", 680, 600, fonts.font20);
+	switch (combatCursorPos) {
+	case 0:
+		screen.displayLeftText(">", 24, 528, fonts.font20);
+		break;
+	case 1:
+		screen.displayLeftText((">"), 346, 528, fonts.font20);
+		break;
+	case 2:
+		screen.displayLeftText((">"), 656, 528, fonts.font20);
+		break;
+	case 3:
+		screen.displayLeftText((">"), 24, 600, fonts.font20);
+		break;
+	case 4:
+		screen.displayLeftText((">"), 346, 600, fonts.font20);
+		break;
+	case 5:
+		screen.displayLeftText((">"), 656, 600, fonts.font20);
+		break;
+	}
+}
+
+bool drawCombatCanvas(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int& combatCursorPos, Mobs mobs, Music music, int& phaseHolder)
+{
+	bool gameExit = false;
+	void drawCombatMenu(Screen& screen, int combatCursorPos, Fonts& fonts);
+	void drawMagicMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int combatCursorPos);
+	void drawItemMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int combatCursorPos);
+	switch (phaseHolder)
+	{
+		
+		case 1: //Normal case
+			drawCombatMenu(screen, combatCursorPos, fonts);
+			break;
+		case 2://Magic Attacks
+			drawMagicMenu(player, screen, enemy, fonts, combatCursorPos);
+			break;
+		case 3: //item phaseHolder
+			drawItemMenu(player, screen, enemy, fonts, combatCursorPos);
+			break;
+		case 4://Enemies Turn
+			drawBaseImage(player, screen, enemy, fonts);
+			gameExit = screen.messageBox("It is the enemy's turn!", "", fonts.font24);
+			mobs.enemyTurn(player, screen, fonts, music, enemy);
+			//phaseHolder = 1;
+			//gameExit = didPlayerLose(player, enemy, screen, fonts, phaseHolder, mobs, combatCursorPos, gameExit);
+			break;
+	}
+	return gameExit;
 }

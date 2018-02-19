@@ -32,10 +32,12 @@ public:
 
 	void PlayRat();
 	void PlayHit();
+	void PlayEncounter();
 
 	void PauseMusic();
 	void ResumeMusic();
 	void HaltMusic();
+	void PlayMap(int map);
 
 	void FreeSounds();
 
@@ -54,6 +56,7 @@ private:
 
 	Mix_Chunk *hit;
 	Mix_Chunk *rat;
+	Mix_Chunk *encounter;
 
 };
 

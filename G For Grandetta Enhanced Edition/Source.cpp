@@ -1204,6 +1204,7 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 						}
 					}
 				}
+				SDL_Delay(500);
 			}
 
 			//Keyboard Event
@@ -1685,7 +1686,7 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 
 int getRandomInt(int min, int max)
 {
-	return rand() % max + min;
+	return rand() % (max - min) + min;
 }
 
 void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen& screen)
@@ -1774,8 +1775,7 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 	int combatButtonWidth = 306;
 	int combatCursorPos = 1;	//The location of the cursor on screen
 	int phaseHolder = 1;		//Which phaseHolder the player is on (1 = Combat, 2 = Magic, 3 = Items, 4 = Enemy's Turn)
-	bool crit = false;
-	int damage;
+	int optionSelected = 1; //Menu option chosen
 
 	//Start Battle Music
 	music.PlayBattle();
@@ -1786,10 +1786,15 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 
 	drawBaseImage(player, screen, enemy, fonts);
 
-	bool drawCombatCanvas(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int& combatCursorPos, Mobs mobs, Music music, int& phaseHolder);
+	bool drawCombatCanvas(Player& player, Screen& screen, Mobs::mob& enemy, Fonts fonts, int& combatCursorPos, Mobs mobs, Music music, int& phaseHolder);
 	void drawCombatMenu(Screen& screen, int combatCursorPos, Fonts& fonts);
+	bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player, Mobs::mob& enemy, Screen& screen, Fonts& fonts, Music& music, int& combatCursorPos);
 	drawCombatMenu(screen, combatCursorPos, fonts);
 	SDL_UpdateWindowSurface(screen.gWindow);
+	void moveLeft(int& combatCursorPos, int phaseHolder);
+	void moveRight(int& combatCursorPos, int phaseHolder);
+	void moveUp(int& combatCursorPos, int phaseHolder);
+	void moveDown(int& combatCursorPos, int phaseHolder);
 
 	SDL_Event event;
 
@@ -1837,106 +1842,13 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 
 								Phase Holder (1 = Main Menu, 2 = Magic Menu, 3 = Item Menu, 4 = Enemy Turn)
 							*/
-							
-							switch (i)
-							{
-							case 0:
-								if (phaseHolder == 2)
-								{
-									if (player.level >= 2)
-									{
-										if (player.currentMP >= 2)
-										{
-											if (player.pClass == "warrior")
-											{
-												damage = player.magicFlameSlash();
-												enemy.hp -= damage;
-												drawBaseImage(player, screen, enemy, fonts);
-												SDL_UpdateWindowSurface(screen.gWindow);
-												gameExit = screen.messageBox("You set your sword on fire, ", "You slash with volcanic fury", fonts.font24);
-												gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
-											}
-											else if (player.pClass == "mage")
-											{
-												damage = player.magicFire();
-												enemy.hp -= damage;
-												drawBaseImage(player, screen, enemy, fonts);
-												SDL_UpdateWindowSurface(screen.gWindow);
-												gameExit = screen.messageBox("Through the arcane arts, you summon", "a blaze that scorches the enemy!", fonts.font24);
-												gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
-											}
-											else if (player.pClass == "rogue")
-											{
-												gameExit = screen.messageBox("You attempt to steal ", "an item from the enemy", fonts.font24);
-												bool steal = player.magicSteal();
-												if (steal == true)
-												{
-													gameExit = screen.messageBox("You stole a" + player.inventoryNames[enemy.itemDrop], "from the" + enemy.enemyName, fonts.font24);
-													player.inventory[enemy.itemDrop]++;
-												}
-												else
-												{
-													gameExit = screen.messageBox("Your steal attempt failed...", "", fonts.font24);
-												}
-												drawBaseImage(player, screen, enemy, fonts);
-												SDL_UpdateWindowSurface(screen.gWindow);
-											}
-											phaseHolder = 4;
-										}
-										else
-										{
-											gameExit = screen.messageBox("Not enough MP to cast", "", fonts.font24);
-											phaseHolder = 2;
-										}
-									}
-								}
-							case 1:
-								if (phaseHolder == 1)
-								{
-									if (getRandomInt(1, 100) > player.hitChance)
-									{
-										
-										gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, "Attack Missed!", fonts.font24);
-									}
-									else
-									{
-										music.PlayHit();
-										damage = player.playerNormalAttack(crit);
-										enemy.hp -= damage;
-										drawBaseImage(player, screen, enemy, fonts);
-										SDL_UpdateWindowSurface(screen.gWindow);
-										if (crit == true)
-											gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, "Critical hit! " + to_string(damage) + " Damage!", fonts.font24);
-										else
-											gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, to_string(damage) + " Damage!", fonts.font24);
-									}
-									phaseHolder = 4;
-								}
-								else if (phaseHolder == 2)
-								{
-									
-									
-								}
-								break;
-							case 2:
-								if (phaseHolder == 1) //If Main Menu
-									phaseHolder = 2;  //Magic Menu
-								break;
-							case 4:
-								if (phaseHolder == 1) //If Main Menu
-									phaseHolder = 3;  //Item Menu
-								break;
-							case 5:
-								if (phaseHolder == 1) //Main Menu
-									quit = runAway(player, enemy, screen, fonts, phaseHolder, gameExit); //Run Away
-								else if (phaseHolder == 2 || phaseHolder == 3)
-									phaseHolder = 1;	//Return to Main Menu
-								break;
-
-							}
+							int calculateDamageDealt(int attack, int defence);
+							i = optionSelected;
+							gameExit = battleMenu(optionSelected, phaseHolder, quit, player, enemy, screen, fonts, music, combatCursorPos);
 						}
 					}
 				}
+				SDL_Delay(500);
 			}
 
 			//Keyboard Event
@@ -1944,27 +1856,28 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 			{
 				if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
 				{	
-						
+					moveLeft(combatCursorPos, phaseHolder);
 				}
 					
 				if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
 				{
-						
+					moveRight(combatCursorPos, phaseHolder);
 				}
 
 				if (event.key.keysym.sym == SDLK_s || event.key.keysym.sym == SDLK_DOWN)
 				{
-
+					moveDown(combatCursorPos, phaseHolder);
 				}
 
 				if (event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_UP)
 				{
-
+					moveUp(combatCursorPos, phaseHolder);
 				}
 						
 				if (event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE)
 				{
-								
+					optionSelected = combatCursorPos;
+					gameExit = battleMenu(optionSelected, phaseHolder, quit, player, enemy, screen, fonts, music, combatCursorPos);
 				}
 
 						
@@ -1975,22 +1888,22 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 			{
 				if (event.jhat.value == SDL_HAT_LEFT)
 				{
-					
+					moveLeft(combatCursorPos, phaseHolder);
 				}
 
 				if (event.jhat.value == SDL_HAT_RIGHT)
 				{
-					
+					moveRight(combatCursorPos, phaseHolder);
 				}
 
 				if (event.jhat.value == SDL_HAT_UP)
 				{
-
+					moveUp(combatCursorPos, phaseHolder);
 				}
 
 				if (event.jhat.value == SDL_HAT_DOWN)
 				{
-
+					moveDown(combatCursorPos, phaseHolder);
 				}
 			}
 
@@ -1999,12 +1912,17 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 			{
 				if (event.jbutton.button == 0)
 				{
-					
+					if (phaseHolder != 1)
+					{
+						optionSelected = 5;
+						gameExit = battleMenu(optionSelected, phaseHolder, quit, player, enemy, screen, fonts, music, combatCursorPos);
+					}
 				}
 
 				if (event.jbutton.button == 1)
 				{
-					
+					optionSelected = combatCursorPos;
+					gameExit = battleMenu(optionSelected, phaseHolder, quit, player, enemy, screen, fonts, music, combatCursorPos);
 				}
 			}
 			
@@ -2065,6 +1983,130 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 	music.PlayMap(player.currentMap);
 
 	return gameExit;
+}
+
+
+void moveLeft(int& combatCursorPos, int phaseHolder)
+{
+	if (phaseHolder == 1)
+	{
+		switch (combatCursorPos)  //{  0    1    2  }
+		{						  //{  3    4    5  }
+		case 0:
+			break;
+		case 1:
+			break;
+		case 2:
+			combatCursorPos = 1;
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			combatCursorPos = 4;
+			break;
+		}
+	}
+	else
+	{
+		switch (combatCursorPos)  //{  0    1    2  }
+		{						  //{  3    4    5  }
+		case 0:
+			break;
+		case 1:
+			combatCursorPos = 0;
+			break;
+		case 2:
+			combatCursorPos = 1;
+			break;
+		case 3:
+			break;
+		case 4:
+			combatCursorPos = 3;
+			break;
+		case 5:
+			combatCursorPos = 4;
+			break;
+		}
+	}
+}
+
+void moveRight(int& combatCursorPos, int phaseHolder)
+{
+	switch (combatCursorPos)  //{  0    1    2  }
+	{						  //{  3    4    5  }
+	case 0:
+		combatCursorPos = 1;
+		break;
+	case 1:
+		combatCursorPos = 2;
+		break;
+	case 2:
+		break;
+	case 3:
+		combatCursorPos = 4;
+		break;
+	case 4:
+		combatCursorPos = 5;
+		break;
+	case 5:
+		break;
+	}
+}
+
+void moveDown(int& combatCursorPos, int phaseHolder)
+{
+	switch (combatCursorPos)  //{  0    1    2  }
+	{						  //{  3    4    5  }
+	case 0:
+		combatCursorPos = 3;
+		break;
+	case 1:
+		combatCursorPos = 4;
+		break;
+	case 2:
+		combatCursorPos = 5;
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	}
+}
+
+void moveUp(int& combatCursorPos, int phaseHolder)
+{
+	switch (combatCursorPos)  //{  0    1    2  }
+	{						  //{  3    4    5  }
+	case 0:
+		break;
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		combatCursorPos = 0;
+		break;
+	case 4:
+		combatCursorPos = 1;
+		break;
+	case 5:
+		combatCursorPos = 2;
+		break;
+	}
+}
+
+int calculateDamageDealt(int attack, int defence)
+{
+	//calculates and returns damage after subtracting the defence stat of the oppenent
+	int damageDealt = attack - defence;
+	if (damageDealt <= 0) {  //prevents passing negative damage that would effectively heal the openent
+	damageDealt = getRandomInt(1, 5);	//applies chip damage if no damage would be dealt
+	}
+	return damageDealt;
 }
 
 
@@ -2189,10 +2231,77 @@ void wasEnemyDefeated(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fo
 			player.levelUp(levelUpString1, levelUpString2);
 			player.currentHP = player.maxHP;
 			player.currentMP = player.maxMP;
-			drawBaseImage(player, screen, enemy, fonts);
 			gameExit = screen.messageBox("Congratulations!", "You levelled up to level " + to_string(player.level), fonts.font24);
 			gameExit = screen.messageBox(levelUpString1, levelUpString2, fonts.font24);
+			drawBaseImage(player, screen, enemy, fonts);
 			gameExit = screen.messageBox("HP: " + to_string(player.maxHP) + " MP: " + to_string(player.maxMP) + " phyAtt: " + to_string(player.phyAttack) + " phyDef: " + to_string(player.phyDefence), "magAtt: " + to_string(player.magAttack) + " magDef: " + to_string(player.magDefence) + " Luck: " + to_string(player.luck), fonts.font24);
+
+			
+			if (player.pClass == "warrior")
+			{
+				if (player.level == 2) {  //flame slash
+					gameExit = screen.messageBox("You learnt a new spell!", "Burn foes with Flame Slash!", fonts.font24);
+					gameExit = screen.messageBox("Remember to cast a spell,", "you need enough MP to cast it!", fonts.font24);
+				}
+				if (player.level == 3) {   //Sheer will
+					gameExit = screen.messageBox("You learnt a new spell!", "Heal yourself with Sheer Will!", fonts.font24);
+				}
+				if (player.level == 5) {   //tornado slash
+					gameExit = screen.messageBox("You learnt a new spell!", "Tear foes to shreds with tornado slash!", fonts.font24);
+				}
+				if (player.level == 10) {  //bulk up
+					gameExit = screen.messageBox("You learnt a new spell!", "Bulk Up to boost your stats!", fonts.font24);
+				}
+				if (player.level == 15) {  //nova slash
+					gameExit = screen.messageBox("You learnt a new spell!", "Unleash your full power Nova Slash!", fonts.font24);
+					gameExit = screen.messageBox("Congratulations!", "You now have learnt every spell!", fonts.font24);
+					gameExit = screen.messageBox("Have fun using them", "to defeat your foes!", fonts.font24);
+				}
+			}
+
+			else if (player.pClass == "mage")
+			{
+				if (player.level == 2) { //fire
+					gameExit = screen.messageBox("You learnt a new spell!", "Scorch your foes with Fire!", fonts.font24);
+					gameExit = screen.messageBox("Remember to cast a spell,", "you need enough MP to cast it!", fonts.font24);
+				}
+				if (player.level == 3) { //heal
+					gameExit = screen.messageBox("You learnt a new spell!", "Heal yourself with Heal!", fonts.font24);
+				}
+				if (player.level == 5) { //thunder
+					gameExit = screen.messageBox("You learnt a new spell!", "Zap your foes with Thunder!", fonts.font24);
+				}
+				if (player.level == 10) { //health drain
+					gameExit = screen.messageBox("You learnt a new spell!", "Steal health with Health Drain!", fonts.font24);
+				}
+				if (player.level == 15) { //g nova
+					gameExit = screen.messageBox("You learnt a new spell!", "Unleash your full power with Grand Nova!", fonts.font24);
+					gameExit = screen.messageBox("Congratulations!", "You now have learnt every spell!", fonts.font24);
+					gameExit = screen.messageBox("Have fun using them", "to defeat your foes!", fonts.font24);
+				}
+			}
+
+			else if (player.pClass == "rogue")
+			{
+				if (player.level == 2) { //Steal
+					gameExit = screen.messageBox("You learnt a new spell!", "Plunder items with Steal!", fonts.font24);
+					gameExit = screen.messageBox("Remember to cast a spell,", "you need enough MP to cast it!", fonts.font24);
+				}
+				if (player.level == 3) {//Life steal
+					gameExit = screen.messageBox("You learnt a new spell!", "Life Steal from your foes!", fonts.font24);
+				}
+				if (player.level == 5) {//Cash N Grab
+					gameExit = screen.messageBox("You learnt a new spell!", "Cash N Grab enemy gold!", fonts.font24);
+				}
+				if (player.level == 10) { //Backstab
+					gameExit = screen.messageBox("You learnt a new spell!", "Hit weak points with Backstab!", fonts.font24);
+				}
+				if (player.level == 15) { //Nova Blitz
+					gameExit = screen.messageBox("You learnt a new spell!", "Unleash your full power of Nova Blitz!", fonts.font24);
+					gameExit = screen.messageBox("Congratulations!", "You now have learnt every spell!", fonts.font24);
+					gameExit = screen.messageBox("Have fun using them", "to defeat your foes!", fonts.font24);
+				}
+			}
 		}
 		player.gold += enemy.goldDrop;
 		if (enemy.itemDrop != 0)
@@ -2234,7 +2343,7 @@ bool didPlayerLose(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts
 	else {
 		phaseHolder = 1; //switches back to the player's turn
 		//quit = screen.messageBox("It is now your turn again", " ", fonts.font24);
-		combatCursorPos = 0;
+		combatCursorPos = 1;
 	}
 	return quit;
 }
@@ -2305,7 +2414,7 @@ void drawMagicMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts,
 			screen.displayLeftText("Sheer W. 4MP", 380, 528, fonts.font20);
 		}
 		if (player.level >= 5) {
-			screen.displayLeftText("Tornado S. 6MP", 680, 528, fonts.font20);
+			screen.displayLeftText("Tornado S 6MP", 680, 528, fonts.font20);
 		}
 		if (player.level >= 10) {
 			screen.displayLeftText(("Bulk Up 8MP"), 70, 600, fonts.font20);
@@ -2379,11 +2488,11 @@ void drawMagicMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts,
 
 void drawItemMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int combatCursorPos) {
 	drawBaseImage(player, screen, enemy, fonts);
-	screen.displayLeftText(("Health P.X" + player.inventory[1]), 48, 528, fonts.font20);
-	screen.displayLeftText(("Ironskin P.X" + player.inventory[4]), 370, 528, fonts.font20);
-	screen.displayLeftText(("Berserk P.X" + player.inventory[5]), 680, 528, fonts.font20);
-	screen.displayLeftText(("Magic P.X" + player.inventory[2]), 48, 600, fonts.font20);
-	screen.displayLeftText(("Smoke B.X" + player.inventory[3]), 370, 600, fonts.font20);
+	screen.displayLeftText(("Health P.X" + to_string(player.inventory[1])), 48, 528, fonts.font20);
+	screen.displayLeftText(("Ironskin P.X" + to_string(player.inventory[4])), 370, 528, fonts.font20);
+	screen.displayLeftText(("Berserk P.X" + to_string(player.inventory[5])), 680, 528, fonts.font20);
+	screen.displayLeftText(("Magic P.X" + to_string(player.inventory[2])), 48, 600, fonts.font20);
+	screen.displayLeftText(("Smoke B.X" + to_string(player.inventory[3])), 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
 	switch (combatCursorPos) {
 	case 0:
@@ -2407,12 +2516,13 @@ void drawItemMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, 
 	}
 }
 
-bool drawCombatCanvas(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int& combatCursorPos, Mobs mobs, Music music, int& phaseHolder)
+bool drawCombatCanvas(Player& player, Screen& screen, Mobs::mob& enemy, Fonts fonts, int& combatCursorPos, Mobs mobs, Music music, int& phaseHolder)
 {
 	bool gameExit = false;
 	void drawCombatMenu(Screen& screen, int combatCursorPos, Fonts& fonts);
 	void drawMagicMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int combatCursorPos);
 	void drawItemMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts, int combatCursorPos);
+
 	switch (phaseHolder)
 	{
 		
@@ -2427,11 +2537,385 @@ bool drawCombatCanvas(Player& player, Screen& screen, Mobs::mob enemy, Fonts fon
 			break;
 		case 4://Enemies Turn
 			drawBaseImage(player, screen, enemy, fonts);
-			gameExit = screen.messageBox("It is the enemy's turn!", "", fonts.font24);
+			gameExit = screen.messageBox("It's the enemy's turn!", "", fonts.font24);
 			mobs.enemyTurn(player, screen, fonts, music, enemy);
+			drawBaseImage(player, screen, enemy, fonts);
 			//phaseHolder = 1;
 			//gameExit = didPlayerLose(player, enemy, screen, fonts, phaseHolder, mobs, combatCursorPos, gameExit);
 			break;
+	}
+	return gameExit;
+}
+
+bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player, Mobs::mob& enemy, Screen& screen, Fonts& fonts, Music& music, int& combatCursorPos)
+{
+	bool crit = false;
+	int damage;
+	bool gameExit = false;
+
+	switch (optionSelected)
+	{
+	case 0: //Button 0
+		if (phaseHolder == 2) //Magic Menu
+		{
+			if (player.level >= 2)
+			{
+				if (player.currentMP >= 2)
+				{
+					if (player.pClass == "warrior")
+					{
+						damage = calculateDamageDealt(floor(player.magicFlameSlash() * player.berserkPotionEffect), floor(enemy.magicDefence + enemy.physicalDefence) / 2);
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayHit();
+						gameExit = screen.messageBox("You set your sword on fire, ", "You slash with volcanic fury", fonts.font24);
+						gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+					}
+					else if (player.pClass == "mage")
+					{
+						damage = calculateDamageDealt(floor(player.magicFire() * player.berserkPotionEffect), floor(enemy.magicDefence));
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayMagic();
+						gameExit = screen.messageBox("Through the arcane arts, you summon", "a blaze that scorches the enemy!", fonts.font24);
+						gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+					}
+					else if (player.pClass == "rogue")
+					{
+						music.PlayHit();
+						gameExit = screen.messageBox("You attempt to steal ", "an item from the enemy", fonts.font24);
+						bool steal = player.magicSteal();
+						if (steal == true)
+						{
+							gameExit = screen.messageBox("You stole a " + player.inventoryNames[enemy.itemDrop], "from the " + enemy.enemyName, fonts.font24);
+							player.inventory[enemy.itemDrop]++;
+						}
+						else
+						{
+							gameExit = screen.messageBox("Your steal attempt failed...", "", fonts.font24);
+						}
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+					}
+					phaseHolder = 4; //Enemies Turn
+				}
+				else
+				{
+					gameExit = screen.messageBox("Not enough MP to cast", "", fonts.font24);
+					phaseHolder = 2; //Magic Menu
+
+				}
+			}
+		}
+		else if (phaseHolder == 3) //Item Menu
+		{
+			if (player.inventory[1] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
+			{
+				player.currentHP = player.itemHealthPotion();
+				if (player.currentHP > player.maxHP)
+					player.currentHP = player.maxHP;
+				phaseHolder = 4; //Enemy Turn
+			}
+		}
+	case 1:
+		if (phaseHolder == 1) //Combat Menu
+		{
+			if (getRandomInt(1, 100) > player.hitChance)
+			{
+				gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, "Attack Missed!", fonts.font24);
+			}
+			else
+			{
+				music.PlayHit();
+				damage = calculateDamageDealt(floor(player.playerNormalAttack(crit) * player.berserkPotionEffect), enemy.physicalDefence);
+				enemy.hp -= damage;
+				drawBaseImage(player, screen, enemy, fonts);
+				SDL_UpdateWindowSurface(screen.gWindow);
+				if (crit == true)
+					gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, "Critical hit! " + to_string(damage) + " Damage!", fonts.font24);
+				else
+					gameExit = screen.messageBox("You attack with " + player.equippedWeapon.weaponName, to_string(damage) + " Damage!", fonts.font24);
+			}
+			phaseHolder = 4;
+		}
+		else if (phaseHolder == 2) //Magic Menu
+		{
+			if (player.level >= 3)
+			{
+				if (player.currentMP >= 4)
+				{
+					if (player.pClass == "warrior")
+					{
+						//Sheer Will
+						int heal = player.magicSheerWill();
+						int maxHealed = player.maxHP - player.currentHP;
+						player.currentHP += heal;
+						if (player.currentHP > player.maxHP)
+							player.currentHP = player.maxHP;
+						if (heal > maxHealed)
+							heal = maxHealed;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayMagic();
+						gameExit = screen.messageBox("You focus your mind and body ", "You healed " + to_string(heal) + " HP!", fonts.font24);
+					}
+					else if (player.pClass == "mage")
+					{
+						//Heal
+						int heal = player.magicHeal();
+						int maxHealed = player.maxHP - player.currentHP;
+						player.currentHP += heal;
+						if (player.currentHP > player.maxHP)
+							player.currentHP = player.maxHP;
+						if (heal > maxHealed)
+							heal = maxHealed;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayHeal();
+						gameExit = screen.messageBox("Your magic flows through your body", "You healed " + to_string(heal) + " HP!", fonts.font24);
+					}
+					else if (player.pClass == "rogue")
+					{
+						//Life Steal
+						damage = calculateDamageDealt(floor(player.magicLifeSteal() * player.berserkPotionEffect), enemy.magicDefence);
+						if (damage > enemy.hp)
+							damage = enemy.hp;
+						enemy.hp -= damage;
+						int heal = damage / 3;
+						int maxHealed = player.maxHP - player.currentHP;
+						player.currentHP += heal;
+						if (player.currentHP > player.maxHP)
+							player.currentHP = player.maxHP;
+						if (heal > maxHealed)
+							heal = maxHealed;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayHit();
+						gameExit = screen.messageBox("You sap the enemy of " + to_string(damage) + " HP! ", "You regain " + to_string(heal) + " HP!", fonts.font24);
+					}
+					phaseHolder = 4; //Enemy Turn
+				}
+				else
+				{
+					gameExit = screen.messageBox("Not enough MP to cast", "", fonts.font24);
+					phaseHolder = 2; //Magic Menu
+				}
+			}
+		}
+		else if (phaseHolder == 3) //Item Menu
+		{
+			if (player.inventory[4] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
+			{
+				player.itemIronSkinPotion();
+				phaseHolder = 4; // Enemy Turn
+			}
+		}
+		break;
+	case 2:
+		if (phaseHolder == 1) //Main Menu Options
+		{
+			phaseHolder = 2;  //Magic Menu
+			combatCursorPos = 0;
+		}
+		else if (phaseHolder == 2) //Magic Menu Options
+		{
+			if (player.level >= 5)
+			{
+				if (player.currentMP >= 6)
+				{
+					if (player.pClass == "warrior")
+					{
+						//Tornado Slash
+						int damage = calculateDamageDealt(floor(player.magicTornadoSlash() * player.berserkPotionEffect), floor((enemy.magicDefence + enemy.physicalDefence) / 2));
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayHit();
+						gameExit = screen.messageBox("Your magic calls down thunder bolts!", "To strike your foe!", fonts.font24);
+						gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+					}
+					else if (player.pClass == "mage")
+					{
+						//Thunder
+						int damage = calculateDamageDealt(floor(player.magicThunder() * player.berserkPotionEffect), enemy.magicDefence);
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayMagic();
+						gameExit = screen.messageBox("Your magic calls down thunder bolts!", "To strike your foe!", fonts.font24);
+						gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+					}
+					else if (player.pClass == "rogue")
+					{
+						//Cash N Grab
+						gameExit = screen.messageBox("You attack the enemy,", "and attempt to steal gold", fonts.font24);
+						damage = calculateDamageDealt(floor(player.magicCashNGrab() * player.berserkPotionEffect), enemy.magicDefence);
+						enemy.hp -= damage;
+						int goldEarned = ceil(enemy.goldDrop / 3);
+						player.gold = +goldEarned;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						gameExit = screen.messageBox("Your swift movements causes " + to_string(damage) + " damage!", "You steal " + to_string(goldEarned) + " gold!", fonts.font24);
+					}
+					phaseHolder = 4; //Enemy Turn
+				}
+				else
+				{
+					gameExit = screen.messageBox("Not enough MP to cast", "", fonts.font24);
+					phaseHolder = 2; //Magic Menu
+				}
+			}
+		}
+		else if (phaseHolder == 3) //Item Menu
+		{
+			if (player.inventory[5] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
+			{
+				player.itemBerserkPotion();
+				phaseHolder = 4; //Enemy Turn
+			}
+		}
+		break;
+	case 3:
+		if (phaseHolder == 2) //Magic Menu Options
+		{
+			if (player.level >= 10)
+			{
+				if (player.currentMP >= 8)
+				{
+					if (player.pClass == "warrior")
+					{
+						//Bulk Up
+						if (player.berserkPotionEffect == 4)
+						{
+							gameExit = screen.messageBox("You are already at full strength!", "Go get 'em!", fonts.font24);
+							phaseHolder = 2;
+						}
+						else
+						{
+							player.magicBulkUp();
+							music.PlayHeal();
+							gameExit = screen.messageBox("Both physical attack and physical", " defence massively improved!", fonts.font24);
+							if (player.berserkPotionEffect == 4)
+								gameExit = screen.messageBox("You are now at full strength!", "Go get 'em!", fonts.font24);
+							phaseHolder = 4;
+						}
+
+					}
+					else if (player.pClass == "mage")
+					{
+						//Drain Health
+						damage = calculateDamageDealt(floor(player.magicDrainHealth() * player.berserkPotionEffect), enemy.magicDefence);
+						int heal = damage / 2;
+						enemy.hp -= damage;
+						player.currentHP += heal;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayHeal();
+						screen.messageBox("You sap " + enemy.enemyName + "'s vitality", to_string(damage) + " Damage! " + to_string(heal) + " Health restored!", fonts.font24);
+						phaseHolder = 4;	//Enemy's Turn
+					}
+					else if (player.pClass == "rogue")
+					{
+						//Backstab
+						damage = calculateDamageDealt(floor(player.magicBackstab() * player.berserkPotionEffect), enemy.physicalDefence);
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayHit();
+						gameExit = screen.messageBox("You attack the enemy's weakpoint ", "for a massive" + to_string(damage) + " damage! ", fonts.font24);
+						phaseHolder = 4; //Enemy's Turn
+					}
+				}
+				else
+				{
+					gameExit = screen.messageBox("Not enough MP to cast", "", fonts.font24);
+					phaseHolder = 2; //Magic Menu
+				}
+			}
+		}
+		else if (phaseHolder == 3) //Item Menu
+		{
+			if (player.inventory[2] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
+			{
+				player.currentMP = player.itemMagicPotion();
+				if (player.currentMP > player.maxMP)
+					player.currentMP = player.maxMP;
+				phaseHolder = 4; //Enemy Turn
+			}
+		}
+		break;
+	case 4:
+	{
+		if (phaseHolder == 1) //If Main Menu
+		{
+			phaseHolder = 3;  //Item Menu
+			combatCursorPos = 0;
+		}
+		else if (phaseHolder == 2) //Magic Menu
+		{
+			if (player.level >= 15)
+			{
+				if (player.currentMP >= 10)
+				{
+					if (player.pClass == "warrior")
+					{
+						damage = calculateDamageDealt(floor(player.magicNovaSlash() * player.berserkPotionEffect), floor((enemy.magicDefence + enemy.physicalDefence) / 2));
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayMagic();
+						gameExit = screen.messageBox("You slash with the power of a demon", "But where did you get this power?!?", fonts.font24);
+						gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+					}
+					else if (player.pClass == "mage")
+					{
+						damage = calculateDamageDealt(floor(player.magicNova() * player.berserkPotionEffect), enemy.magicDefence);
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayMagic();
+						gameExit = screen.messageBox("Your power rivals that of a demon!", "But where did you get this power?!?", fonts.font24);
+						gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+					}
+					else if (player.pClass == "rogue")
+					{
+						damage = calculateDamageDealt(floor(player.magicNovaBlitz() * player.berserkPotionEffect), enemy.magicDefence);
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						music.PlayMagic();
+						gameExit = screen.messageBox("You attack with the fury of a demon", "But where did you get this power?!?", fonts.font24);
+						gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
+					}
+					phaseHolder = 4; //Enemies Turn
+				}
+				else
+				{
+					gameExit = screen.messageBox("Not enough MP to cast", "", fonts.font24);
+					phaseHolder = 2; //Magic Menu
+				}
+			}
+		}
+		else if (phaseHolder == 3) //Item Menu
+		{
+			if (player.inventory[3] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
+			{
+				player.itemSmokeBomb();
+				phaseHolder = 4; //Enemy Turn
+			}
+		}
+	}
+	break;
+	case 5:
+		combatCursorPos = 1;
+		if (phaseHolder == 1) //Main Menu
+			quit = runAway(player, enemy, screen, fonts, phaseHolder, gameExit); //Run Away
+		else if (phaseHolder == 2 || phaseHolder == 3)
+			phaseHolder = 1;	//Return to Main Menu
+		break;
+
 	}
 	return gameExit;
 }

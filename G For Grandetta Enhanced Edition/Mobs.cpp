@@ -26,10 +26,10 @@ Mobs::Mobs()
 	
 		//Rat
 		mobRat.enemyName = "Rat";
-		mobRat.maxHP = 15;
+		mobRat.maxHP = 20;
 		mobRat.physicalAttack = 15;
 		mobRat.magicalAttack = 5;
-		mobRat.physicalDefence = 15;
+		mobRat.physicalDefence = 4;
 		mobRat.magicDefence = 3;
 		mobRat.expDrop = 15;
 		mobRat.itemDrop = 1;
@@ -40,10 +40,10 @@ Mobs::Mobs()
 
 		//Bat
 		mobBat.enemyName=  "Bat";
-		mobBat.maxHP = 11;
+		mobBat.maxHP = 18;
 		mobBat.physicalAttack = 15;
 		mobBat.magicalAttack = 0;
-		mobBat.physicalDefence = 11;
+		mobBat.physicalDefence = 4;
 		mobBat.magicDefence = 3;
 		mobBat.expDrop = 16;
 		mobBat.itemDrop = 1;
@@ -57,7 +57,7 @@ Mobs::Mobs()
 		mobGoblin.physicalAttack = 35;
 		mobGoblin.magicalAttack = 5;
 		mobGoblin.physicalDefence = 50;
-		mobGoblin.magicDefence = 21;
+		mobGoblin.magicDefence = 10;
 		mobGoblin.expDrop = 50;
 		mobGoblin.itemDrop = 3;
 		mobGoblin.AI = 7;
@@ -69,7 +69,7 @@ Mobs::Mobs()
 		mobGoblinMage.maxHP= 40;
 		mobGoblinMage.physicalAttack= 9;
 		mobGoblinMage.magicalAttack= 30;
-		mobGoblinMage.physicalDefence= 25;
+		mobGoblinMage.physicalDefence= 5;
 		mobGoblinMage.magicDefence= 50;
 		mobGoblinMage.expDrop= 70;
 		mobGoblinMage.itemDrop= 2;
@@ -145,9 +145,9 @@ Mobs::Mobs()
 		//Guard
 		mobGuard.enemyName = "Guard";
 		mobGuard.maxHP = 30;
-		mobGuard.physicalAttack = 25;
+		mobGuard.physicalAttack = 18;
 		mobGuard.magicalAttack = 15;
-		mobGuard.physicalDefence = 25;
+		mobGuard.physicalDefence = 10;
 		mobGuard.magicDefence = 5;
 		mobGuard.expDrop = 30;
 		mobGuard.itemDrop = 5;
@@ -162,7 +162,7 @@ Mobs::Mobs()
 		mobGuardMage.maxHP = 25;
 		mobGuardMage.physicalAttack = 10;
 		mobGuardMage.magicalAttack = 20;
-		mobGuardMage.physicalDefence = 20;
+		mobGuardMage.physicalDefence = 15;
 		mobGuardMage.magicDefence = 70;
 		mobGuardMage.expDrop = 45;
 		mobGuardMage.itemDrop = 2;
@@ -246,12 +246,14 @@ Mobs::~Mobs()
 {
 }
 
-int Mobs::getRandomInt(int max, int min)
+int Mobs::getRandomInt(int min, int max)
 {
+	int randomNum;
 	if (max == 0 && max == 0)
-		return 0;
+		randomNum = 0;
 	else
-		return rand() % min + max;
+		randomNum = rand() % (max - min) + min;
+	return randomNum;
 }
 
 void Mobs::generateEnemyStats(mob& mob)
@@ -590,11 +592,16 @@ void Mobs::selectMonsterMove(Player & player, Screen screen, Fonts fonts, Music 
 		break;
 
 	case 2: //KNIGHT
-		switch (getRandomInt(1, 3)) {
+		switch (getRandomInt(1, 8)) {
 		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
 			mobStrongAttack(player, screen, fonts, music, enemy);
 			break;
-		case 2:
+		case 7:
 			if (enemy.hp < enemy.maxHP) {
 				mobPotion(player, screen, fonts, music, enemy);
 			}
@@ -602,7 +609,7 @@ void Mobs::selectMonsterMove(Player & player, Screen screen, Fonts fonts, Music 
 				mobSwordSlash(player, screen, fonts, music, enemy);
 			}
 			break;
-		case 3:
+		case 8:
 			mobSwordSlash(player, screen, fonts, music, enemy);
 			break;
 		}

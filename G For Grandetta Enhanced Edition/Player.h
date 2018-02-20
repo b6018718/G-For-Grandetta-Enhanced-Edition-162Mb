@@ -80,6 +80,7 @@ public:
 	int playerSpeed = 4;	//Speed of players movement per frame
 	int currentQuestPoint = 0; //Current Quest Number
 	int currentQuest = 0;
+	bool firstFail = false; //First attempt at stealing will always succeed, to teach the player how it is used
 	string playerName;
 	Equipment::weapon equippedWeapon;
 	Equipment::chestPiece equippedChestPiece;
@@ -92,6 +93,7 @@ public:
 	float ironPotionEffect = 1;
 	float berserkPotionEffect = 1;	//Remember to reset these
 	int hitChance;
+	int deathCount = 0;
 
 	void equipWeapon(Equipment::weapon newWeapon);
 	void equipChestPiece(Equipment::chestPiece newChest);
@@ -176,9 +178,10 @@ public:
 	int magicNova();
 	bool magicSteal();
 	int magicLifeSteal();
-	int magicCashNGrab(int& goldDrop);
+	int magicCashNGrab();
 	int magicBackstab();
 	int magicNovaBlitz();
+	
 
 	int calculatedamageHealed(int heal);
 

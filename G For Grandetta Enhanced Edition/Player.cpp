@@ -96,7 +96,7 @@ void Player::equipBoots(Equipment::boots newBoots)
 
 int Player::getRandomInt(int min, int max)
 {
-	return rand() % max + min;
+	return rand() % (max - min) + min;
 }
 
 void Player::initaliseStats(Equipment equipment)
@@ -1097,7 +1097,7 @@ void Player::magicBulkUp()
 
 int Player::magicTornadoSlash()
 {
-	int magicCost = 8;  //anount of magic required to cast the spell
+	int magicCost = 6;  //anount of magic required to cast the spell
 	int magicDamage = 50;
 	int attackStrength = floor((magAttack + phyAttack) / 2) + magicDamage;
 	if (currentMP >= magicCost) {
@@ -1215,7 +1215,8 @@ bool Player::magicSteal()
 	int magicCost = 2;//anount of magic required to cast the spell
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;
-		if (luck + magAttack >= getRandomInt(1, 50)) {
+		if (luck + getRandomInt(1, 50) > 25 || firstFail == false) {
+			firstFail = true;
 			return true;
 		}
 		else {
@@ -1227,12 +1228,11 @@ bool Player::magicSteal()
 
 int Player::magicLifeSteal()
 {
-	int magicCost = 4;//anount of magic required to cast the spell
+	int magicCost = 4;//amount of magic required to cast the spell
 	int magicDamage = 15;
 	int attackStrength = floor((magAttack + phyAttack) / 2) + magicDamage;
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;
-		currentHP = currentHP + calculatedamageHealed(floor(attackStrength*berserkPotionEffect));
 	}
 	else {
 		attackStrength = 0;
@@ -1241,15 +1241,13 @@ int Player::magicLifeSteal()
 	return attackStrength;
 }
 
-int Player::magicCashNGrab(int& goldDrop)
+int Player::magicCashNGrab()
 {
-	int magicCost = 6;  //anount of magic required to cast the spell
+	int magicCost = 6;  //amount of magic required to cast the spell
 	int magicDamage = 50;
 	int attackStrength = magAttack + magicDamage;
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;
-		gold = gold + ceil(goldDrop / 10);
-		//setMessage("You stole " + goldDrop / 10 + " gold", "from the enemy");
 	}
 	else {
 		attackStrength = 0;

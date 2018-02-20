@@ -52,6 +52,14 @@ Music::Music()
 	encounter = Mix_LoadWAV("sound/encounter.wav");
 	if (encounter == NULL)
 		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+
+	heal = Mix_LoadWAV("sound/heal.wav");
+	if (encounter == NULL)
+		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+
+	magic = Mix_LoadWAV("sound/magic.wav");
+	if (encounter == NULL)
+		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 }
 
 
@@ -126,6 +134,16 @@ void Music::PlayHit()
 void Music::PlayEncounter()
 {
 	Mix_PlayChannel(-1, encounter, 0);
+}
+
+void Music::PlayHeal()
+{
+	Mix_PlayChannel(-1, heal, 0);
+}
+
+void Music::PlayMagic()
+{
+	Mix_PlayChannel(-1, magic, 0);
 }
 
 void Music::PauseMusic()

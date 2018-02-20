@@ -7,12 +7,12 @@ Equipment::Equipment()
 {
 	
 
-	bone.weaponName = "Femur Bone";
+	bone.weaponName = "Bone";
 	stoneSword.weaponName = "Stone Sword";
 	steelSword.weaponName = "Steel Sword";
-	staff.weaponName = "Wooden Staff of Magic";
+	staff.weaponName = "Wooden Staff";
 	rubySword.weaponName = "Ruby Sword";
-	masterWand.weaponName = "Wand of the Masters";
+	masterWand.weaponName = "Master Wand";
 
 	bone.weaponPhysDamage= 2;
 	stoneSword.weaponPhysDamage = 10;

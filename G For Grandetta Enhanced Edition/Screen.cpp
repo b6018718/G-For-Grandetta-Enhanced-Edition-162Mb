@@ -157,7 +157,7 @@ bool Screen::messageBox(string line1, string line2, TTF_Font* font)	//35 Charact
 
 		}//Event Poll While Loop
 	}
-	SDL_Delay(500);
+	SDL_Delay(100);
 	SDL_BlitSurface(gTemp, NULL, gScreenSurface, 0);
 	SDL_UpdateWindowSurface(gWindow);
 	SDL_FreeSurface(gTemp);
@@ -207,6 +207,7 @@ bool Screen::inputBox(string line1, string line2, TTF_Font* font, Player& player
 					player.name.pop_back();
 					if (player.name.length() > 0)
 						displayLeftText(player.name, 48, 600, font);
+					SDL_UpdateWindowSurface(gWindow);
 				}
 				else if (event.key.keysym.sym == SDLK_RETURN)
 				{
@@ -221,6 +222,7 @@ bool Screen::inputBox(string line1, string line2, TTF_Font* font, Player& player
 				displayLeftText(line1, 48, 528, font);
 				player.name += event.text.text;
 				displayLeftText(player.name, 48, 600, font);
+				SDL_UpdateWindowSurface(gWindow);
 			}
 
 			//Controller Button Event
@@ -237,7 +239,6 @@ bool Screen::inputBox(string line1, string line2, TTF_Font* font, Player& player
 	}
 
 	//SDL_BlitSurface(gTemp, NULL, gScreenSurface, 0);
-	//SDL_UpdateWindowSurface(gWindow);
 	//SDL_FreeSurface(gTemp);
 	SDL_FreeSurface(gMessage);
 	SDL_FreeSurface(gScreenSurface);

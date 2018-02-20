@@ -33,6 +33,8 @@ public:
 	void PlayRat();
 	void PlayHit();
 	void PlayEncounter();
+	void PlayHeal();
+	void PlayMagic();
 
 	void PauseMusic();
 	void ResumeMusic();
@@ -57,6 +59,8 @@ private:
 	Mix_Chunk *hit;
 	Mix_Chunk *rat;
 	Mix_Chunk *encounter;
+	Mix_Chunk *heal;
+	Mix_Chunk *magic;
 
 };
 

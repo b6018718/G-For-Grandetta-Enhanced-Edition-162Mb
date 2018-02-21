@@ -14,9 +14,10 @@ Player::Player()
 	quests[0][1] = new questPoint("Defeat the dog", "in battle");
 	quests[0][2] = new questPoint("Speak to the king", "in the castle in Castletown");
 	quests[0][3] = new questPoint("Speak to the wizard", "in the castle in Castletown");
-	//get the sword from the cave
+	//get the sword from the stall
 	quests[1][0] = new questPoint("Speak to the king", "in the castle in Castletown");
 	quests[1][1] = new questPoint("Buy a sword", "from the market stall in Castletown");
+	quests[1][2] = new questPoint("Speak to the wizard", "in the castle in Castletown");
 	//get the staff
 	quests[2][0] = new questPoint("Go to the camp", "to the right of the field");
 	quests[2][1] = new questPoint("Get the staff", "from the Goblin Camp");
@@ -29,10 +30,10 @@ Player::Player()
 	quests[4][1] = new questPoint("Get the orb", "from the cave");
 	quests[4][2] = new questPoint("Return the orb", "to the wizard in the castle");
 	//get the necklace
-	quests[5][0] = new questPoint("Break into the castle", "to get the necklace");
-	quests[5][1] = new questPoint("Get the necklace", "from the Princess' room");
-	quests[5][2] = new questPoint("Get out of the castle", "to avoid capture");
-	quests[5][3] = new questPoint("Return the necklace", "to the wizard in the castle");
+	quests[5][0] = new questPoint("Break into the castle", "to get the necklace");			//CUT
+	quests[5][1] = new questPoint("Get the necklace", "from the Princess' room");			//CUT
+	quests[5][2] = new questPoint("Get out of the castle", "to avoid capture");				//CUT
+	quests[5][3] = new questPoint("Return the necklace", "to the wizard in the castle");	//CUT
 	//fight the wizard
 	quests[6][0] = new questPoint("Go to the village", "to find the wizard");
 	quests[6][1] = new questPoint("Speak to the wizard", "to save the village");
@@ -96,7 +97,7 @@ void Player::equipBoots(Equipment::boots newBoots)
 
 int Player::getRandomInt(int min, int max)
 {
-	return rand() % (max - min) + min;
+	return rand() % (max - min + 1) + min;
 }
 
 void Player::initaliseStats(Equipment equipment)
@@ -1342,12 +1343,14 @@ void Player::itemBerserkPotion()
 int Player::playerNormalAttack(bool& crit)
 {
 	int attackStrength = phyAttack;
-	if (getRandomInt(1 + luck, 50) > 50) {
+	if (getRandomInt(1 + luck, 50) > 40) {
 		//setMessage("Critical Hit!", "Your attack deals extra damage!");
 		crit = true;
 		attackStrength = attackStrength * 2;
 	}
 	else
 		crit = false;
+	attackStrength -= 1;
+	attackStrength = attackStrength + getRandomInt(1, 2);
 	return attackStrength;
 }

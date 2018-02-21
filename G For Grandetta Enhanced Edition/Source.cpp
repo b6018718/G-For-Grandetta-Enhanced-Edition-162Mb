@@ -18,6 +18,7 @@
 #include "Maps.h"
 #include "Mobs.h"
 #include "Equipment.h"
+#include "Shops.h"
 
 using namespace std;
 
@@ -438,12 +439,13 @@ bool play(Screen screen, Music music, Fonts fonts)
 	Player player;
 	Maps maps;
 	Mobs mobs;
+	Shops shops;
 
 	player.questLoaded = true;
 
 	bool classSelect(Screen screen, Music music, Fonts fonts, Player& player);
 	bool setName(Screen screen, Fonts fonts, Player& player);
-	bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music);
+	bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs& mobs, Shops& shops);
 	int getRandomInt(int min, int max);
 	bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs mobs);
 
@@ -494,7 +496,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 				}
 				if (event.jbutton.button == 1)
 				{
-					gameExit = interact(player, screen, maps, fonts, music);
+					gameExit = interact(player, screen, maps, fonts, music, mobs, shops);
 				}
 				if (event.jbutton.button == 2)
 				{
@@ -589,7 +591,9 @@ bool play(Screen screen, Music music, Fonts fonts)
 				if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_e)
 				{
 					//Interact
-					gameExit = interact(player, screen, maps, fonts, music);
+					gameExit = interact(player, screen, maps, fonts, music, mobs, shops);
+					cout << player.currentQuest;
+					cout << "\n" << player.currentQuestPoint;
 				}
 
 				if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_SPACE)
@@ -608,8 +612,8 @@ bool play(Screen screen, Music music, Fonts fonts)
 			}
 		}
 
+		//Smooth Key Board Movement
 		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-
 		if (!currentKeyStates[NULL])
 		{
 			
@@ -647,18 +651,30 @@ bool play(Screen screen, Music music, Fonts fonts)
 			case 0: //Village Map
 				if (player.map.y == 29 * 32 && player.map.x >= 9 * 32 && player.map.x <= 12 * 32 && player.y == 19 * 32)
 				{
-					//Village -> Field
-					clear(screen.gPlaySurface);					//NEED THIS TO PREVENT MEMORY LEAKS
-					SDL_FreeSurface(screen.gPlaySurface);		//MEMORY FIX
-					screen.gPlaySurface = NULL;					//MEMORY FIX
+					if (player.currentQuest == 0 && player.currentQuestPoint <= 1)
+					{
+						gameExit = screen.messageBox("You hear a howl in the distance", "Better check that before leaving", fonts.font24);
+						for (size_t i = 0; i < 10; i++)
+						{
+							player.moveUp(maps);
+							controllerDown = false;
+						}
+					}
+					else
+					{
+						//Village -> Field
+						clear(screen.gPlaySurface);					//NEED THIS TO PREVENT MEMORY LEAKS
+						SDL_FreeSurface(screen.gPlaySurface);		//MEMORY FIX
+						screen.gPlaySurface = NULL;					//MEMORY FIX
 
-					player.currentMap = 1;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
-					player.map.y = 1 * 32;
-					player.y = 1 * 32;
-					player.questLoaded = false;
+						player.currentMap = 1;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+						player.map.y = 1 * 32;
+						player.y = 1 * 32;
+						player.questLoaded = false;
 
-					music.PlayField();
+						music.PlayField();
+					}
 				}
 				break;
 			case 1:	//Field Map
@@ -817,7 +833,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					music.PlayCastleTown();
 				}
 				break;
-			case 4:
+			case 4://Camp
 				if (player.map.x == 0 && player.map.y >= 35 * 32 && player.map.y <= 39 * 32)
 				{
 					//Camp -> Field
@@ -933,11 +949,10 @@ bool play(Screen screen, Music music, Fonts fonts)
 			player.moveDown(maps);
 			++battleBuffer;
 		}
-
-
+		
+		//Refresh Screen
 		screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
 		updateSprite(screen, player);
-
 
 		//Turn Based Battle
 		if ((player.currentMap == 1 || player.currentMap == 3 || player.currentMap == 4 || player.currentMap == 6) && battleBuffer > 120)
@@ -976,11 +991,14 @@ bool play(Screen screen, Music music, Fonts fonts)
 	return gameExit;
 }
 
-bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music)
+bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs& mobs, Shops& shops)
 {
+	Equipment equipment;
+	bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs mobs);
 	bool exitGame = false;
 	int i = 0;
 	bool found = false;
+	void updateSprite(Screen screen, Player& player);
 	while (i < maps.zone[player.currentMap].collisions.size() && found == false)
 	{
 		if (maps.zone[player.currentMap].collisions[i].interactable == true)
@@ -1026,7 +1044,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					}
 				}
 			}
-			else if (player.facing.down == true)
+			else if (player.facing.down == true) //Down collisions
 			{
 				if (player.map.y + player.spriteSizeY == maps.zone[player.currentMap].collisions[i].y) //Touching Y co-ordinate
 				{
@@ -1084,22 +1102,171 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "quest")
 		{
 			//Quest Function
+			if (maps.zone[player.currentMap].collisions[i].function == "dogFunction")
+			{
+				if (player.currentQuest == 0 && player.currentQuestPoint == 0)
+					player.incrementQuest();
+				if (player.currentQuest == 0 && player.currentQuestPoint == 1)
+				{
+					exitGame = screen.messageBox("You see a rabid dog prowling the", "graveyard.", fonts.font24);
+					exitGame = screen.messageBox("The dog has seen you and is coming", "right at you!", fonts.font24);
+					exitGame = screen.messageBox("You grab the nearest weapon and", "prepare to fight!", fonts.font24);
+					player.currentMap = 10; //Dog Boss Battle
+					turnBasedBattle(player, screen, maps, fonts, music, mobs);
+					
+					if (player.currentQuest == 0 && player.currentQuestPoint == 2)
+					{
+						while (maps.findCollision(maps.zone[player.currentMap], "villageDog") != -1)
+							maps.removeItem(0, "villageDog");
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp");
+						screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
+						updateSprite(screen, player);
+						SDL_UpdateWindowSurface(screen.gWindow);
+						exitGame = screen.messageBox("You have defeated the dog.", "", fonts.font24);
+						exitGame = screen.messageBox("Your mind returns to the missing", "people of your village.", fonts.font24);
+						exitGame = screen.messageBox("Where have they all gone?", "", fonts.font24);
+						exitGame = screen.messageBox("You decide to travel to the castle", "to request an audience with the king", fonts.font24);
+					}
+					player.questLoaded = false;
+				}
+				if (player.currentQuest == 7 && player.currentQuestPoint == 0)
+				{
+					player.currentMap = 14; //Demon Boss Battle
+					turnBasedBattle(player, screen, maps, fonts, music, mobs);
+				}
+			}
+			else if (maps.zone[player.currentMap].collisions[i].function == "kingFunction")
+			{
+				if (player.currentQuest == 0 && player.currentQuestPoint == 2) {
+					exitGame = screen.messageBox("You explain to the king how all the", "people in your village have...", fonts.font24);
+					exitGame = screen.messageBox("disappeared overnight", "without a trace.", fonts.font24);
+					exitGame = screen.messageBox("The king says: You poor soul", "I will commit all resources...", fonts.font24);
+					exitGame = screen.messageBox("available to me to help find your", "people. You may want to go...", fonts.font24);
+					exitGame = screen.messageBox("have a chat with this kingdom's","resident wizard.", fonts.font24);
+					exitGame = screen.messageBox("Good luck " + player.name, "", fonts.font24);
+					player.incrementQuest();
+				}
+				else if (player.currentQuest == 1 && player.currentQuestPoint == 0) {
+					exitGame = screen.messageBox("The king says 'A sword?", "You'll have to buy one from the", fonts.font24);
+					exitGame = screen.messageBox("market. There's one in the courtyard", "of this castle, just keep an eye", fonts.font24);
+					exitGame = screen.messageBox("out for the stall with the armour", "symbol on it'.", fonts.font24);
+					player.incrementQuest();
+				}
+				else
+				{
+					exitGame = screen.messageBox("The king says: Well?", "Get on with it", fonts.font24);
+					exitGame = screen.messageBox("no time like the", "present!", fonts.font24);
+				}
+			}
+			else if (maps.zone[player.currentMap].collisions[i].function == "wizFunction")
+			{
+				if (player.currentQuest == 0 && player.currentQuestPoint <= 2)
+				{
+					exitGame = screen.messageBox("The wizard says 'Busy, busy, busy", "Always in a rush...", fonts.font24);
+				}
+				else if (player.currentQuest == 0 && player.currentQuestPoint == 3)
+				{
+					exitGame = screen.messageBox("You explain to the wizard the", "circumstances surrounding",fonts.font24);
+					exitGame = screen.messageBox("your village and that the king" ,"has given his blessing to",fonts.font24);
+					exitGame = screen.messageBox("investigate.", "The wizard says: Well this is",fonts.font24);
+					exitGame = screen.messageBox("wonderful! I mean not", "wonderful. Awful, truly awful. See", fonts.font24);
+					exitGame = screen.messageBox("the thing is I know a ritual that", "may bring your people back. However", fonts.font24);
+					exitGame = screen.messageBox("I've never tried it since I don't", "have all the elements needed to", fonts.font24);
+					exitGame = screen.messageBox("perform it. Since you seem to be", "a strong youth, it's going to be", fonts.font24);
+					exitGame = screen.messageBox("your job to collect the elements", "for me.", fonts.font24);
+					exitGame = screen.messageBox("Now let's think, first I need the", "staff of the goblin elder. It is", fonts.font24);
+					exitGame = screen.messageBox("a precious artefact and symbol", "of power among the goblin people.", fonts.font24);
+					exitGame = screen.messageBox("Stupid creatures.", "", fonts.font24);
+					exitGame = screen.messageBox("The only way to get the staff", "will have to be to take it by", fonts.font24);
+					exitGame = screen.messageBox("force! You'll need a proper sword", "if you're going to take on goblins,", fonts.font24);
+					exitGame = screen.messageBox("perhaps the king has one for you.", "You had better go ask.", fonts.font24);
+					player.incrementQuest();
+				}
+				else if (player.currentQuest == 1 && player.currentQuestPoint == 2)
+				{
+					exitGame = screen.messageBox("The wizard says:", "Ah yes! That's a proper weapon!", fonts.font24);
+					exitGame = screen.messageBox("Now we're ready to get that staff.", "The goblins have a camp to the east", fonts.font24);
+					exitGame = screen.messageBox("If you have to, raze it down.", "The goblins are like a vermin", fonts.font24);
+					exitGame = screen.messageBox("And should be treated as such.", "", fonts.font24);
+					player.incrementQuest();
+				}
+				else if (player.currentQuest == 2 && player.currentQuestPoint == 2)
+				{
+					exitGame = screen.messageBox("The wizard says:", "You're back!", fonts.font24);
+					exitGame = screen.messageBox("And you got the staff, excellent!", "We are well on our way to saving", fonts.font24);
+					exitGame = screen.messageBox("your people. Next I'm going to need", "a ritual hat. Any will do, there", fonts.font24);
+					exitGame = screen.messageBox("is a hat shop in the courtyard.", "Just pick one and bring it back.", fonts.font24);
+					player.incrementQuest();
+				}
+				else if (player.currentQuest == 3 && player.currentQuestPoint == 1)
+				{
+					exitGame = screen.messageBox("The wizard says:", "Let's have a look.", fonts.font24);
+					exitGame = screen.messageBox("This hat will do nicely.", "I need just one more item for the", fonts.font24);
+					exitGame = screen.messageBox("ritual. West of here is a cave that", "houses the World Orb.", fonts.font24);
+					exitGame = screen.messageBox("It is a relic left by our ancestors", "that allows an individual to control", fonts.font24);
+					exitGame = screen.messageBox("life and death itself.", "If we cannot get the World Orb the", fonts.font24);
+					exitGame = screen.messageBox("ritual cannot go ahead.", "", fonts.font24);
+					player.incrementQuest();
+				}
+				else if (player.currentQuest == 4 && player.currentQuestPoint == 2)
+				{
+					exitGame = screen.messageBox("The World Orb... you actually", "managed to get it.", fonts.font24);
+					exitGame = screen.messageBox("Never in all my years did I think", "I'd see it in person.", fonts.font24);
+					exitGame = screen.messageBox("Well now the time has come.", "We have all the necessary parts", fonts.font24);
+					exitGame = screen.messageBox("to perform the ritual.", "I have some preparations to make.", fonts.font24);
+					exitGame = screen.messageBox("Meet me in your village.", "", fonts.font24);
+					player.currentQuest = 6;
+					player.currentQuestPoint = 0;
+				}
+				else if (player.currentQuest == 6 && player.currentQuestPoint == 1)
+				{
+					exitGame = screen.messageBox("You're here.", "", fonts.font24);
+					exitGame = screen.messageBox("Now before we begin I have just", "one last thing to deal with.", fonts.font24);	
+					player.currentMap = 13;
+					turnBasedBattle(player, screen, maps, fonts, music, mobs);
+				}
+				else
+				{
+					exitGame = screen.messageBox("The wizard says: Chop chop, we", "don't have all day.", fonts.font24);
+				}
+
+			}
 		}
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "buyShop")
 		{
 			//Potion shop function
+			shops.buyShop(screen, player, fonts, equipment);
 		}
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "sellShop")
 		{
 			//Sell potion shop function
+			shops.sellShop(screen, player, fonts, equipment);
 		}
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "hatShop")
 		{
 			//Hat shop function
+			shops.hatShop(screen, player, fonts, equipment);
 		}
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "equipShop")
 		{
 			//Quest Function
+			shops.armouryShop(screen, player, fonts, equipment);
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "campChestFunc")
+		{
+			if (player.currentQuest == 2 && player.currentQuestPoint == 1)
+			{
+				exitGame = screen.messageBox("You try to take the goblin staff", "but a goblin appears and stops you", fonts.font24);
+				//exitGame = screen.messageBox("The dog has seen you and is coming", "right at you!", fonts.font24);
+				//exitGame = screen.messageBox("You grab the nearest weapon and", "prepare to fight!", fonts.font24);
+				player.currentMap = 11; //Goblin Boss Battle
+				turnBasedBattle(player, screen, maps, fonts, music, mobs);
+				screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
+				updateSprite(screen, player);
+				SDL_UpdateWindowSurface(screen.gWindow);
+				exitGame = screen.messageBox("You stole the Goblin Staff!", "", fonts.font24);
+				player.incrementQuest();
+			}
 		}
 	}
 	return exitGame;
@@ -1686,7 +1853,7 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 
 int getRandomInt(int min, int max)
 {
-	return rand() % (max - min) + min;
+	return rand() % (max - min + 1) + min;
 }
 
 void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string colour, Screen& screen)
@@ -1714,7 +1881,7 @@ void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string c
 
 }
 
-//@
+
 bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs mobs)
 {
 	//Generate random enemy based on location
@@ -2104,7 +2271,7 @@ int calculateDamageDealt(int attack, int defence)
 	//calculates and returns damage after subtracting the defence stat of the oppenent
 	int damageDealt = attack - defence;
 	if (damageDealt <= 0) {  //prevents passing negative damage that would effectively heal the openent
-	damageDealt = getRandomInt(1, 5);	//applies chip damage if no damage would be dealt
+	damageDealt = 1;	//applies chip damage if no damage would be dealt
 	}
 	return damageDealt;
 }
@@ -2197,17 +2364,17 @@ bool runAway(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts, int&
 {
 	bool run = false;
 	if ((enemy.enemyName == "Rabid Dog") || (enemy.enemyName == "Goblin Boss") || (enemy.enemyName == "Spider Queen") || (enemy.enemyName == "Wizard") || (enemy.enemyName == "Demon Lord Grandma!!!")) {
-		gameExit = screen.messageBox("Escape Attempt Fail!", "You can't run from bosses", fonts.font24);
+		gameExit = screen.messageBox("Escape Attempt Fail!", "You can\'t run from bosses", fonts.font24);
 		phaseHolder = 1; //Players turn
 	}
-	else if (getRandomInt(1 + player.luck, 50) > 30) 
+	else if (getRandomInt(1 + player.luck, 50) > 30 || enemy.enemyName == "Goblin Younglings") 
 	{
 		gameExit = screen.messageBox("Escape Attempt Success!", " ", fonts.font24);
 		run = true;
 	}
 	else 
 	{
-		gameExit = screen.messageBox("Escape Attempt Failed", "Now its " + enemy.enemyName + "'s turn!", fonts.font24);
+		gameExit = screen.messageBox("Escape Attempt Failed", "Now its " + enemy.enemyName + "\'s turn!", fonts.font24);
 		phaseHolder = 4; //Enemy's Turn
 	}
 	return run;
@@ -2218,7 +2385,12 @@ void wasEnemyDefeated(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fo
 	int getRandomInt(int min, int max);
 	void drawBaseImage(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts);
 	if (enemy.hp <= 0) {
-		phaseHolder = 0;
+		player.killCount++;
+		if (enemy.enemyName == "Goblin Younglings")
+			player.badEnd = true;	//Player gets bad end if they kill any younglings
+		if (enemy.boss == true)
+			player.incrementQuest();	//Boss Fight Won
+		phaseHolder = 0; //Set to end battle phase
 		gameExit = screen.messageBox("You defeated " + enemy.enemyName + "!", "You gained " + to_string(enemy.expDrop) + " exp and " + to_string(enemy.goldDrop) + " gold", fonts.font24);
 		mobs.enemyDefeatMessage(screen, enemy, player, fonts);
 		bool leveled = false;
@@ -2338,7 +2510,10 @@ bool didPlayerLose(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts
 		player.currentMap = 0;
 		player.currentHP = player.maxHP;
 		player.currentMP = player.maxMP;
+		player.deathCount++;
 		quit = screen.messageBox("You fainted & lost half your gold!", "Restart from the village!", fonts.font24);
+		if (player.deathCount == 3)
+			quit = screen.messageBox("You seem to be having a hard time", "Buy some armour from the shop", fonts.font24);
 	}
 	else {
 		phaseHolder = 1; //switches back to the player's turn

@@ -27,7 +27,7 @@ Mobs::Mobs()
 		//Rat
 		mobRat.enemyName = "Rat";
 		mobRat.maxHP = 20;
-		mobRat.physicalAttack = 15;
+		mobRat.physicalAttack = 14;
 		mobRat.magicalAttack = 5;
 		mobRat.physicalDefence = 4;
 		mobRat.magicDefence = 3;
@@ -41,7 +41,7 @@ Mobs::Mobs()
 		//Bat
 		mobBat.enemyName=  "Bat";
 		mobBat.maxHP = 18;
-		mobBat.physicalAttack = 15;
+		mobBat.physicalAttack = 14;
 		mobBat.magicalAttack = 0;
 		mobBat.physicalDefence = 4;
 		mobBat.magicDefence = 3;
@@ -69,7 +69,7 @@ Mobs::Mobs()
 		mobGoblinMage.maxHP= 40;
 		mobGoblinMage.physicalAttack= 9;
 		mobGoblinMage.magicalAttack= 30;
-		mobGoblinMage.physicalDefence= 5;
+		mobGoblinMage.physicalDefence= 10;
 		mobGoblinMage.magicDefence= 50;
 		mobGoblinMage.expDrop= 70;
 		mobGoblinMage.itemDrop= 2;
@@ -145,8 +145,8 @@ Mobs::Mobs()
 		//Guard
 		mobGuard.enemyName = "Guard";
 		mobGuard.maxHP = 30;
-		mobGuard.physicalAttack = 18;
-		mobGuard.magicalAttack = 15;
+		mobGuard.physicalAttack = 17;
+		mobGuard.magicalAttack = 5;
 		mobGuard.physicalDefence = 10;
 		mobGuard.magicDefence = 5;
 		mobGuard.expDrop = 30;
@@ -160,9 +160,9 @@ Mobs::Mobs()
 		//Guard Mage
 		mobGuardMage.enemyName = "Mage Knight";
 		mobGuardMage.maxHP = 25;
-		mobGuardMage.physicalAttack = 10;
-		mobGuardMage.magicalAttack = 20;
-		mobGuardMage.physicalDefence = 15;
+		mobGuardMage.physicalAttack = 4;
+		mobGuardMage.magicalAttack = 9;
+		mobGuardMage.physicalDefence = 5;
 		mobGuardMage.magicDefence = 70;
 		mobGuardMage.expDrop = 45;
 		mobGuardMage.itemDrop = 2;
@@ -175,7 +175,7 @@ Mobs::Mobs()
 		mobRabidDog.maxHP = 20;
 		mobRabidDog.physicalAttack = 8;
 		mobRabidDog.magicalAttack = 5;
-		mobRabidDog.physicalDefence = 10;
+		mobRabidDog.physicalDefence = 5;
 		mobRabidDog.magicDefence = 5;
 		mobRabidDog.expDrop = 15;
 		mobRabidDog.itemDrop = 1;
@@ -252,7 +252,7 @@ int Mobs::getRandomInt(int min, int max)
 	if (max == 0 && max == 0)
 		randomNum = 0;
 	else
-		randomNum = rand() % (max - min) + min;
+		randomNum = rand() % (max - min + 1) + min;
 	return randomNum;
 }
 
@@ -268,6 +268,10 @@ void Mobs::generateEnemyStats(mob& mob)
 		mob.magicDefence = getRandomInt(mob.magicDefence * 0.8, mob.magicDefence * 1.2);
 		mob.goldDrop = getRandomInt(mob.goldDrop * 0.8, mob.goldDrop * 1.2);
 		mob.expDrop = getRandomInt(mob.expDrop * 0.8, mob.expDrop * 1.2);
+	}
+	else
+	{
+		mob.hp = mob.maxHP;
 	}
 	
 }
@@ -764,7 +768,7 @@ void Mobs::enemyOpeningMessage(Screen screen, mob enemy, Player player, Fonts fo
 {
 	
 	if (enemy.enemyName == "Rabid Dog") {
-		screen.messageBox("Ruff Ruff!", "(I am a rabid dog) BARK!", fonts.font24);
+		screen.messageBox("Ruff Ruff!", "BARK!", fonts.font24);
 		}
 	if (enemy.enemyName == "A Group of Rats") {
 		screen.messageBox("As the Shepard, I won't", "let you beat my Congregation", fonts.font24);
@@ -781,8 +785,9 @@ void Mobs::enemyOpeningMessage(Screen screen, mob enemy, Player player, Fonts fo
 		screen.messageBox("(WHATEVER!!! Prepare to)", "(die for trespassing into my cave!)", fonts.font24);
 		}
 	if (enemy.enemyName == "Wizard") {
+		screen.messageBox("Your people are never coming back.", "They are all long dead!", fonts.font24);
 		screen.messageBox("Finally, the Demon Lord", "is reborn!", fonts.font24);
-		screen.messageBox("You have served your", "purpose " + player.name + " now!", fonts.font24);
+		screen.messageBox("You have served your", "purpose " + player.name + "!", fonts.font24);
 		screen.messageBox("So now I will offer your life", "to my Lord!!!!", fonts.font24);
 		}
 	if (enemy.enemyName == "Mage Knight"){
@@ -792,7 +797,6 @@ void Mobs::enemyOpeningMessage(Screen screen, mob enemy, Player player, Fonts fo
 		screen.messageBox("Let me test your strength", "Don't go easy on me!", fonts.font24);
 
 	}
-
 		//if (enemy.enemyName == "Bat") {
 	if (enemy.enemyName == "Demon Lord Grandma!!!") {
 		screen.messageBox(player.name + " long time,", "no see my grandchild", fonts.font24);
@@ -807,28 +811,25 @@ void Mobs::enemyDefeatMessage(Screen& screen, mob enemy, Player& player, Fonts f
 {
 	if (enemy.enemyName == "Rabid Dog")
 	{
-		screen.messageBox("Ruff Ruff!", "(I am a dead dog) BARK!", fonts.font24);
-		player.incrementQuest();
+		screen.messageBox("Wimper wimper...", "", fonts.font24);
+		
 	}
 	else if (enemy.enemyName == "Goblin Boss") 
 	{
 		screen.messageBox("Fine, take our treasure...", "Just know that...", fonts.font24);
 		screen.messageBox("One day we shall rebuild", "We have the technology!", fonts.font24);
-		player.incrementQuest();
 		//phaseHolder = 0;
 	}
 	else if (enemy.enemyName == "Spider Queen") 
 	{
 		screen.messageBox("(We lost...)", "(Congratulations Hero)", fonts.font24);
 		screen.messageBox("(You killed a spider!)", "(such strength, such wow, such heroics)", fonts.font24);
-		player.incrementQuest();
 		//phaseHolder = 0;
 	}
 	else if (enemy.enemyName == "Wizard")
 	{
 		screen.messageBox("Master...", "Take my remaining magic...", fonts.font24);
 		screen.messageBox("and my soul...", "Avenge me!!!!", fonts.font24);
-		player.incrementQuest();
 		//phaseHolder = 0;
 	}
 	else if (enemy.enemyName == "Demon Lord Grandma!!!") 
@@ -837,8 +838,7 @@ void Mobs::enemyDefeatMessage(Screen& screen, mob enemy, Player& player, Fonts f
 		screen.messageBox("On the one hand", "I am sad...", fonts.font24);
 		screen.messageBox("But on another...", "I now know that...", fonts.font24);
 		screen.messageBox("You also carry the", "demon lord's blood...", fonts.font24);
-		screen.messageBox("Maybe some day", "You will too will realise its power!", fonts.font24);
-		player.incrementQuest();
+		screen.messageBox("Maybe some day", "You will too will realise it's power!", fonts.font24);
 		//phaseHolder = 0;
 	}
 }

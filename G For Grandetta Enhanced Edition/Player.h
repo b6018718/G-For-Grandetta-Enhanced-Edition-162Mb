@@ -94,6 +94,8 @@ public:
 	float berserkPotionEffect = 1;	//Remember to reset these
 	int hitChance;
 	int deathCount = 0;
+	int killCount = 0;
+	bool badEnd = false; //If player kills any younglings they will get the bad end
 
 	void equipWeapon(Equipment::weapon newWeapon);
 	void equipChestPiece(Equipment::chestPiece newChest);

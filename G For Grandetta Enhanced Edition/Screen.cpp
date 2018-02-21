@@ -352,12 +352,13 @@ void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, M
 					SDL_FreeSurface(gTemp);
 					//maps.removeItem(0, "villageDog");
 				}
-				else if (player.currentQuest == 0 && player.currentQuestPoint == 2)
-				{
-					while (maps.findCollision(maps.zone[player.currentMap], "villageDog") != -1)
-						maps.removeItem(0, "villageDog");
-					//loadMapMedia(gPlaySurface, "images/bg0.bmp");
-				}
+				//else if (player.currentQuest == 0 && player.currentQuestPoint == 2)
+				//{  //@
+				//	while (maps.findCollision(maps.zone[player.currentMap], "villageDog") != -1)
+				//		maps.removeItem(0, "villageDog");
+				//	loadMapMedia(gPlaySurface, "images/bg0.bmp");
+				//	player.questLoaded = true;
+				//}
 				else if (player.currentQuest == 6)
 				{
 					if (maps.findCollision(maps.zone[player.currentMap], "villageWizard") == -1)

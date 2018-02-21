@@ -20,6 +20,9 @@
 #include "Equipment.h"
 #include "Shops.h"
 
+
+//Count Lines OF Code = ctrl + shift + f
+//^(?!(\s*\*))(?!(\s*\-\-\>))(?!(\s*\<\!\-\-))(?!(\s*\n))(?!(\s*\*\/))(?!(\s*\/\*))(?!(\s*\/\/\/))(?!(\s*\/\/))(?!(\s*\}))(?!(\s*\{))(?!(\s(using))).*$
 using namespace std;
 
 const int JOYSTICK_DEAD_ZONE = 8000;
@@ -448,6 +451,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 	bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs& mobs, Shops& shops);
 	int getRandomInt(int min, int max);
 	bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs mobs);
+	bool openInventory(Screen& screen, Player& player, Music& music, Fonts& fonts);
 
 	gameExit = classSelect(screen, music, fonts, player);
 	screen.gPlaySurface = NULL;
@@ -475,6 +479,13 @@ bool play(Screen screen, Music music, Fonts fonts)
 	bool controllerUp = false;
 	bool controllerDown = false;
 
+	screen.messageBox("You feel a breeze as you awake", "from your slumber", fonts.font24);
+	screen.messageBox("To your surprise you notice that", "your roof has been destroyed!", fonts.font24);
+	screen.messageBox("What's more you hear nothing but", "silence", fonts.font24);
+	screen.messageBox("The village is usually a hub", "of activity, where is everyone?", fonts.font24);
+	screen.messageBox("ADVENTURE TIP: Interact with ", "objects by pressing E.", fonts.font24);
+	screen.messageBox("ADVENTURE TIP: Remember to press", "Q (Inventory) if you ever get lost.", fonts.font24);
+
 	while (!quit)
 	{
 		float startTime = (float) SDL_GetTicks();
@@ -493,10 +504,13 @@ bool play(Screen screen, Music music, Fonts fonts)
 				if (event.jbutton.button == 0)
 				{
 					//Open Inventory
+					gameExit = openInventory(screen, player, music, fonts);
+					quit = gameExit;
 				}
 				if (event.jbutton.button == 1)
 				{
 					gameExit = interact(player, screen, maps, fonts, music, mobs, shops);
+					quit = gameExit;
 				}
 				if (event.jbutton.button == 2)
 				{
@@ -592,6 +606,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 				{
 					//Interact
 					gameExit = interact(player, screen, maps, fonts, music, mobs, shops);
+					quit = gameExit;
 					cout << player.currentQuest;
 					cout << "\n" << player.currentQuestPoint;
 				}
@@ -599,10 +614,8 @@ bool play(Screen screen, Music music, Fonts fonts)
 				if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_SPACE)
 				{
 					//Open Inventory
-					//cout << "Player X: " << player.x/32 << "\n";
-					//cout << "Player Y: " << player.y/32 << "\n";
-					//cout << "Map X: " << player.map.x/32 << "\n";
-					//cout << "Map Y: " << player.map.y/32 << "\n";
+					gameExit = openInventory(screen, player, music, fonts);
+					quit = gameExit;
 				}
 
 				if (event.key.keysym.sym == SDLK_ESCAPE)
@@ -715,27 +728,48 @@ bool play(Screen screen, Music music, Fonts fonts)
 				else if (player.map.x == 89 * 32 && player.map.y >= 16 * 32 && player.map.y <= 19 * 32)
 				{
 					//Field -> Goblin Camp
-					if (player.currentQuest ==2 && player.currentQuestPoint == 0) {
-						player.currentQuestPoint++;
+					if (player.currentQuest < 2)
+					{
+						gameExit = screen.messageBox("You are not strong enough for this", "area yet, progress the quest!", fonts.font24);
+						for (size_t i = 0; i < 10; i++)
+						{
+							player.moveLeft(maps);
+							controllerRight = false;
+						}
 					}
+					else
+					{
+						if (player.currentQuest == 2 && player.currentQuestPoint == 0) {
+							player.currentQuestPoint++;
+						}
 
-					clear(screen.gPlaySurface);
-					SDL_FreeSurface(screen.gPlaySurface);
-					screen.gPlaySurface = NULL;
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
 
-					player.currentMap = 4;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg4.bmp");
+						player.currentMap = 4;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg4.bmp");
 
-					player.map.x = 1 * 32;
-					player.map.y += 19 * 32;
-					player.x = 1 * 32;
-					player.y = player.map.y - 20 * 32;
+						player.map.x = 1 * 32;
+						player.map.y += 19 * 32;
+						player.x = 1 * 32;
+						player.y = player.map.y - 20 * 32;
 
-					player.questLoaded = false;
-					music.PlayCamp();
+						player.questLoaded = false;
+						music.PlayCamp();
+					}
 				}
 				else if (player.map.x >= 3 * 32 && player.map.x <= 5 * 32 && player.map.y == 31 * 32)
 				{
+					if (player.currentQuest < 4)
+					{
+						gameExit = screen.messageBox("You are not strong enough for this", "area yet, progress the quest!", fonts.font24);
+						for (size_t i = 0; i < 10; i++)
+						{
+							player.moveDown(maps);
+							controllerUp = false;
+						}
+					}
 					//Field -> Cave
 					if (player.currentQuest == 1 && player.currentQuestPoint == 1)
 					{
@@ -745,6 +779,12 @@ bool play(Screen screen, Music music, Fonts fonts)
 					{
 						player.currentQuestPoint++;
 					}
+
+					if (player.currentQuest == 4 && player.currentQuestPoint == 0) 
+					{
+						player.currentQuestPoint++;
+					}
+
 
 					clear(screen.gPlaySurface);
 					SDL_FreeSurface(screen.gPlaySurface);
@@ -995,6 +1035,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 {
 	Equipment equipment;
 	bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs mobs);
+	player.firstFail = false;
 	bool exitGame = false;
 	int i = 0;
 	bool found = false;
@@ -1113,7 +1154,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					exitGame = screen.messageBox("You grab the nearest weapon and", "prepare to fight!", fonts.font24);
 					player.currentMap = 10; //Dog Boss Battle
 					turnBasedBattle(player, screen, maps, fonts, music, mobs);
-					
+
 					if (player.currentQuest == 0 && player.currentQuestPoint == 2)
 					{
 						while (maps.findCollision(maps.zone[player.currentMap], "villageDog") != -1)
@@ -1142,14 +1183,14 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					exitGame = screen.messageBox("disappeared overnight", "without a trace.", fonts.font24);
 					exitGame = screen.messageBox("The king says: You poor soul", "I will commit all resources...", fonts.font24);
 					exitGame = screen.messageBox("available to me to help find your", "people. You may want to go...", fonts.font24);
-					exitGame = screen.messageBox("have a chat with this kingdom's","resident wizard.", fonts.font24);
+					exitGame = screen.messageBox("have a chat with this kingdom's", "resident wizard.", fonts.font24);
 					exitGame = screen.messageBox("Good luck " + player.name, "", fonts.font24);
 					player.incrementQuest();
 				}
 				else if (player.currentQuest == 1 && player.currentQuestPoint == 0) {
-					exitGame = screen.messageBox("The king says 'A sword?", "You'll have to buy one from the", fonts.font24);
+					exitGame = screen.messageBox("The king says: A sword?", "You'll have to buy one from the", fonts.font24);
 					exitGame = screen.messageBox("market. There's one in the courtyard", "of this castle, just keep an eye", fonts.font24);
-					exitGame = screen.messageBox("out for the stall with the armour", "symbol on it'.", fonts.font24);
+					exitGame = screen.messageBox("out for the stall with the armour", "symbol on it.", fonts.font24);
 					player.incrementQuest();
 				}
 				else
@@ -1166,9 +1207,9 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 				}
 				else if (player.currentQuest == 0 && player.currentQuestPoint == 3)
 				{
-					exitGame = screen.messageBox("You explain to the wizard the", "circumstances surrounding",fonts.font24);
-					exitGame = screen.messageBox("your village and that the king" ,"has given his blessing to",fonts.font24);
-					exitGame = screen.messageBox("investigate.", "The wizard says: Well this is",fonts.font24);
+					exitGame = screen.messageBox("You explain to the wizard the", "circumstances surrounding", fonts.font24);
+					exitGame = screen.messageBox("your village and that the king", "has given his blessing to", fonts.font24);
+					exitGame = screen.messageBox("investigate.", "The wizard says: Well this is", fonts.font24);
 					exitGame = screen.messageBox("wonderful! I mean not", "wonderful. Awful, truly awful. See", fonts.font24);
 					exitGame = screen.messageBox("the thing is I know a ritual that", "may bring your people back. However", fonts.font24);
 					exitGame = screen.messageBox("I've never tried it since I don't", "have all the elements needed to", fonts.font24);
@@ -1221,7 +1262,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 				else if (player.currentQuest == 6 && player.currentQuestPoint == 1)
 				{
 					exitGame = screen.messageBox("You're here.", "", fonts.font24);
-					exitGame = screen.messageBox("Now before we begin I have just", "one last thing to deal with.", fonts.font24);	
+					exitGame = screen.messageBox("Now before we begin I have just", "one last thing to deal with.", fonts.font24);
 					player.currentMap = 13;
 					turnBasedBattle(player, screen, maps, fonts, music, mobs);
 				}
@@ -1230,6 +1271,46 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					exitGame = screen.messageBox("The wizard says: Chop chop, we", "don't have all day.", fonts.font24);
 				}
 
+			}
+			else if (maps.zone[player.currentMap].collisions[i].function == "campChestFunc")
+			{
+				if (player.currentQuest == 2 && player.currentQuestPoint == 1)
+				{
+					exitGame = screen.messageBox("You try to take the goblin staff", "but a goblin appears and stops you", fonts.font24);
+					//exitGame = screen.messageBox("The dog has seen you and is coming", "right at you!", fonts.font24);
+					//exitGame = screen.messageBox("You grab the nearest weapon and", "prepare to fight!", fonts.font24);
+					player.currentMap = 11; //Goblin Boss Battle
+					turnBasedBattle(player, screen, maps, fonts, music, mobs);
+					screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
+					updateSprite(screen, player);
+					SDL_UpdateWindowSurface(screen.gWindow);
+					if (player.lost == false)
+					{
+						exitGame = screen.messageBox("You stole the Goblin Staff!", "", fonts.font24);
+						player.incrementQuest();
+					}
+					//@
+				}
+			}
+			else if (maps.zone[player.currentMap].collisions[i].function == "caveChestFunc")
+			{
+				if (player.currentQuest == 2 && player.currentQuestPoint == 1)
+				{
+					exitGame = screen.messageBox("You try to take the World Orb", "but a spider appears and stops you", fonts.font24);
+					//exitGame = screen.messageBox("The dog has seen you and is coming", "right at you!", fonts.font24);
+					//exitGame = screen.messageBox("You grab the nearest weapon and", "prepare to fight!", fonts.font24);
+					player.currentMap = 12; //Goblin Boss Battle
+					turnBasedBattle(player, screen, maps, fonts, music, mobs);
+					screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
+					updateSprite(screen, player);
+					SDL_UpdateWindowSurface(screen.gWindow);
+					if (player.lost == false)
+					{
+						exitGame = screen.messageBox("You stole the World Orb!", "", fonts.font24);
+						player.incrementQuest();
+					}
+					//@
+				}
 			}
 		}
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "buyShop")
@@ -1252,22 +1333,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 			//Quest Function
 			shops.armouryShop(screen, player, fonts, equipment);
 		}
-		else if (maps.zone[player.currentMap].collisions[i].interactType == "campChestFunc")
-		{
-			if (player.currentQuest == 2 && player.currentQuestPoint == 1)
-			{
-				exitGame = screen.messageBox("You try to take the goblin staff", "but a goblin appears and stops you", fonts.font24);
-				//exitGame = screen.messageBox("The dog has seen you and is coming", "right at you!", fonts.font24);
-				//exitGame = screen.messageBox("You grab the nearest weapon and", "prepare to fight!", fonts.font24);
-				player.currentMap = 11; //Goblin Boss Battle
-				turnBasedBattle(player, screen, maps, fonts, music, mobs);
-				screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
-				updateSprite(screen, player);
-				SDL_UpdateWindowSurface(screen.gWindow);
-				exitGame = screen.messageBox("You stole the Goblin Staff!", "", fonts.font24);
-				player.incrementQuest();
-			}
-		}
+		
 	}
 	return exitGame;
 }
@@ -1497,6 +1563,7 @@ bool instructions(Screen screen)
 
 void updateSprite(Screen screen, Player& player)
 {
+	//@
 	SDL_Rect sheet;
 	sheet.x = 0;
 	sheet.y = 0;
@@ -1870,11 +1937,11 @@ void DrawEXPBar(int posX, int posY, double currentStat, double maxStat, string c
 
 	
 
-	SDL_FillRect(screen.gPlaySurface, &topRectangle, SDL_MapRGB(screen.gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(screen.gPlaySurface, &botRectangle, SDL_MapRGB(screen.gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(screen.gPlaySurface, &leftRectangle, SDL_MapRGB(screen.gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(screen.gPlaySurface, &rightRectangle, SDL_MapRGB(screen.gPlaySurface->format, 0xFFF, 0xFFF, 0xFFF));
-	SDL_FillRect(screen.gPlaySurface, &expBar, SDL_MapRGB(screen.gPlaySurface->format, 255, 255, 0));
+	SDL_FillRect(screen.gBattleTextBox, &topRectangle, SDL_MapRGB(screen.gBattleTextBox->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gBattleTextBox, &botRectangle, SDL_MapRGB(screen.gBattleTextBox->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gBattleTextBox, &leftRectangle, SDL_MapRGB(screen.gBattleTextBox->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gBattleTextBox, &rightRectangle, SDL_MapRGB(screen.gBattleTextBox->format, 0xFFF, 0xFFF, 0xFFF));
+	SDL_FillRect(screen.gBattleTextBox, &expBar, SDL_MapRGB(screen.gBattleTextBox->format, 255, 255, 0));
 
 	SDL_UpdateWindowSurface(screen.gWindow);
 	SDL_FreeSurface(screen.gScreenSurface);
@@ -1887,7 +1954,7 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 	//Generate random enemy based on location
 	Mobs::mob enemy;
 	enemy = mobs.determineMonster(player.currentMap);
-
+	player.firstFail = false;
 	//Play Encounter sound effect
 	if (enemy.enemyName == "Rat")
 		music.PlayRat();
@@ -1925,6 +1992,7 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 	//Load health, enemy and message box
 	void drawBaseImage(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts);
 	drawBaseImage(player, screen, enemy, fonts);
+	player.lost = false;
 
 	//Create rect for enemy to spawn at
 	SDL_Rect enemyLoc;
@@ -2010,7 +2078,7 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 								Phase Holder (1 = Main Menu, 2 = Magic Menu, 3 = Item Menu, 4 = Enemy Turn)
 							*/
 							int calculateDamageDealt(int attack, int defence);
-							i = optionSelected;
+							optionSelected = combatCursorPos;
 							gameExit = battleMenu(optionSelected, phaseHolder, quit, player, enemy, screen, fonts, music, combatCursorPos);
 						}
 					}
@@ -2094,9 +2162,8 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 			}
 			
 		}//POLL EVENT WHILE
-		drawBaseImage(player, screen, enemy, fonts);
 
-		
+		drawBaseImage(player, screen, enemy, fonts);
 		wasEnemyDefeated(player, enemy, screen, fonts, phaseHolder, mobs, gameExit, quit);
 		if (quit == false)
 		{
@@ -2136,16 +2203,19 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 	SDL_FreeSurface(screen.gBattleTextBox);
 	screen.gBattleTextBox = NULL;
 
-	if (player.currentMap == 10)		//Dog Boss Battle
-		player.currentMap = 0;			//Set to Village
-	else if (player.currentMap == 11)	//Goblin Boss Battle
-		player.currentMap = 4;			//Set to Camp
-	else if (player.currentMap == 12)	//Spider Boss Battle
-		player.currentMap = 6;			//Set to Cave
-	else if (player.currentMap == 13)	//Wizard Boss Battle
-		player.currentMap = 0;			//Set to Village
-	else if (player.currentMap == 14)	//Demon Boss Battle
-		player.currentMap = 0;			//Set to Village
+	if (player.lost == false)
+	{
+		if (player.currentMap == 10)		//Dog Boss Battle
+			player.currentMap = 0;			//Set to Village
+		else if (player.currentMap == 11)	//Goblin Boss Battle
+			player.currentMap = 4;			//Set to Camp
+		else if (player.currentMap == 12)	//Spider Boss Battle
+			player.currentMap = 6;			//Set to Cave
+		else if (player.currentMap == 13)	//Wizard Boss Battle
+			player.currentMap = 0;			//Set to Village
+		else if (player.currentMap == 14)	//Demon Boss Battle
+			player.currentMap = 0;			//Set to Village
+	}
 
 	music.PlayMap(player.currentMap);
 
@@ -2511,6 +2581,7 @@ bool didPlayerLose(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fonts
 		player.currentHP = player.maxHP;
 		player.currentMP = player.maxMP;
 		player.deathCount++;
+		player.lost = true;
 		quit = screen.messageBox("You fainted & lost half your gold!", "Restart from the village!", fonts.font24);
 		if (player.deathCount == 3)
 			quit = screen.messageBox("You seem to be having a hard time", "Buy some armour from the shop", fonts.font24);
@@ -2625,7 +2696,7 @@ void drawMagicMenu(Player& player, Screen& screen, Mobs::mob enemy, Fonts fonts,
 			screen.displayLeftText("Life Steal 4MP", 380, 528, fonts.font20);
 		}
 		if (player.level >= 5) {
-			screen.displayLeftText("Cash N Grab 6MP", 680, 528, fonts.font20);
+			screen.displayLeftText("Cash Grab 6MP", 680, 528, fonts.font20);
 		}
 		if (player.level >= 10) {
 			screen.displayLeftText("Backstab 8MP", 70, 600, fonts.font20);
@@ -2739,6 +2810,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 				{
 					if (player.pClass == "warrior")
 					{
+						//Flame Slash
 						damage = calculateDamageDealt(floor(player.magicFlameSlash() * player.berserkPotionEffect), floor(enemy.magicDefence + enemy.physicalDefence) / 2);
 						enemy.hp -= damage;
 						drawBaseImage(player, screen, enemy, fonts);
@@ -2749,6 +2821,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 					}
 					else if (player.pClass == "mage")
 					{
+						//Fire
 						damage = calculateDamageDealt(floor(player.magicFire() * player.berserkPotionEffect), floor(enemy.magicDefence));
 						enemy.hp -= damage;
 						drawBaseImage(player, screen, enemy, fonts);
@@ -2759,11 +2832,17 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 					}
 					else if (player.pClass == "rogue")
 					{
+						//Steal
 						music.PlayHit();
 						gameExit = screen.messageBox("You attempt to steal ", "an item from the enemy", fonts.font24);
-						bool steal = player.magicSteal();
+						bool steal = false;
+						int damage = player.magicSteal(steal);
+						enemy.hp -= damage;
+						drawBaseImage(player, screen, enemy, fonts);
+						SDL_UpdateWindowSurface(screen.gWindow);
 						if (steal == true)
 						{
+							gameExit = screen.messageBox(to_string(damage) + " Damage!!! ", "", fonts.font24);
 							gameExit = screen.messageBox("You stole a " + player.inventoryNames[enemy.itemDrop], "from the " + enemy.enemyName, fonts.font24);
 							player.inventory[enemy.itemDrop]++;
 						}
@@ -2788,9 +2867,14 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 		{
 			if (player.inventory[1] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
 			{
-				player.currentHP = player.itemHealthPotion();
+				int beforeHeal = player.currentHP;
+				int afterHeal = 0;
+				player.currentHP += player.itemHealthPotion();
+				music.PlayHeal();
 				if (player.currentHP > player.maxHP)
 					player.currentHP = player.maxHP;
+				afterHeal = player.currentHP - beforeHeal;
+				gameExit = screen.messageBox("The potion restored " + to_string(afterHeal) + "HP!", "Your defence and attack were restored", fonts.font24);
 				phaseHolder = 4; //Enemy Turn
 			}
 		}
@@ -2827,6 +2911,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 						int heal = player.magicSheerWill();
 						int maxHealed = player.maxHP - player.currentHP;
 						player.currentHP += heal;
+						music.PlayHeal();
 						if (player.currentHP > player.maxHP)
 							player.currentHP = player.maxHP;
 						if (heal > maxHealed)
@@ -2839,6 +2924,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 					else if (player.pClass == "mage")
 					{
 						//Heal
+						bool restored = false;
 						int heal = player.magicHeal();
 						int maxHealed = player.maxHP - player.currentHP;
 						player.currentHP += heal;
@@ -2850,6 +2936,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 						SDL_UpdateWindowSurface(screen.gWindow);
 						music.PlayHeal();
 						gameExit = screen.messageBox("Your magic flows through your body", "You healed " + to_string(heal) + " HP!", fonts.font24);
+						gameExit = screen.messageBox("Your attack and defence", "were restored! ", fonts.font24);
 					}
 					else if (player.pClass == "rogue")
 					{
@@ -2858,7 +2945,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 						if (damage > enemy.hp)
 							damage = enemy.hp;
 						enemy.hp -= damage;
-						int heal = damage / 3;
+						int heal = damage * 0.9;
 						int maxHealed = player.maxHP - player.currentHP;
 						player.currentHP += heal;
 						if (player.currentHP > player.maxHP)
@@ -2867,7 +2954,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 							heal = maxHealed;
 						drawBaseImage(player, screen, enemy, fonts);
 						SDL_UpdateWindowSurface(screen.gWindow);
-						music.PlayHit();
+						music.PlayHeal();
 						gameExit = screen.messageBox("You sap the enemy of " + to_string(damage) + " HP! ", "You regain " + to_string(heal) + " HP!", fonts.font24);
 					}
 					phaseHolder = 4; //Enemy Turn
@@ -2928,8 +3015,9 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 						gameExit = screen.messageBox("You attack the enemy,", "and attempt to steal gold", fonts.font24);
 						damage = calculateDamageDealt(floor(player.magicCashNGrab() * player.berserkPotionEffect), enemy.magicDefence);
 						enemy.hp -= damage;
-						int goldEarned = ceil(enemy.goldDrop / 3);
-						player.gold = +goldEarned;
+						int goldEarned = ceil(enemy.goldDrop * 3);
+						player.gold += goldEarned;
+						music.PlayHit();
 						drawBaseImage(player, screen, enemy, fonts);
 						SDL_UpdateWindowSurface(screen.gWindow);
 						gameExit = screen.messageBox("Your swift movements causes " + to_string(damage) + " damage!", "You steal " + to_string(goldEarned) + " gold!", fonts.font24);
@@ -3014,6 +3102,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 		{
 			if (player.inventory[2] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
 			{
+				music.PlayHeal();
 				player.currentMP = player.itemMagicPotion();
 				if (player.currentMP > player.maxMP)
 					player.currentMP = player.maxMP;
@@ -3036,6 +3125,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 				{
 					if (player.pClass == "warrior")
 					{
+						//Nova Slash
 						damage = calculateDamageDealt(floor(player.magicNovaSlash() * player.berserkPotionEffect), floor((enemy.magicDefence + enemy.physicalDefence) / 2));
 						enemy.hp -= damage;
 						drawBaseImage(player, screen, enemy, fonts);
@@ -3046,6 +3136,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 					}
 					else if (player.pClass == "mage")
 					{
+						//Magic Nova
 						damage = calculateDamageDealt(floor(player.magicNova() * player.berserkPotionEffect), enemy.magicDefence);
 						enemy.hp -= damage;
 						drawBaseImage(player, screen, enemy, fonts);
@@ -3056,6 +3147,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 					}
 					else if (player.pClass == "rogue")
 					{
+						//Nova Blitz
 						damage = calculateDamageDealt(floor(player.magicNovaBlitz() * player.berserkPotionEffect), enemy.magicDefence);
 						enemy.hp -= damage;
 						drawBaseImage(player, screen, enemy, fonts);
@@ -3093,4 +3185,342 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 
 	}
 	return gameExit;
+}
+
+bool openInventory(Screen& screen, Player& player, Music& music, Fonts& fonts)
+{
+	bool gameExit = false;
+	bool quit = false;
+	vector <int> InvbuttonX = { 665, 750 };
+	vector <int> InvbuttonY = { 85, 85 };
+	int InvbuttonWidth = 64;
+	int InvbuttonHeight = 64;
+
+	bool InvBoxVisible = false;
+	int InvBoxX = 0;
+	int InvBoxY = 0;
+	int InvBoxWidth = 64;
+	int InvBoxSize = 64;
+	int InvBoxHeight = 32;
+	int mouseX = 0;
+	int mouseY = 0;
+	int coinCount = 0;
+	int shift = 0;
+	int frameWidth = 60;
+	int frameHeight = 60;
+	int totalFrames = 12;
+	int currentFrame = 0;
+	int cursorSelected = 0;
+
+	void drawInventory(Screen& screen, Player& player, int& coinCount, int& shift, int frameWidth, int frameHeight, int totalFrames, int& currentFrame, Fonts fonts, int cursorSelected);
+
+	screen.loadMedia(screen.gCoin, "images/coin.bmp");
+	screen.loadMedia(screen.gBattleTextBox, "images/invScreen.bmp");
+	screen.loadMedia(screen.gWeaponIcon, "images/sword.bmp");
+	screen.loadMedia(screen.gSelectIcon, "images/VOL.bmp");
+	screen.loadMedia(screen.gMessage, "images/messageBox.bmp");
+
+	if (player.equippedWeapon.weaponName == "Bone")
+	{
+		screen.loadMedia(screen.gWeaponIcon, "images/bone.bmp");
+	}
+	else if (player.equippedWeapon.weaponName == "Wooden Staff" || player.equippedWeapon.weaponName == "Master Wand")
+	{
+		screen.loadMedia(screen.gWeaponIcon, "images/staff.bmp");
+	}
+	else
+	{
+		screen.loadMedia(screen.gWeaponIcon, "images/sword.bmp");
+	}
+
+	void drawInventory(Screen& screen);
+
+	//screen.loadMedia(screen.gWeaponIcon, "images/coin.bmp");
+
+	SDL_Event event;
+
+	while (!quit)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			//Exit Window Event
+			if (event.type == SDL_QUIT)
+			{
+				quit = true;
+				gameExit = true;
+			}
+
+			//Mouse Motion Event
+			if (event.type == SDL_MOUSEMOTION)
+			{
+				mouseX = event.motion.x;
+				mouseY = event.motion.y;
+
+				for (size_t i = 0; i < InvbuttonX.size(); i++)
+				{
+					if (mouseX > InvbuttonX[i] && mouseX < InvbuttonX[i] + InvbuttonWidth)
+					{
+						if (mouseY > InvbuttonY[i] && mouseY < InvbuttonX[i] + InvbuttonWidth)
+						{
+							InvBoxX = InvbuttonX[i];
+							InvBoxY = InvbuttonY[i];
+							cursorSelected = i;
+							//settingsBoxVisible = true;
+						}
+					}
+				}
+			}
+
+			//Left Click Event
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.state == SDL_RELEASED)
+			{
+				for (int i = 0; i < InvbuttonX.size(); i++)
+				{
+					if (mouseX > InvbuttonX[i] && mouseX < InvbuttonX[i] + InvbuttonWidth)
+					{
+						if (mouseY > InvbuttonY[i] && mouseY < InvbuttonY[i] + InvbuttonHeight)
+						{
+							switch (i)
+							{
+								case 0:
+								{
+
+									if (player.currentHP < player.maxHP && player.inventory[1] > 0)
+									{
+										music.PlayHeal();
+										player.currentHP += player.itemHealthPotion();
+										if (player.currentHP > player.maxHP)
+										{
+											player.currentHP = player.maxHP;
+										}
+									}
+
+								}
+								break;
+								case 1:
+								{
+									if (player.currentMP < player.maxMP&& player.inventory[2] > 0)
+									{
+										music.PlayHeal();
+										player.currentMP = player.itemMagicPotion();
+										if (player.currentMP > player.maxMP)
+										{
+											player.currentMP = player.maxMP;
+										}
+									}
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+			//Keyboard Event
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.sym == SDLK_BACKSPACE || event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_ESCAPE)
+				{
+					quit = true;
+				}
+				else if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
+				{
+					InvBoxX = InvbuttonX[0];
+					InvBoxY = InvbuttonY[0];
+					cursorSelected = 0;
+				}
+				else if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+				{
+					InvBoxX = InvbuttonX[1];
+					InvBoxY = InvbuttonY[1];
+					cursorSelected = 1;
+				}
+				else if (event.key.keysym.sym == SDLK_e || event.key.keysym.sym == SDLK_RETURN)
+				{
+					switch (cursorSelected)
+					{
+						case 0:
+						{
+							if (player.currentHP < player.maxHP && player.inventory[1] > 0)
+							{
+								music.PlayHeal();
+								player.currentHP += player.itemHealthPotion();
+								if (player.currentHP > player.maxHP)
+								{
+									player.currentHP = player.maxHP;
+								}
+							}
+						}
+						break;
+						case 1:
+						{
+							if (player.currentMP < player.maxMP&& player.inventory[2] > 0)
+							{
+								music.PlayHeal();
+								player.currentMP = player.itemMagicPotion();
+								if (player.currentMP > player.maxMP)
+								{
+									player.currentMP = player.maxMP;
+								}
+							}
+						}
+						break;
+					}
+				}
+
+			}
+			//Controller move event
+			if (event.type == SDL_JOYHATMOTION)
+			{
+				if (event.jhat.value == SDL_HAT_LEFT)
+				{
+					InvBoxX = InvbuttonX[0];
+					InvBoxY = InvbuttonY[0];
+					cursorSelected = 0;
+				}
+
+				if (event.jhat.value == SDL_HAT_RIGHT)
+				{
+					InvBoxX = InvbuttonX[1];
+					InvBoxY = InvbuttonY[1];
+					cursorSelected = 1;
+				}
+			}
+
+			//Controller button event
+			if (event.type == SDL_JOYBUTTONDOWN)
+			{
+				if (event.jbutton.button == 0)
+				{
+					quit = true;
+				}
+
+				if (event.jbutton.button == 1)
+				{
+					if (cursorSelected == 0)
+					{
+						if (player.currentHP < player.maxHP && player.inventory[1] > 0)
+						{
+							music.PlayHeal();
+							player.currentHP += player.itemHealthPotion();
+							if (player.currentHP > player.maxHP)
+							{
+								player.currentHP = player.maxHP;
+							}
+						}
+					}
+					else if (cursorSelected == 1)
+					{
+						if (player.currentMP < player.maxMP&& player.inventory[2] > 0)
+						{
+							music.PlayHeal();
+							player.currentMP = player.itemMagicPotion();
+							if (player.currentMP > player.maxMP)
+							{
+								player.currentMP = player.maxMP;
+							}
+						}
+					}
+				}
+			}
+
+
+		}//Event Poll
+
+		//Draw Inventory
+		drawInventory(screen, player, coinCount, shift, frameWidth, frameHeight, totalFrames, currentFrame, fonts, cursorSelected);
+
+	}// Quit = true
+		SDL_FreeSurface(screen.gCoin);				//MEMORY FIX
+		screen.gCoin = NULL;						//MEMORY FIX
+
+		SDL_FreeSurface(screen.gWeaponIcon);		//MEMORY FIX
+		screen.gWeaponIcon = NULL;					//MEMORY FIX
+
+		SDL_FreeSurface(screen.gBattleTextBox);		//MEMORY FIX
+		screen.gBattleTextBox = NULL;				//MEMORY FIX
+
+		SDL_FreeSurface(screen.gSelectIcon);		//MEMORY FIX
+		screen.gSelectIcon = NULL;					//MEMORY FIX
+
+		SDL_FreeSurface(screen.gMessage);		//MEMORY FIX
+		screen.gMessage = NULL;					//MEMORY FIX
+
+		return gameExit;
+}
+
+void drawInventory(Screen& screen, Player& player, int& coinCount, int& shift, int frameWidth, int frameHeight, int totalFrames, int& currentFrame, Fonts fonts, int cursorSelected)
+{
+	
+	SDL_Rect sheet;
+
+	SDL_Rect mapLoc;
+	mapLoc.x = 350;
+	mapLoc.y = 330;
+	mapLoc.h = frameWidth;
+	mapLoc.w = frameHeight;
+	//SDL_BlitSurface(screen.gSprite, &sheet, screen.gScreenSurface, &mapLoc);
+
+	SDL_BlitSurface(screen.gBattleTextBox, 0, screen.gScreenSurface, 0);
+
+	if (coinCount <= 6)
+	{
+		sheet.x = shift;
+		sheet.y = 0;
+		sheet.h = frameWidth;
+		sheet.w = frameHeight;
+
+		SDL_BlitSurface(screen.gCoin, &sheet, screen.gScreenSurface, &mapLoc);
+	}
+	if (coinCount == 6) {
+		shift += frameWidth;
+		coinCount = 0;
+		currentFrame++;
+	}
+	if (currentFrame == totalFrames) {
+		shift = 0;
+		currentFrame = 0;
+	}
+	coinCount++;
+
+	mapLoc.x = 840;
+	mapLoc.y = 280;
+	SDL_BlitSurface(screen.gWeaponIcon, 0, screen.gScreenSurface, &mapLoc);
+	drawHealthBar(25, 325, player.currentHP, player.maxHP, "#0F0", screen, false);
+	drawHealthBar(25, 365, player.currentMP, player.maxMP, "#00F", screen, false);
+
+	if (cursorSelected == 0)
+	{
+		mapLoc.x = 665;
+		mapLoc.y = 85;
+		SDL_BlitSurface(screen.gSelectIcon, 0, screen.gScreenSurface, &mapLoc);
+	}
+	else if (cursorSelected == 1)
+	{
+		mapLoc.x = 750;
+		mapLoc.y = 85;
+		SDL_BlitSurface(screen.gSelectIcon, 0, screen.gScreenSurface, &mapLoc);
+	}
+
+	screen.displayLeftText(to_string(player.currentHP) + "|" + to_string(player.maxHP) + "HP", 143, 353, fonts.font20);
+	screen.displayLeftText(to_string(player.currentMP) + "|" + to_string(player.maxMP) + "HP", 143, 393, fonts.font20);
+	screen.displayLeftText("XP", 560, 433, fonts.font20);
+	screen.displayLeftText(to_string(player.inventory[1]), 700, 120, fonts.font20);
+	screen.displayLeftText(to_string(player.inventory[2]), 785, 120, fonts.font20);
+	screen.displayLeftText(to_string(player.inventory[5]), 870, 120, fonts.font20);
+	screen.displayLeftText(to_string(player.inventory[4]), 700, 200, fonts.font20);
+	screen.displayLeftText(to_string(player.inventory[3]), 785, 200, fonts.font20);
+	screen.displayLeftText(to_string(player.gold), 420, 380, fonts.font28);
+
+	SDL_BlitSurface(screen.gMessage, 0, screen.gScreenSurface, 0);
+	screen.displayLeftText("Current quest: " + player.quests[player.currentQuest][player.currentQuestPoint]->des1, 48, 528, fonts.font24);
+	screen.displayLeftText(player.quests[player.currentQuest][player.currentQuestPoint]->des2, 48, 600, fonts.font24);
+	screen.displayLeftText("Name: " + player.name , 25, 100, fonts.font18);
+	screen.displayLeftText("Physical Attack: " + to_string(player.phyAttack), 25, 130, fonts.font18);
+	screen.displayLeftText("Magic Attack: " + to_string(player.magAttack), 25, 160, fonts.font18);
+	screen.displayLeftText("Physical Defence: " + to_string(player.phyDefence), 25, 190, fonts.font18);
+	screen.displayLeftText("Magic Defence: " + to_string(player.magDefence), 25, 220, fonts.font18);
+	screen.displayLeftText("Luck: " + to_string(player.luck), 25, 250, fonts.font18);
+	screen.displayLeftText("Level: " + to_string(player.level), 25, 280, fonts.font18);
+
+	DrawEXPBar(25, 405, player.effectiveCurrentExp, player.effectiveExpLevelUp, "#ffff00", screen);	//Update window is inside here
 }

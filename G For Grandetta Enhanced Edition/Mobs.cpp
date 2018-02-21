@@ -56,7 +56,7 @@ Mobs::Mobs()
 		mobGoblin.maxHP = 60;
 		mobGoblin.physicalAttack = 35;
 		mobGoblin.magicalAttack = 5;
-		mobGoblin.physicalDefence = 50;
+		mobGoblin.physicalDefence = 20;
 		mobGoblin.magicDefence = 10;
 		mobGoblin.expDrop = 50;
 		mobGoblin.itemDrop = 3;
@@ -68,8 +68,8 @@ Mobs::Mobs()
 		mobGoblinMage.enemyName= "Goblin Mage";
 		mobGoblinMage.maxHP= 40;
 		mobGoblinMage.physicalAttack= 9;
-		mobGoblinMage.magicalAttack= 30;
-		mobGoblinMage.physicalDefence= 10;
+		mobGoblinMage.magicalAttack= 20;
+		mobGoblinMage.physicalDefence= 15;
 		mobGoblinMage.magicDefence= 50;
 		mobGoblinMage.expDrop= 70;
 		mobGoblinMage.itemDrop= 2;
@@ -145,9 +145,9 @@ Mobs::Mobs()
 		//Guard
 		mobGuard.enemyName = "Guard";
 		mobGuard.maxHP = 30;
-		mobGuard.physicalAttack = 17;
+		mobGuard.physicalAttack = 8;
 		mobGuard.magicalAttack = 5;
-		mobGuard.physicalDefence = 10;
+		mobGuard.physicalDefence = 6;
 		mobGuard.magicDefence = 5;
 		mobGuard.expDrop = 30;
 		mobGuard.itemDrop = 5;
@@ -162,8 +162,8 @@ Mobs::Mobs()
 		mobGuardMage.maxHP = 25;
 		mobGuardMage.physicalAttack = 4;
 		mobGuardMage.magicalAttack = 9;
-		mobGuardMage.physicalDefence = 5;
-		mobGuardMage.magicDefence = 70;
+		mobGuardMage.physicalDefence = 3;
+		mobGuardMage.magicDefence = 20;
 		mobGuardMage.expDrop = 45;
 		mobGuardMage.itemDrop = 2;
 		mobGuardMage.AI = 3;
@@ -187,10 +187,10 @@ Mobs::Mobs()
 		//Goblin Boss
 		mobGoblinBoss.enemyName = "Goblin Boss";
 		mobGoblinBoss.maxHP = 250;
-		mobGoblinBoss.physicalAttack = 30;
+		mobGoblinBoss.physicalAttack = 19;
 		mobGoblinBoss.magicalAttack = 10;
-		mobGoblinBoss.physicalDefence = 35;
-		mobGoblinBoss.magicDefence = 35;
+		mobGoblinBoss.physicalDefence = 20;
+		mobGoblinBoss.magicDefence = 10;
 		mobGoblinBoss.expDrop = 210;
 		mobGoblinBoss.itemDrop = 5;
 		mobGoblinBoss.AI = 2;
@@ -201,10 +201,10 @@ Mobs::Mobs()
 		//Spider Queen
 		mobSpiderQueen.enemyName = "Spider Queen";
 		mobSpiderQueen.maxHP = 500;
-		mobSpiderQueen.physicalAttack = 65;
-		mobSpiderQueen.magicalAttack = 50;
-		mobSpiderQueen.physicalDefence = 45;
-		mobSpiderQueen.magicDefence = 30;
+		mobSpiderQueen.physicalAttack = 35;
+		mobSpiderQueen.magicalAttack = 25;
+		mobSpiderQueen.physicalDefence = 30;
+		mobSpiderQueen.magicDefence = 15;
 		mobSpiderQueen.expDrop = 540;
 		mobSpiderQueen.itemDrop = 2;
 		mobSpiderQueen.AI = 3;
@@ -395,7 +395,7 @@ void Mobs::mobWeakAttack(Player& player, Screen screen, Fonts fonts, Music music
 
 void Mobs::mobStrongAttack(Player& player, Screen screen, Fonts fonts, Music music, mob enemy)
 {
-	int movePower = 20;
+	int movePower = 15;
 	screen.messageBox("The enemy prepares for", "a melee based attack!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
 		int damage = calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
@@ -427,7 +427,7 @@ void Mobs::mobTackle(Player & player, Screen screen, Fonts fonts, Music music, m
 
 void Mobs::mobSwordSlash(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
 {
-	int movePower = 30;
+	int movePower = 10;
 	screen.messageBox("The enemy prepares for", "a melee based attack!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
 		int damage = calculateDamageDealt(enemy.physicalAttack + movePower, floor(player.phyDefence*player.ironPotionEffect));
@@ -443,14 +443,14 @@ void Mobs::mobSwordSlash(Player & player, Screen screen, Fonts fonts, Music musi
 
 void Mobs::mobCastFreeze(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
 {
-	int movePower = 10;
+	int movePower = 3;
 	screen.messageBox("The enemy starts chanting", "and tries to cast a spell!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
 		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
 		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
 		screen.messageBox("The enemy freezes you", "lowering your defence! " + to_string(damage) + " Damage!", fonts.font24);
-		
+		screen.messageBox("Restore your defence", "by healing!", fonts.font24);
 		if (player.ironPotionEffect > 0.5) {
 			player.ironPotionEffect = player.ironPotionEffect / 2;
 		}
@@ -463,7 +463,7 @@ void Mobs::mobCastFreeze(Player & player, Screen screen, Fonts fonts, Music musi
 
 void Mobs::mobCastFire(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
 {
-	int movePower = 15;
+	int movePower = 10;
 	screen.messageBox("The enemy starts chanting", "and tries to cast a spell!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
 		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
@@ -479,7 +479,7 @@ void Mobs::mobCastFire(Player & player, Screen screen, Fonts fonts, Music music,
 
 void Mobs::mobCastThunder(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
 {
-	int movePower = 25;
+	int movePower = 20;
 	screen.messageBox("The enemy starts chanting", "and tries to cast a spell!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
 		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
@@ -495,7 +495,7 @@ void Mobs::mobCastThunder(Player & player, Screen screen, Fonts fonts, Music mus
 
 void Mobs::mobBreathFire(Player & player, Screen screen, Fonts fonts, Music music, mob enemy)
 {
-	int movePower = 30;
+	int movePower = 25;
 	screen.messageBox("The enemy breathes in deeply", "and prepares to exhale!", fonts.font24);
 	if ((getRandomInt(1, 100)) < (90 * player.smokeBombEffect)) {
 		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
@@ -545,7 +545,7 @@ void Mobs::mobUltimateGNova(Player & player, Screen screen, Fonts fonts, Music m
 
 void Mobs::mobHeal(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
 {
-	int hpGain = calculateEnemyHeal(200, enemy);
+	int hpGain = calculateEnemyHeal(20, enemy);
 	enemy.hp = enemy.hp + hpGain;
 	screen.messageBox("The enemy casts a healing spell,", "They recover " + to_string(hpGain) + " HP!", fonts.font24);
 	if (player.smokeBombEffect != 1) {
@@ -556,7 +556,7 @@ void Mobs::mobHeal(Player & player, Screen screen, Fonts fonts, Music music, mob
 
 void Mobs::mobPotion(Player & player, Screen screen, Fonts fonts, Music music, mob& enemy)
 {
-	int hpGain = calculateEnemyHeal(200, enemy);
+	int hpGain = calculateEnemyHeal(15, enemy);
 	enemy.hp = enemy.hp + hpGain;
 	screen.messageBox("The enemy drinks a potion,", "They recover " + to_string(hpGain) + " HP!", fonts.font24);
 }

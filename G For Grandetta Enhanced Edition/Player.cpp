@@ -148,7 +148,7 @@ void Player::initaliseStats(Equipment equipment)
 		maxMP = 10;
 		currentMP = maxMP;
 		phyAttack = 9;
-		phyDefence = 4;
+		phyDefence = 5;
 		magAttack = 4;
 		magDefence = 4;
 		luck = 3;
@@ -802,8 +802,10 @@ void Player::incrementQuest()
 	if (quests[currentQuest][currentQuestPoint + 1] == NULL)
 	{
 		++currentQuest;
+		currentQuestPoint = 0;
 	}
-	++currentQuestPoint;
+	else
+		++currentQuestPoint;
 }
 
 void Player::moveLeft(Maps maps)
@@ -1211,27 +1213,29 @@ int Player::magicNova()
 	return attackStrength;
 }
 
-bool Player::magicSteal()
+int Player::magicSteal(bool& stealing)
 {
+	int attackStrength = floor((phyAttack) / 2);
 	int magicCost = 2;//anount of magic required to cast the spell
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;
 		if (luck + getRandomInt(1, 50) > 25 || firstFail == false) {
 			firstFail = true;
-			return true;
+			stealing = true;
 		}
 		else {
-			//setMessage("Your steal attempt", "failed!");
+			attackStrength = 0;
+			stealing = false;
 		}
 	}
-	return false;
+	return attackStrength;
 }
 
 int Player::magicLifeSteal()
 {
 	int magicCost = 4;//amount of magic required to cast the spell
 	int magicDamage = 15;
-	int attackStrength = floor((magAttack + phyAttack) / 2) + magicDamage;
+	int attackStrength = floor((magAttack + phyAttack)/2) + magicDamage;
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;
 	}
@@ -1245,7 +1249,7 @@ int Player::magicLifeSteal()
 int Player::magicCashNGrab()
 {
 	int magicCost = 6;  //amount of magic required to cast the spell
-	int magicDamage = 50;
+	int magicDamage = 25;
 	int attackStrength = magAttack + magicDamage;
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;
@@ -1300,6 +1304,11 @@ int Player::itemHealthPotion()
 {
 	int healPower = 50;
 	inventory[1] = inventory[1] - 1;
+	if (ironPotionEffect < 1)
+		ironPotionEffect = 1;
+	if (berserkPotionEffect < 1)
+		berserkPotionEffect = 1;
+
 	return healPower;
 }
 

@@ -96,6 +96,7 @@ public:
 	int deathCount = 0;
 	int killCount = 0;
 	bool badEnd = false; //If player kills any younglings they will get the bad end
+	bool lost = false; //If player lost a battle
 
 	void equipWeapon(Equipment::weapon newWeapon);
 	void equipChestPiece(Equipment::chestPiece newChest);
@@ -103,7 +104,7 @@ public:
 	void equipGauntlet(Equipment::gauntlet newGauntlet);
 	void equipBoots(Equipment::boots newBoots);
 
-	questPoint * quests[8][3];
+	questPoint * quests[9][5];
 
 	int x;	//X Relative to window
 	int y;	//Y Relative to window
@@ -146,10 +147,10 @@ public:
 	{
 		0,	//null item  index 0
 		50,	//health potion index 1
-		100, //mana potion index 2
-		250,//smoke bomb index 3
-		750,//iron skin potion index 4
-		1250,//berserk potion index 5
+		50, //mana potion index 2
+		75,//smoke bomb index 3
+		200,//iron skin potion index 4
+		250,//berserk potion index 5
 	};
 
 
@@ -178,7 +179,7 @@ public:
 	int magicThunder();
 	int magicDrainHealth();
 	int magicNova();
-	bool magicSteal();
+	int magicSteal(bool& stealing);
 	int magicLifeSteal();
 	int magicCashNGrab();
 	int magicBackstab();

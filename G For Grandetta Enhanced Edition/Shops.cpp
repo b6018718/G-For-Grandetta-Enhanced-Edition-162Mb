@@ -27,28 +27,28 @@ void Shops::drawBuyShop(Screen & screen, Player & player, int shopCursorPos, Fon
 	screen.displayLeftText("Magic P.X" + to_string(player.inventory[2]), 70, 600, fonts.font20);
 	screen.displayLeftText("Smoke B.X" + to_string(player.inventory[3]), 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold:" + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 
 	switch (shopCursorPos) {
 	case 1:
 		screen.displayLeftText(">", 46, 528, fonts.font18);
-		screen.displayLeftText("Item cost: " + player.inventoryItemCost[1], 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(player.inventoryItemCost[1]), 30, 433, fonts.font18);
 		break;
 	case 2:
 		screen.displayLeftText(">", 346, 528, fonts.font18);
-		screen.displayLeftText("Item cost: " + player.inventoryItemCost[4], 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(player.inventoryItemCost[4]), 30, 433, fonts.font18);
 		break;
 	case 3:
 		screen.displayLeftText(">", 656, 528, fonts.font18);
-		screen.displayLeftText("Item cost: " + player.inventoryItemCost[5], 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(player.inventoryItemCost[5]), 30, 433, fonts.font18);
 		break;
 	case 4:
 		screen.displayLeftText(">", 46, 600, fonts.font18);
-		screen.displayLeftText("Item cost: " + player.inventoryItemCost[2], 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(player.inventoryItemCost[2]), 30, 433, fonts.font18);
 		break;
 	case 5:
 		screen.displayLeftText(">", 346, 600, fonts.font18);
-		screen.displayLeftText("Item cost: " + player.inventoryItemCost[3], 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(player.inventoryItemCost[3]), 30, 433, fonts.font18);
 		break;
 	case 6:
 		screen.displayLeftText(">", 656, 600, fonts.font18);
@@ -114,28 +114,28 @@ void Shops::drawSellShop(Screen & screen, Player & player, int shopCursorPos, Fo
 	screen.displayLeftText("Magic P.X" + to_string(player.inventory[2]), 70, 600, fonts.font20);
 	screen.displayLeftText("Smoke B.X" + to_string(player.inventory[3]), 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold:" + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 
 	switch (shopCursorPos) {
 	case 1:
 		screen.displayLeftText(">", 46, 528, fonts.font18);
-		screen.displayLeftText("Sale Price: " + to_string(floor(player.inventoryItemCost[1] / 4 * 3)), 30, 433, fonts.font18);
+		screen.displayLeftText("Sale Price: " + to_string( (int)floor(player.inventoryItemCost[1] / 4 * 3)), 30, 433, fonts.font18);
 		break;
 	case 2:
 		screen.displayLeftText(">", 346, 528, fonts.font18);
-		screen.displayLeftText("Sale Price: " + to_string(floor(player.inventoryItemCost[4] / 4 * 3)), 30, 433, fonts.font18);
+		screen.displayLeftText("Sale Price: " + to_string((int)floor(player.inventoryItemCost[4] / 4 * 3)), 30, 433, fonts.font18);
 		break;
 	case 3:
 		screen.displayLeftText(">", 656, 528, fonts.font18);
-		screen.displayLeftText("Sale Price: " + to_string(floor(player.inventoryItemCost[5] / 4 * 3)), 30, 433, fonts.font18);
+		screen.displayLeftText("Sale Price: " + to_string((int)floor(player.inventoryItemCost[5] / 4 * 3)), 30, 433, fonts.font18);
 		break;
 	case 4:
 		screen.displayLeftText(">", 46, 600, fonts.font18);
-		screen.displayLeftText("Sale Price: " + to_string(floor(player.inventoryItemCost[2] / 4 * 3)), 30, 433, fonts.font18);
+		screen.displayLeftText("Sale Price: " + to_string((int)floor(player.inventoryItemCost[2] / 4 * 3)), 30, 433, fonts.font18);
 		break;
 	case 5:
 		screen.displayLeftText(">", 346, 600, fonts.font18);
-		screen.displayLeftText("Sale Price: " + to_string(floor(player.inventoryItemCost[3] / 4 * 3)), 30, 433, fonts.font18);
+		screen.displayLeftText("Sale Price: " + to_string((int)floor(player.inventoryItemCost[3] / 4 * 3)), 30, 433, fonts.font18);
 		break;
 	case 6:
 		screen.displayLeftText(">", 656, 600, fonts.font18);
@@ -154,13 +154,13 @@ bool Shops::hatShop(Screen& screen, Player& player, Fonts& fonts, Equipment equi
 
 void Shops::drawHatShop(Screen& screen, Player& player, int shopCursorPos, Fonts& fonts)
 {
-	screen.displayLeftText("Red" + to_string(player.inventory[1]), 70, 528, fonts.font20);
-	screen.displayLeftText("Shadow" + to_string(player.inventory[4]), 370, 528, fonts.font20);
-	screen.displayLeftText("Gold" + to_string(player.inventory[5]), 680, 528, fonts.font20);
-	screen.displayLeftText("Cerulean" + to_string(player.inventory[2]), 70, 600, fonts.font20);
-	screen.displayLeftText("Rainbow" + to_string(player.inventory[3]), 370, 600, fonts.font20);
+	screen.displayLeftText("Red", 70, 528, fonts.font20);
+	screen.displayLeftText("Shadow", 370, 528, fonts.font20);
+	screen.displayLeftText("Gold", 680, 528, fonts.font20);
+	screen.displayLeftText("Cerulean", 70, 600, fonts.font20);
+	screen.displayLeftText("Rainbow", 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold:" + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 	screen.displayLeftText("Item cost: 1000", 30, 433, fonts.font18);
 	switch (shopCursorPos) {
 	case 1:
@@ -238,7 +238,7 @@ void Shops::drawArmouryMainMenu(Screen& screen, Player& player, int shopCursorPo
 	screen.displayLeftText("Chestpiece" , 70, 600, fonts.font20);
 	screen.displayLeftText("Boots", 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold:" + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 	switch (shopCursorPos) {
 	case 1:
 		screen.displayLeftText("Equipped: " + player.equippedWeapon.weaponName, 30, 433, fonts.font18);
@@ -267,23 +267,28 @@ void Shops::drawArmouryMainMenu(Screen& screen, Player& player, int shopCursorPo
 	}
 }
 
-void Shops::armouryMainMenu(Player& player, int combatCursorPos, int& armouryPos, bool& quit)
+void Shops::armouryMainMenu(Player& player, int& combatCursorPos, int& armouryPos, bool& quit)
 {
 	switch (combatCursorPos) {
 	case 1:
 		armouryPos = 2;
+		combatCursorPos = 1;
 		break;
 	case 2:
 		armouryPos = 3;
+		combatCursorPos = 1;
 		break;
 	case 3:
 		armouryPos = 4;
+		combatCursorPos = 1;
 		break;
 	case 4:
 		armouryPos = 5;
+		combatCursorPos = 1;
 		break;
 	case 5:
 		armouryPos = 6;
+		combatCursorPos = 1;
 		break;
 	case 6:
 		quit = true;
@@ -299,7 +304,7 @@ void Shops::drawArmouryWeapons(Screen& screen, Player& player, int shopCursorPos
 	screen.displayLeftText("Ruby S.", 70, 600, fonts.font20);
 	screen.displayLeftText("Wand", 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold: " + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 	switch (shopCursorPos) {
 	case 1:
 		screen.displayLeftText("Item cost: " + to_string(equipment.stoneSword.weaponCost) + " Stat change: phyAtt " + to_string(equipment.stoneSword.weaponPhysDamage - player.equippedWeapon.weaponPhysDamage) + " magAtt " + to_string(equipment.stoneSword.weaponMagicDamage - player.equippedWeapon.weaponMagicDamage), 30, 433, fonts.font18);
@@ -327,7 +332,7 @@ void Shops::drawArmouryWeapons(Screen& screen, Player& player, int shopCursorPos
 	}
 }
 
-void Shops::armouryWeapon(Player& player, int combatCursorPos, Equipment equipment, int& armouryPos)
+void Shops::armouryWeapon(Player& player, int& combatCursorPos, Equipment equipment, int& armouryPos)
 {
 	switch (combatCursorPos)
 	{
@@ -363,6 +368,7 @@ void Shops::armouryWeapon(Player& player, int combatCursorPos, Equipment equipme
 		break;
 	case 6:
 		armouryPos = 1;
+		combatCursorPos = 1;
 		break;
 	}
 
@@ -378,26 +384,26 @@ void Shops::drawArmouryHelmet(Screen& screen, Player& player, int shopCursorPos,
 	screen.displayLeftText("Apprentice H.", 70, 600, fonts.font20);
 	screen.displayLeftText("Master H.", 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold: " + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 	switch (shopCursorPos) {
 	case 1:
-		screen.displayLeftText("Item cost: " + to_string(equipment.leatherHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.leatherHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magAtt " + to_string(equipment.leatherHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(equipment.leatherHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.leatherHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magDef " + to_string(equipment.leatherHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
 		screen.displayLeftText(">", 46, 528, fonts.font18);
 		break;
 	case 2:
-		screen.displayLeftText("Item cost: " + to_string(equipment.chainmailHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.chainmailHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magAtt " + to_string(equipment.chainmailHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(equipment.chainmailHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.chainmailHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magDef " + to_string(equipment.chainmailHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
 		screen.displayLeftText(">", 346, 528, fonts.font18);
 		break;
 	case 3:
-		screen.displayLeftText("Item cost: " + to_string(equipment.kingHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.kingHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magAtt " + to_string(equipment.kingHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(equipment.kingHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.kingHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magDef " + to_string(equipment.kingHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
 		screen.displayLeftText(">", 656, 528, fonts.font18);
 		break;
 	case 4:
-		screen.displayLeftText("Item cost: " + to_string(equipment.apprenticeHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.apprenticeHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magAtt " + to_string(equipment.apprenticeHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(equipment.apprenticeHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.apprenticeHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magDef " + to_string(equipment.apprenticeHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
 		screen.displayLeftText(">", 46, 600, fonts.font18);
 		break;
 	case 5:
-		screen.displayLeftText("Item cost: " + to_string(equipment.masterHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.masterHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magAtt " + to_string(equipment.masterHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
+		screen.displayLeftText("Item cost: " + to_string(equipment.masterHelmet.helmetCost) + " Stat change: phyDef " + to_string(equipment.masterHelmet.helmetPhysDef - player.equippedHelmet.helmetPhysDef) + " magDef " + to_string(equipment.masterHelmet.helmetMagicDef - player.equippedHelmet.helmetMagicDef), 30, 433, fonts.font18);
 		screen.displayLeftText(">", 346, 600, fonts.font18);
 		break;
 	case 6:
@@ -406,7 +412,7 @@ void Shops::drawArmouryHelmet(Screen& screen, Player& player, int shopCursorPos,
 	}
 }
 
-void Shops::armouryHelmet(Player& player, int combatCursorPos, Equipment equipment, int& armourCursorPos)
+void Shops::armouryHelmet(Player& player, int& combatCursorPos, Equipment equipment, int& armourCursorPos)
 {
 	switch (combatCursorPos) {
 	case 1:
@@ -441,6 +447,7 @@ void Shops::armouryHelmet(Player& player, int combatCursorPos, Equipment equipme
 		break;
 	case 6:
 		armourCursorPos = 1;
+		combatCursorPos = 2;
 		break;
 	}
 }
@@ -453,7 +460,7 @@ void Shops::drawArmouryGauntlets(Screen& screen, Player& player, int shopCursorP
 	screen.displayLeftText("Apprentice G.", 70, 600, fonts.font20);
 	screen.displayLeftText("Master G.", 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold: " + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 	switch (shopCursorPos) {
 	case 1:
 		screen.displayLeftText("Item cost: " + to_string(equipment.leatherGauntlet.gauntletCost) + " Stat change: phyDef " + to_string(equipment.leatherGauntlet.gauntletPhysDef - player.equippedGauntlet.gauntletPhysDef) + " magAtt " + to_string(equipment.leatherGauntlet.gauntletMagicDef - player.equippedGauntlet.gauntletMagicDef), 30, 433, fonts.font18);
@@ -481,7 +488,7 @@ void Shops::drawArmouryGauntlets(Screen& screen, Player& player, int shopCursorP
 	}
 }
 
-void Shops::armourGauntlets(Player& player, int combatCursorPos, Equipment equipment, int& armourCursorPos)
+void Shops::armourGauntlets(Player& player, int& combatCursorPos, Equipment equipment, int& armourCursorPos)
 {
 	switch (combatCursorPos) {
 	case 1:
@@ -516,6 +523,7 @@ void Shops::armourGauntlets(Player& player, int combatCursorPos, Equipment equip
 		break;
 	case 6:
 		armourCursorPos = 1;
+		combatCursorPos = 3;
 		break;
 	}
 }
@@ -528,7 +536,7 @@ void Shops::drawArmouryChest(Screen& screen, Player& player, int shopCursorPos, 
 	screen.displayLeftText("Apprentice C.", 70, 600, fonts.font20);
 	screen.displayLeftText("Master C.", 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold: " + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 	switch (shopCursorPos) {
 	case 1:
 		screen.displayLeftText("Item cost: " + to_string(equipment.leatherChest.chestCost) + " Stat change: phyDef " + to_string(equipment.leatherChest.chestPhysDef - player.equippedChestPiece.chestPhysDef) + " magAtt " + to_string(equipment.leatherChest.chestMagicDef - player.equippedChestPiece.chestMagicDef), 30, 433, fonts.font18);
@@ -556,7 +564,7 @@ void Shops::drawArmouryChest(Screen& screen, Player& player, int shopCursorPos, 
 	}
 }
 
-void Shops::armouryChestpiece(Player& player, int combatCursorPos, Equipment equipment, int& armourCursorPos)
+void Shops::armouryChestpiece(Player& player, int& combatCursorPos, Equipment equipment, int& armourCursorPos)
 {
 	switch (combatCursorPos) {
 	case 1:
@@ -591,6 +599,7 @@ void Shops::armouryChestpiece(Player& player, int combatCursorPos, Equipment equ
 		break;
 	case 6:
 		armourCursorPos = 1;
+		combatCursorPos = 4;
 		break;
 	}
 }
@@ -603,7 +612,7 @@ void Shops::drawArmouryBoots(Screen& screen, Player& player, int shopCursorPos, 
 	screen.displayLeftText("Apprentice B.", 70, 600, fonts.font20);
 	screen.displayLeftText("Master B.", 370, 600, fonts.font20);
 	screen.displayLeftText("return", 680, 600, fonts.font20);
-	screen.displayLeftText("Your gold: " + player.gold, 30, 393, fonts.font18);
+	screen.displayLeftText("Your gold: " + to_string(player.gold), 30, 393, fonts.font18);
 	switch (shopCursorPos) {
 	case 1:
 		screen.displayLeftText("Item cost: " + to_string(equipment.leatherBoots.bootsCost) + " Stat change: phyDef " + to_string(equipment.leatherBoots.bootsPhysDef - player.equippedBoots.bootsPhysDef) + " magAtt " + to_string(equipment.leatherBoots.bootsMagicDef - player.equippedBoots.bootsMagicDef), 30, 433, fonts.font18);
@@ -631,41 +640,42 @@ void Shops::drawArmouryBoots(Screen& screen, Player& player, int shopCursorPos, 
 	}
 }
 
-void Shops::armouryBoots(Player& player, int combatCursorPos, Equipment equipment, int& armourCursorPos)
+void Shops::armouryBoots(Player& player, int& combatCursorPos, Equipment equipment, int& armourCursorPos)
 {
 	switch (combatCursorPos) {
 	case 1:
-		if (player.gold >= equipment.leatherChest.chestCost) {
-			player.equipChestPiece(equipment.leatherChest);
-			player.gold = player.gold - equipment.leatherChest.chestCost;
+		if (player.gold >= equipment.leatherBoots.bootsCost) {
+			player.equipBoots(equipment.leatherBoots);
+			player.gold = player.gold - equipment.leatherBoots.bootsCost;
 		}
 		break;
 	case 2:
-		if (player.gold >= equipment.chainmailChest.chestCost) {
-			player.equipChestPiece(equipment.chainmailChest);
-			player.gold = player.gold - equipment.chainmailChest.chestCost;
+		if (player.gold >= equipment.chainmailBoots.bootsCost) {
+			player.equipBoots(equipment.chainmailBoots);
+			player.gold = player.gold - equipment.chainmailBoots.bootsCost;
 		}
 		break;
 	case 3:
-		if (player.gold >= equipment.kingChest.chestCost) {
-			player.equipChestPiece(equipment.kingChest);
-			player.gold = player.gold - equipment.kingChest.chestCost;
+		if (player.gold >= equipment.kingBoots.bootsCost) {
+			player.equipBoots(equipment.kingBoots);
+			player.gold = player.gold - equipment.kingBoots.bootsCost;
 		}
 		break;
 	case 4:
-		if (player.gold >= equipment.apprenticeChest.chestCost) {
-			player.equipChestPiece(equipment.apprenticeChest);
-			player.gold = player.gold - equipment.apprenticeChest.chestCost;
+		if (player.gold >= equipment.apprenticeBoots.bootsCost) {
+			player.equipBoots(equipment.apprenticeBoots);
+			player.gold = player.gold - equipment.apprenticeBoots.bootsCost;
 		}
 		break;
 	case 5:
-		if (player.gold >= equipment.masterChest.chestCost) {
-			player.equipChestPiece(equipment.masterChest);
-			player.gold = player.gold - equipment.masterChest.chestCost;
+		if (player.gold >= equipment.masterBoots.bootsCost) {
+			player.equipBoots(equipment.masterBoots);
+			player.gold = player.gold - equipment.masterBoots.bootsCost;
 		}
 		break;
 	case 6:
 		armourCursorPos = 1;
+		combatCursorPos = 5;
 		break;
 	}
 }
@@ -1112,18 +1122,18 @@ void Shops::moveLeft(int & combatCursorPos, int & shop)
 	case 0:
 		break;
 	case 1:
-		combatCursorPos = 0;
+		combatCursorPos = 1;
 		break;
 	case 2:
-		combatCursorPos = 1;
+		combatCursorPos = 2;
 		break;
 	case 3:
 		break;
 	case 4:
-		combatCursorPos = 3;
+		combatCursorPos = 4;
 		break;
 	case 5:
-		combatCursorPos = 4;
+		combatCursorPos = 5;
 		break;
 	}
 }
@@ -1133,18 +1143,18 @@ void Shops::moveRight(int & combatCursorPos, int & shop)
 	switch (combatCursorPos - 1)  //{  0    1    2  }
 	{						  //{  3    4    5  }
 	case 0:
-		combatCursorPos = 1;
+		combatCursorPos = 2;
 		break;
 	case 1:
-		combatCursorPos = 2;
+		combatCursorPos = 3;
 		break;
 	case 2:
 		break;
 	case 3:
-		combatCursorPos = 4;
+		combatCursorPos = 5;
 		break;
 	case 4:
-		combatCursorPos = 5;
+		combatCursorPos = 6;
 		break;
 	case 5:
 		break;
@@ -1163,13 +1173,13 @@ void Shops::moveUp(int & combatCursorPos, int & shop)
 	case 2:
 		break;
 	case 3:
-		combatCursorPos = 0;
-		break;
-	case 4:
 		combatCursorPos = 1;
 		break;
-	case 5:
+	case 4:
 		combatCursorPos = 2;
+		break;
+	case 5:
+		combatCursorPos = 3;
 		break;
 	}
 }
@@ -1179,13 +1189,13 @@ void Shops::moveDown(int & combatCursorPos, int & shop)
 	switch (combatCursorPos - 1)  //{  0    1    2  }
 	{						  //{  3    4    5  }
 	case 0:
-		combatCursorPos = 3;
-		break;
-	case 1:
 		combatCursorPos = 4;
 		break;
-	case 2:
+	case 1:
 		combatCursorPos = 5;
+		break;
+	case 2:
+		combatCursorPos = 6;
 		break;
 	case 3:
 		break;

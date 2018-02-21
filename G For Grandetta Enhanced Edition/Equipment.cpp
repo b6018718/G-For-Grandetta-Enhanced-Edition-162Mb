@@ -45,11 +45,11 @@ Equipment::Equipment()
 	
 
 	basicChest.chestName = "Peasant Rags";
-	leatherChest.chestName = "leather Vest";
-	chainmailChest.chestName = "Knights chainmail";
-	kingChest.chestName = "Armour of the king";
-	apprenticeChest.chestName = "Wizards apprentice Cloak";
-	masterChest.chestName = "Cloak of the master Wizard";
+	leatherChest.chestName = "Leather Vest";
+	chainmailChest.chestName = "Knights Chainmail";
+	kingChest.chestName = "Armour of the King";
+	apprenticeChest.chestName = "Wizards Apprentice Cloak";
+	masterChest.chestName = "Cloak of the Master Wizard";
 
 	basicChest.chestPhysDef = 5;
 	leatherChest.chestPhysDef = 15;
@@ -77,9 +77,9 @@ Equipment::Equipment()
 	basicHelmet.helmetName = "Peasant Hat";
 	leatherHelmet.helmetName = "Leather Helmet";
 	chainmailHelmet.helmetName = "Knights Helmet Hood";
-	kingHelmet.helmetName = "High king Crown";
+	kingHelmet.helmetName = "High King Crown";
 	apprenticeHelmet.helmetName = "Apprentice Helmet Hood";
-	masterHelmet.helmetName = "Hood of the master Wizard";
+	masterHelmet.helmetName = "Hood of the Master Wizard";
 
 	basicHelmet.helmetPhysDef = 3;
 	leatherHelmet.helmetPhysDef = 7;

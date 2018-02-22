@@ -22,7 +22,7 @@ Maps::Maps()
 	zone[0].collisions.push_back(Collision("villageBottomWallRight", 13, 28, 47, 2, true, "sign", { "You see a tall hedge", "It seems to go on forever", "It would be impossible", "to squeeze through this foilage" }));
 	zone[0].collisions.push_back(Collision("villageHouse1", 20, 12, 5.75, 5, true, "sign", { "The village is silent", "Likewise is this house", "It appears no one is home" }));
 	zone[0].collisions.push_back(Collision("villageHouse2", 33, 12, 5.5, 5, true, "sign", { "The house is eerily deserted", "The family that used to live here is", "nowhere to be seen..." }));
-	zone[0].collisions.push_back(Collision("villageChest", 28, 1, 1, 1, true, "chest", {"", "" }, "chestFunction"));
+	zone[0].collisions.push_back(Collision("villageChest", 28, 1, 1, 1, true, "chest", { "", "" }, "chestFunction"));
 	zone[0].collisions.push_back(Collision("villageLeftFence", 8, 25, 1, 3, true, "sign", { "You see a fence", "It looks handcrafted", "A fine specimen" }));
 	zone[0].collisions.push_back(Collision("villageRightFence", 13, 25, 1, 3, true, "sign", { "You see a fence", "", "You wonder how well fence", "building pays these days", "Probably best not to dwell on it" }));
 	zone[0].collisions.push_back(Collision("villageTopLeftFence", 1, 8, 9, 1, true, "sign", { "You see a fence", "It's a fence alright", "Don't make these like they used to" }));
@@ -31,17 +31,17 @@ Maps::Maps()
 	zone[0].collisions.push_back(Collision("villageGransMiddleLeftFence", 50, 7, 1, 5, true, "sign", { "You see a fence", "", "Grandma loved this fence" }));
 	zone[0].collisions.push_back(Collision("villageGransMiddleFence", 51, 9, 7, 1, true, "sign", { "You see a fence", "", "Fences are the backbone", "of the economy" }));
 	zone[0].collisions.push_back(Collision("villageGransBottomFence", 50, 14, 9, 1, true, "sign", { "You see a fence", "Wood, wood and more wood" }));
-	zone[0].collisions.push_back(Collision("villageGrave1", 2, 2, 1, 1, true, "sign", { "The grave reads:", "Anthony D. 1998 - 2018", "You recall not so fond memories"} ));
-	zone[0].collisions.push_back(Collision("villageGrave2", 4, 2, 1, 1, true, "sign", { "The grave reads:", "Jack C. 1997 - 2018", "You recall fond memories" } ));
-	zone[0].collisions.push_back(Collision("villageGrave3", 6, 2, 1, 1, true, "sign", { "It's hard to read..." , "Something about someone called Ethan", "You've never heard of them"}));
+	zone[0].collisions.push_back(Collision("villageGrave1", 2, 2, 1, 1, true, "sign", { "The grave reads:", "Anthony D. 1998 - 2018", "You recall not so fond memories" }));
+	zone[0].collisions.push_back(Collision("villageGrave2", 4, 2, 1, 1, true, "sign", { "The grave reads:", "Jack C. 1997 - 2018", "You recall fond memories" }));
+	zone[0].collisions.push_back(Collision("villageGrave3", 6, 2, 1, 1, true, "sign", { "It's hard to read..." , "Something about someone called Ethan", "You've never heard of them" }));
 	zone[0].collisions.push_back(Collision("villageGransGrave", 9, 2, 1, 1, true, "sign", { "The grave reads:", "RIP Grandma", "You see it has been disturbed" }));
 	zone[0].collisions.push_back(Collision("villageHomeRightWall", 58, 2, 1, 10, true, "sign", { "You see a tall hedge", "It seems to go on forever", "It would be impossible", "to squeeze through this foilage" }));
 	zone[0].collisions.push_back(Collision("villageHomeBed", 55, 1, 1.5, 2, true, "sign", { "You inspect Grandma's old bed","As you would expect the bed is cold" }));
 	zone[0].collisions.push_back(Collision("villageHomeBottomWall", 54, 5.5, 10, 9, true, "sign", { "The house looks empty", "The house sounds empty", "It even smells empty!" }));
 	zone[0].collisions.push_back(Collision("villageHomeLeftWall", 54, 1, 1, 3, true, "sign", { "It's a wall", "There's no two ways about it" }));
-	
-	
-	
+
+
+
 
 	//Field Collisions
 	zone[1].collisions.push_back(Collision("fieldLeftFencePath", 8, 0, 0.5, 34, false, "none"));
@@ -137,11 +137,11 @@ Maps::Maps()
 	zone[5].collisions.push_back(Collision("nursaryRightOutcrop", 16, 20, 10, 1, false, "none"));
 	zone[5].collisions.push_back(Collision("nursaryRightWall", 20, 14, 1, 10, false, "none"));
 	zone[5].collisions.push_back(Collision("nursaryTopLeftCot", 10, 15, 2, 1, false, "none"));
-	zone[5].collisions.push_back(Collision("nursaryMiddleLeftCot", 10, 17, 2, 1, false, "none"));
-	zone[5].collisions.push_back(Collision("nursaryBottomLeftCot", 10, 19, 2, 1, false, "none"));
-	zone[5].collisions.push_back(Collision("nursaryTopRightCot", 18, 15, 2, 1, false, "none"));
-	zone[5].collisions.push_back(Collision("nursaryMiddleRightCot", 18, 17, 2, 1, false, "none"));
-	zone[5].collisions.push_back(Collision("nursaryBottomRightCot", 18, 19, 2, 1, false, "none"));
+	zone[5].collisions.push_back(Collision("nursaryMiddleLeftCot", 10, 17, 2, 1, true, "sign", { "You see rows upon rows of goblin ", "younglings fast asleep.", "What is this place?", "A nursery?", "You contemplate your actions up", "to this point." }));
+	zone[5].collisions.push_back(Collision("nursaryBottomLeftCot", 10, 19, 2, 1, true, "sign", { "You see rows upon rows of goblin ", "younglings fast asleep.", "What is this place?", "A nursery?", "You contemplate your actions up", "to this point." }));
+	zone[5].collisions.push_back(Collision("nursaryTopRightCot", 18, 15, 2, 1, true, "sign", { "You see rows upon rows of goblin ", "younglings fast asleep.", "What is this place ? ", "A nursery ? ", "You contemplate your actions up", "to this point." }));
+	zone[5].collisions.push_back(Collision("nursaryMiddleRightCot", 18, 17, 2, 1, true, "sign", { "You see rows upon rows of goblin ", "younglings fast asleep.", "What is this place?", "A nursery?", "You contemplate your actions up", "to this point." }));
+	zone[5].collisions.push_back(Collision("nursaryBottomRightCot", 18, 19, 2, 1, true, "sign", { "You see rows upon rows of goblin ", "younglings fast asleep.", "What is this place?", "A nursery?", "You contemplate your actions up", "to this point." }));
 
 	//Cave Collisions
 	zone[6].collisions.push_back(Collision("caveTopLeftWall", 0, 0, 41, 8, false, "none"));
@@ -160,14 +160,14 @@ Maps::Maps()
 	zone[7].collisions.push_back(Collision("casinoBottomLeftOutcrop", 0, 19, 3, 1, false, "none"));
 	zone[7].collisions.push_back(Collision("casinoBottomRightWall", 5, 19, 29, 1, false, "none"));
 	zone[7].collisions.push_back(Collision("casinoTopWall", 0, 0, 29, 3, false, "none"));
-	zone[7].collisions.push_back(Collision("casinoBar", 12, 3, 9, 1, false, "none"));
+	zone[7].collisions.push_back(Collision("casinoBar", 12, 3, 9, 1, true, "sign", { "You see a note left on the bar", "", "On break", "- Sammy" }));
 	zone[7].collisions.push_back(Collision("casinoRightWall", 29, 0, 1, 18, false, "none"));
-	zone[7].collisions.push_back(Collision("casinoWheelSpinner", 4, 3, 5, 5, false, "none"));
-	zone[7].collisions.push_back(Collision("casinoTopFruits", 23, 5, 6, 2, false, "none"));
-	zone[7].collisions.push_back(Collision("casinoBottomFruits", 23, 9, 6, 2, false, "none"));
-	zone[7].collisions.push_back(Collision("casinoLeftTable", 8, 15, 3, 2, false, "none"));
-	zone[7].collisions.push_back(Collision("casinoMiddleTable", 16, 15, 3, 2, false, "none"));
-	zone[7].collisions.push_back(Collision("casinoRightTable", 24, 15, 3, 2, false, "none"));
+	zone[7].collisions.push_back(Collision("casinoWheelSpinner", 4, 3, 5, 5, true, "wheelOfFortune"));
+	zone[7].collisions.push_back(Collision("casinoTopFruits", 23, 5, 6, 2, true, "fruitMachine"));
+	zone[7].collisions.push_back(Collision("casinoBottomFruits", 23, 9, 6, 2, true, "fruitMachine"));
+	zone[7].collisions.push_back(Collision("casinoLeftTable", 8, 15, 3, 2, true, "rouletteTable"));
+	zone[7].collisions.push_back(Collision("casinoMiddleTable", 16, 15, 3, 2, true, "rouletteTable"));
+	zone[7].collisions.push_back(Collision("casinoRightTable", 24, 15, 3, 2, true, "rouletteTable"));
 }
 
 

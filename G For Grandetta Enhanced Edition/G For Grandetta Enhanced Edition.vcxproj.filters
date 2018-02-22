@@ -51,6 +51,9 @@
     <ClCompile Include="Shops.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Casino.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Music.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Casino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

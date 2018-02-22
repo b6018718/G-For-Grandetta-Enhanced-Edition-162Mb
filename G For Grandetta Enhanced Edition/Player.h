@@ -79,7 +79,7 @@ public:
 	int spriteFrame;
 	int playerSpeed = 4;	//Speed of players movement per frame
 	int currentQuestPoint = 0; //Current Quest Number
-	int currentQuest = 7; //0
+	int currentQuest = 0; //0
 	bool firstFail = false; //First attempt at stealing will always succeed, to teach the player how it is used
 	string playerName;
 	Equipment::weapon equippedWeapon;

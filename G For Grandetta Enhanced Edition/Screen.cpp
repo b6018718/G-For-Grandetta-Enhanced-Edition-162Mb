@@ -391,7 +391,7 @@ void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, M
 				else if (player.currentQuest == 6)
 				{
 					while (maps.findCollision(maps.zone[player.currentMap], "castleWizard") != -1)
-						maps.removeItem(0, "castleWizard");
+						maps.removeItem(3, "castleWizard");
 					//loadMapMedia(gPlaySurface, "images/bg3.bmp");
 				}
 					

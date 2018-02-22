@@ -187,8 +187,8 @@ Mobs::Mobs()
 		//Goblin Boss
 		mobGoblinBoss.enemyName = "Goblin Boss";
 		mobGoblinBoss.maxHP = 250;
-		mobGoblinBoss.physicalAttack = 25;
-		mobGoblinBoss.magicalAttack = 10;
+		mobGoblinBoss.physicalAttack = 30;
+		mobGoblinBoss.magicalAttack = 25;
 		mobGoblinBoss.physicalDefence = 20;
 		mobGoblinBoss.magicDefence = 10;
 		mobGoblinBoss.expDrop = 210;
@@ -665,11 +665,14 @@ void Mobs::selectMonsterMove(Player & player, Screen screen, Fonts fonts, Music 
 		break;
 
 	case 6: //SPIDER QUEEN
-		switch (getRandomInt(1, 3)) {
+		switch (getRandomInt(1, 6)) {
 		case 1:
 			mobBreathFire(player, screen, fonts, music, enemy);
 			break;
 		case 2:
+		case 4:
+		case 5:
+		case 6:
 			mobStrongAttack(player, screen, fonts, music, enemy);
 			break;
 		case 3:

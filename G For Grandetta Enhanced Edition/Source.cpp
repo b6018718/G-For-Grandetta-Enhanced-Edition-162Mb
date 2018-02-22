@@ -19,6 +19,7 @@
 #include "Mobs.h"
 #include "Equipment.h"
 #include "Shops.h"
+#include "Casino.h"
 
 
 //Count Lines OF Code = ctrl + shift + f
@@ -86,7 +87,7 @@ int main(int argc, char* args[])
 		gGameController = NULL;
 	}
 
-	system("pause");
+	//system("pause");
 	//Quit SDL
 	SDL_Quit();
 
@@ -1358,6 +1359,24 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 			//Quest Function
 			shops.armouryShop(screen, player, fonts, equipment);
 		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "wheelOfFortune")
+		{
+			//Wheel of fortune
+			Casino casino;
+			casino.wheelOfFortune(screen, player, fonts, equipment);
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "fruitMachine")
+		{
+			//Fruit Machine
+			Casino casino;
+			casino.fruitMachine(screen, player, fonts, equipment);
+		}
+		else if (maps.zone[player.currentMap].collisions[i].interactType == "rouletteTable")
+		{
+			//Roulette Table
+			Casino casino;
+			casino.rouletteTable(screen, player, fonts, equipment);
+		}
 		
 	}
 	return exitGame;
@@ -2240,6 +2259,7 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 			player.currentMap = 0;			//Set to Village
 	}
 
+	player.questLoaded = false;
 	music.PlayMap(player.currentMap);
 
 	return gameExit;
@@ -2540,7 +2560,7 @@ void wasEnemyDefeated(Player& player, Mobs::mob enemy, Screen& screen, Fonts& fo
 					gameExit = screen.messageBox("You learnt a new spell!", "Steal health with Health Drain!", fonts.font24);
 				}
 				if (player.level == 15) { //g nova
-					gameExit = screen.messageBox("You learnt a new spell!", "Unleash your full power with Grand Nova!", fonts.font24);
+					gameExit = screen.messageBox("You learnt a new spell! Unleash", "your full power with Grand Nova!", fonts.font24);
 					gameExit = screen.messageBox("Congratulations!", "You now have learnt every spell!", fonts.font24);
 					gameExit = screen.messageBox("Have fun using them", "to defeat your foes!", fonts.font24);
 				}
@@ -2994,6 +3014,8 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 			if (player.inventory[4] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
 			{
 				player.itemIronSkinPotion();
+				screen.messageBox("Your defence doubled", "for the rest of the battle!", fonts.font24);
+				screen.messageBox("Go get 'em!", "", fonts.font24);
 				phaseHolder = 4; // Enemy Turn
 			}
 		}
@@ -3059,6 +3081,8 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 			if (player.inventory[5] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
 			{
 				player.itemBerserkPotion();
+				screen.messageBox("Your attack power doubled", "for the rest of the battle!", fonts.font24);
+				screen.messageBox("Go get 'em!", "", fonts.font24);
 				phaseHolder = 4; //Enemy Turn
 			}
 		}
@@ -3130,7 +3154,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 			if (player.inventory[2] > 0) //health potion = 1, mana potion = 2, smoke bomb = 3, iron skin potion =  4, berserk potion = 5
 			{
 				music.PlayHeal();
-				player.currentMP = player.itemMagicPotion();
+				player.currentMP += player.itemMagicPotion();
 				if (player.currentMP > player.maxMP)
 					player.currentMP = player.maxMP;
 				phaseHolder = 4; //Enemy Turn
@@ -3329,7 +3353,7 @@ bool openInventory(Screen& screen, Player& player, Music& music, Fonts& fonts)
 									if (player.currentMP < player.maxMP&& player.inventory[2] > 0)
 									{
 										music.PlayHeal();
-										player.currentMP = player.itemMagicPotion();
+										player.currentMP += player.itemMagicPotion();
 										if (player.currentMP > player.maxMP)
 										{
 											player.currentMP = player.maxMP;
@@ -3383,7 +3407,7 @@ bool openInventory(Screen& screen, Player& player, Music& music, Fonts& fonts)
 							if (player.currentMP < player.maxMP&& player.inventory[2] > 0)
 							{
 								music.PlayHeal();
-								player.currentMP = player.itemMagicPotion();
+								player.currentMP += player.itemMagicPotion();
 								if (player.currentMP > player.maxMP)
 								{
 									player.currentMP = player.maxMP;
@@ -3440,7 +3464,7 @@ bool openInventory(Screen& screen, Player& player, Music& music, Fonts& fonts)
 						if (player.currentMP < player.maxMP&& player.inventory[2] > 0)
 						{
 							music.PlayHeal();
-							player.currentMP = player.itemMagicPotion();
+							player.currentMP += player.itemMagicPotion();
 							if (player.currentMP > player.maxMP)
 							{
 								player.currentMP = player.maxMP;
@@ -3556,7 +3580,7 @@ bool playCredits(Screen& screen, Player& player, Music& music, Fonts& fonts)
 {
 	bool gameExit = false;
 	SDL_Rect creditsBackground = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	
+	SDL_Event event;
 	SDL_FillRect(screen.gScreenSurface, &creditsBackground, SDL_MapRGB(screen.gScreenSurface->format, 0x000, 0x000, 0x000));
 	int creditsPos = 0;
 	if (player.badEnd == true)
@@ -3569,10 +3593,20 @@ bool playCredits(Screen& screen, Player& player, Music& music, Fonts& fonts)
 		gameExit = screen.messageBox("You have achieved the BAD END", "", fonts.font24);
 		gameExit = screen.messageBox("What could you have done", "differently?", fonts.font24);
 		SDL_UpdateWindowSurface(screen.gWindow);
+		
 
-		while (creditsPos < 9500)
+		while (creditsPos < 9500  && gameExit == false)
 		{
 			float startTime = (float)SDL_GetTicks();
+				
+			while (SDL_PollEvent(&event))
+			{
+				//Window Exit Event
+				if (event.type == SDL_QUIT)
+				{
+					gameExit = true;
+				}
+			}
 
 			SDL_FillRect(screen.gScreenSurface, &creditsBackground, SDL_MapRGB(screen.gScreenSurface->format, 0x000, 0x000, 0x000));
 			screen.foregroundColor = { 255, 255, 255 };
@@ -3656,9 +3690,18 @@ bool playCredits(Screen& screen, Player& player, Music& music, Fonts& fonts)
 		gameExit = screen.messageBox("Hip Hip hurray!!!", "", fonts.font24);
 		gameExit = screen.messageBox("You have achieved the GOOD END", "Congratulations!", fonts.font24);
 
-		while (creditsPos < 9500)
+		while (creditsPos < 9500 && gameExit == false)
 		{
 			float startTime = (float)SDL_GetTicks();
+
+			while (SDL_PollEvent(&event))
+			{
+				//Window Exit Event
+				if (event.type == SDL_QUIT)
+				{
+					gameExit = true;
+				}
+			}
 
 			SDL_FillRect(screen.gScreenSurface, &creditsBackground, SDL_MapRGB(screen.gScreenSurface->format, 0x000, 0x000, 0x000));
 			enemyLoc.y = 150 - creditsPos;

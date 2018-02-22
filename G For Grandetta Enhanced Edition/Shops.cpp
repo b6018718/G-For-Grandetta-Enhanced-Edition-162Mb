@@ -184,7 +184,7 @@ void Shops::drawHatShop(Screen& screen, Player& player, int shopCursorPos, Fonts
 	}
 }
 
-void Shops::buyHatShop(Player& player, string hat)
+void Shops::buyHatShop(Player& player, string hat, Screen& screen, Fonts& fonts)
 {
 	int hatCost = 1000;
 	if (player.gold >= hatCost)
@@ -193,6 +193,7 @@ void Shops::buyHatShop(Player& player, string hat)
 		if (player.currentQuest == 3 && player.currentQuestPoint == 0)
 		{
 			player.incrementQuest();
+			screen.messageBox("You have bought a hat!", "Now return it to the wizard!", fonts.font24);
 		}
 	}
 }
@@ -793,19 +794,19 @@ bool Shops::shopEvent(Player & player, Screen & screen, int shop, Fonts fonts, E
 							case 2:	//Buy Hat Shop
 								switch (combatCursorPos) {
 								case 1:
-									buyHatShop(player, "red");
+									buyHatShop(player, "red", screen, fonts);
 									break;
 								case 2:
-									buyHatShop(player, "shadow");
+									buyHatShop(player, "shadow", screen, fonts);
 									break;
 								case 3:
-									buyHatShop(player, "gold");
+									buyHatShop(player, "gold", screen, fonts);
 									break;
 								case 4:
-									buyHatShop(player, "cerulean");
+									buyHatShop(player, "cerulean", screen, fonts);
 									break;
 								case 5:
-									buyHatShop(player, "rainbow");
+									buyHatShop(player, "rainbow", screen, fonts);
 									break;
 								case 6:
 									quit = true;
@@ -915,19 +916,19 @@ bool Shops::shopEvent(Player & player, Screen & screen, int shop, Fonts fonts, E
 					case 2:	//Buy Hat Shop
 						switch (combatCursorPos) {
 						case 1:
-							buyHatShop(player, "red");
+							buyHatShop(player, "red",screen, fonts);
 							break;
 						case 2:
-							buyHatShop(player, "shadow");
+							buyHatShop(player, "shadow", screen, fonts);
 							break;
 						case 3:
-							buyHatShop(player, "gold");
+							buyHatShop(player, "gold", screen, fonts);
 							break;
 						case 4:
-							buyHatShop(player, "cerulean");
+							buyHatShop(player, "cerulean", screen, fonts);
 							break;
 						case 5:
-							buyHatShop(player, "rainbow");
+							buyHatShop(player, "rainbow", screen, fonts);
 							break;
 						case 6:
 							quit = true;
@@ -1048,19 +1049,19 @@ bool Shops::shopEvent(Player & player, Screen & screen, int shop, Fonts fonts, E
 					case 2:	//Buy Hat Shop
 						switch (combatCursorPos) {
 						case 1:
-							buyHatShop(player, "red");
+							buyHatShop(player, "red", screen, fonts);
 							break;
 						case 2:
-							buyHatShop(player, "shadow");
+							buyHatShop(player, "shadow", screen, fonts);
 							break;
 						case 3:
-							buyHatShop(player, "gold");
+							buyHatShop(player, "gold", screen, fonts);
 							break;
 						case 4:
-							buyHatShop(player, "cerulean");
+							buyHatShop(player, "cerulean", screen, fonts);
 							break;
 						case 5:
-							buyHatShop(player, "rainbow");
+							buyHatShop(player, "rainbow", screen, fonts);
 							break;
 						case 6:
 							quit = true;

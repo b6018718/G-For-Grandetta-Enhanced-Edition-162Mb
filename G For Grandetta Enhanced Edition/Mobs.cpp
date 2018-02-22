@@ -57,7 +57,7 @@ Mobs::Mobs()
 		mobGoblin.physicalAttack = 35;
 		mobGoblin.magicalAttack = 5;
 		mobGoblin.physicalDefence = 20;
-		mobGoblin.magicDefence = 10;
+		mobGoblin.magicDefence = 7;
 		mobGoblin.expDrop = 50;
 		mobGoblin.itemDrop = 3;
 		mobGoblin.AI = 7;
@@ -93,10 +93,10 @@ Mobs::Mobs()
 		//Spider
 		mobSpider.enemyName = "Spider";
 		mobSpider.maxHP = 40;
-		mobSpider.physicalAttack = 40;
+		mobSpider.physicalAttack = 25;
 		mobSpider.magicalAttack = 5;
-		mobSpider.physicalDefence = 30;
-		mobSpider.magicDefence = 45;
+		mobSpider.physicalDefence = 15;
+		mobSpider.magicDefence = 15;
 		mobSpider.expDrop = 120;
 		mobSpider.itemDrop = 4;
 		mobSpider.AI = 4;
@@ -106,10 +106,10 @@ Mobs::Mobs()
 		//Giant Spider
 		mobGiantSpider.enemyName = "Giant Spider";
 		mobGiantSpider.maxHP = 70;
-		mobGiantSpider.physicalAttack = 60;
+		mobGiantSpider.physicalAttack = 35;
 		mobGiantSpider.magicalAttack = 15;
-		mobGiantSpider.physicalDefence = 70;
-		mobGiantSpider.magicDefence = 50;
+		mobGiantSpider.physicalDefence = 20;
+		mobGiantSpider.magicDefence = 15;
 		mobGiantSpider.expDrop = 140;
 		mobGiantSpider.itemDrop = 5;
 		mobGiantSpider.AI = 1;
@@ -118,11 +118,11 @@ Mobs::Mobs()
 
 		//Cockroach
 		mobCockroach.enemyName = "Cockroach";
-		mobCockroach.maxHP = 80;
-		mobCockroach.physicalAttack = 60;
+		mobCockroach.maxHP = 40;
+		mobCockroach.physicalAttack = 25;
 		mobCockroach.magicalAttack = 5;
-		mobCockroach.physicalDefence = 80;
-		mobCockroach.magicDefence = 45;
+		mobCockroach.physicalDefence = 20;
+		mobCockroach.magicDefence = 20;
 		mobCockroach.expDrop = 120;
 		mobCockroach.itemDrop = 4;
 		mobCockroach.AI = 1;
@@ -131,11 +131,11 @@ Mobs::Mobs()
 
 		//Group of rats
 		mobRatGroup.enemyName = "A Group of Rats";
-		mobRatGroup.maxHP = 150;
-		mobRatGroup.physicalAttack = 50;
+		mobRatGroup.maxHP = 250;
+		mobRatGroup.physicalAttack = 30;
 		mobRatGroup.magicalAttack = 5;
-		mobRatGroup.physicalDefence = 30;
-		mobRatGroup.magicDefence = 35;
+		mobRatGroup.physicalDefence = 4;
+		mobRatGroup.magicDefence = 3;
 		mobRatGroup.expDrop = 120;
 		mobRatGroup.itemDrop = 1;
 		mobRatGroup.AI = 7;
@@ -202,7 +202,7 @@ Mobs::Mobs()
 		mobSpiderQueen.enemyName = "Spider Queen";
 		mobSpiderQueen.maxHP = 500;
 		mobSpiderQueen.physicalAttack = 35;
-		mobSpiderQueen.magicalAttack = 25;
+		mobSpiderQueen.magicalAttack = 35;
 		mobSpiderQueen.physicalDefence = 30;
 		mobSpiderQueen.magicDefence = 15;
 		mobSpiderQueen.expDrop = 540;
@@ -219,7 +219,7 @@ Mobs::Mobs()
 		mobWizard.magicalAttack = 65;
 		mobWizard.physicalDefence = 30;
 		mobWizard.magicDefence = 50;
-		mobWizard.expDrop = 2160;
+		mobWizard.expDrop = 3160;
 		mobWizard.itemDrop = 2;
 		mobWizard.AI = 9;
 		mobWizard.imgSrc = "images/wizard.bmp";
@@ -569,7 +569,7 @@ void Mobs::mobStickyWeb(Player & player, Screen screen, Fonts fonts, Music music
 		int damage = calculateDamageDealt(enemy.magicalAttack + movePower, floor(player.magDefence*player.ironPotionEffect));
 		player.currentHP = player.currentHP - damage;
 		music.PlayHit();
-		screen.messageBox("The enemy traps you in their web,", "Lowering your attack!" + to_string(damage) + "Damage!", fonts.font24);
+		screen.messageBox("The enemy traps you in their web,", "Lowering your attack! " + to_string(damage) + " Damage!", fonts.font24);
 		if (player.berserkPotionEffect > 0.5) {
 			player.berserkPotionEffect = player.berserkPotionEffect / 2;
 		}
@@ -823,7 +823,7 @@ void Mobs::enemyDefeatMessage(Screen& screen, mob enemy, Player& player, Fonts f
 	else if (enemy.enemyName == "Spider Queen") 
 	{
 		screen.messageBox("(We lost...)", "(Congratulations Hero)", fonts.font24);
-		screen.messageBox("(You killed a spider!)", "(such strength, such wow, such heroics)", fonts.font24);
+		screen.messageBox("(You killed a spider!)", "(such strength...)", fonts.font24);
 		//phaseHolder = 0;
 	}
 	else if (enemy.enemyName == "Wizard")

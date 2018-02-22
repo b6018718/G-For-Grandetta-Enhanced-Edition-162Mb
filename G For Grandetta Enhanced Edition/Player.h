@@ -79,7 +79,7 @@ public:
 	int spriteFrame;
 	int playerSpeed = 4;	//Speed of players movement per frame
 	int currentQuestPoint = 0; //Current Quest Number
-	int currentQuest = 0;
+	int currentQuest = 6; //0
 	bool firstFail = false; //First attempt at stealing will always succeed, to teach the player how it is used
 	string playerName;
 	Equipment::weapon equippedWeapon;
@@ -146,18 +146,18 @@ public:
 	int inventoryItemCost[6] =
 	{
 		0,	//null item  index 0
-		50,	//health potion index 1
-		50, //mana potion index 2
-		75,//smoke bomb index 3
-		200,//iron skin potion index 4
-		250,//berserk potion index 5
+		25,	//health potion index 1
+		25, //mana potion index 2
+		50,//smoke bomb index 3
+		150,//iron skin potion index 4
+		200,//berserk potion index 5
 	};
 
 
 	int effectiveCurrentExp; //Current exp minus total exp
 	int effectiveExpLevelUp; //Next level up minus total exp
 
-	vector <int> levelExpNeeded = { 0, 15, 60, 120, 195, 345, 555, 825, 1125, 1485, 1935, 2475, 3105, 3825, 4635 };
+	vector <int> levelExpNeeded = { 0, 15, 60, 120, 195, 345, 555, 825, 1125, 1485, 1935, 2475, 3105, 3825, 4635, 5000, 1000000 };
 
 	int getRandomInt(int min, int max);
 	void initaliseStats(Equipment equipment);

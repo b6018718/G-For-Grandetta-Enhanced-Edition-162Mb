@@ -353,7 +353,7 @@ void MainMenu(Screen screen, Music& music, Fonts& fonts, SDL_Joystick* gGameCont
 			{
 				if (event.jbutton.button == 0)
 				{
-					cout << "DOWN\n";
+					//cout << "DOWN\n";
 				}
 				else if (event.jbutton.button == 1)
 				{
@@ -485,6 +485,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 	screen.messageBox("The village is usually a hub", "of activity, where is everyone?", fonts.font24);
 	screen.messageBox("ADVENTURE TIP: Interact with ", "objects by pressing E.", fonts.font24);
 	screen.messageBox("ADVENTURE TIP: Remember to press", "Q (Inventory) if you ever get lost.", fonts.font24);
+	screen.messageBox("ADVENTURE TIP: You can use potions", "from the inventory!", fonts.font24);
 
 	while (!quit)
 	{
@@ -607,8 +608,8 @@ bool play(Screen screen, Music music, Fonts fonts)
 					//Interact
 					gameExit = interact(player, screen, maps, fonts, music, mobs, shops);
 					quit = gameExit;
-					cout << player.currentQuest;
-					cout << "\n" << player.currentQuestPoint;
+					//cout << player.currentQuest;
+					//cout << "\n" << player.currentQuestPoint;
 				}
 
 				if (event.key.keysym.sym == SDLK_q || event.key.keysym.sym == SDLK_SPACE)
@@ -1265,6 +1266,11 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					exitGame = screen.messageBox("Now before we begin I have just", "one last thing to deal with.", fonts.font24);
 					player.currentMap = 13;
 					turnBasedBattle(player, screen, maps, fonts, music, mobs);
+					if (player.lost == false)
+					{
+						player.incrementQuest();
+					}
+					player.questLoaded = false;
 				}
 				else
 				{
@@ -1287,14 +1293,14 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					if (player.lost == false)
 					{
 						exitGame = screen.messageBox("You stole the Goblin Staff!", "", fonts.font24);
-						player.incrementQuest();
+						//player.incrementQuest();
 					}
 					//@
 				}
 			}
 			else if (maps.zone[player.currentMap].collisions[i].function == "caveChestFunc")
 			{
-				if (player.currentQuest == 2 && player.currentQuestPoint == 1)
+				if (player.currentQuest == 4 && player.currentQuestPoint == 1)
 				{
 					exitGame = screen.messageBox("You try to take the World Orb", "but a spider appears and stops you", fonts.font24);
 					//exitGame = screen.messageBox("The dog has seen you and is coming", "right at you!", fonts.font24);
@@ -1307,7 +1313,6 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					if (player.lost == false)
 					{
 						exitGame = screen.messageBox("You stole the World Orb!", "", fonts.font24);
-						player.incrementQuest();
 					}
 					//@
 				}
@@ -3073,6 +3078,10 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 						int heal = damage / 2;
 						enemy.hp -= damage;
 						player.currentHP += heal;
+						if (player.currentHP > player.maxHP)
+						{
+							player.currentHP = player.maxHP;
+						}
 						drawBaseImage(player, screen, enemy, fonts);
 						SDL_UpdateWindowSurface(screen.gWindow);
 						music.PlayHeal();
@@ -3087,7 +3096,7 @@ bool battleMenu(int optionSelected, int& phaseHolder, bool& quit, Player& player
 						drawBaseImage(player, screen, enemy, fonts);
 						SDL_UpdateWindowSurface(screen.gWindow);
 						music.PlayHit();
-						gameExit = screen.messageBox("You attack the enemy's weakpoint ", "for a massive" + to_string(damage) + " damage! ", fonts.font24);
+						gameExit = screen.messageBox("You attack the enemy's weakpoint ", "for a massive " + to_string(damage) + " damage! ", fonts.font24);
 						phaseHolder = 4; //Enemy's Turn
 					}
 				}

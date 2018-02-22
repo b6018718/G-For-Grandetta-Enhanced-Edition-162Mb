@@ -123,7 +123,7 @@ void Player::initaliseStats(Equipment equipment)
 		currentHP = maxHP;
 		maxMP = 5;
 		currentMP = maxMP;
-		phyAttack = 10;
+		phyAttack = 10000;//10
 		phyDefence = 5;
 		magAttack = 3;
 		magDefence = 3;

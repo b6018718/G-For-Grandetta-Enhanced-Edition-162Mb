@@ -22,7 +22,7 @@ private:
 	void sellItem(Player& player, int item);
 	void drawSellShop(Screen& screen, Player& player, int shopCursorPos, Fonts& fonts);
 	void drawHatShop(Screen& screen, Player& player, int shopCursorPos, Fonts& fonts);
-	void buyHatShop(Player& player, string hat);
+	void buyHatShop(Player& player, string hat, Screen& screen, Fonts& fonts);
 	void armouryMainMenu(Player& player, int& combatCursorPos, int& armouryPos, bool& quit);
 	void drawArmouryShop(Screen& screen, Player& player, int shopCursorPos, Fonts& fonts, int combatCursorPos, Equipment equipment);
 	void drawArmouryMainMenu(Screen& screen, Player& player, int shopCursorPos, Fonts& fonts);

@@ -363,7 +363,17 @@ void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, M
 				{
 					if (maps.findCollision(maps.zone[player.currentMap], "villageWizard") == -1)
 						maps.zone[0].collisions.push_back(Collision("villageWizard", 9, 5, 1, 2, true, "quest", {"Prepare to die", " You fool!"}, "wizFunction"));
+					if (!loadMedia(gTemp, "images/overworldWizard.bmp"))
+						cout << "Cannot load media";
+					SDL_Rect position;
+					position.x = (9 * 32);
+					position.y = (5 * 32);
+					SDL_BlitSurface(gTemp, NULL, gPlaySurface, &position);
+					player.questLoaded = true;
+					SDL_FreeSurface(gTemp);
+					
 				}
+				
 			
 				break;
 			case 3:	//Castle Events

@@ -187,7 +187,7 @@ Mobs::Mobs()
 		//Goblin Boss
 		mobGoblinBoss.enemyName = "Goblin Boss";
 		mobGoblinBoss.maxHP = 250;
-		mobGoblinBoss.physicalAttack = 19;
+		mobGoblinBoss.physicalAttack = 25;
 		mobGoblinBoss.magicalAttack = 10;
 		mobGoblinBoss.physicalDefence = 20;
 		mobGoblinBoss.magicDefence = 10;
@@ -233,11 +233,11 @@ Mobs::Mobs()
 		mobDemonLord.magicalAttack = 100;
 		mobDemonLord.physicalDefence = 75;
 		mobDemonLord.magicDefence = 75;
-		mobDemonLord.expDrop = 30000;
+		mobDemonLord.expDrop = 666;
 		mobDemonLord.itemDrop = 2;
 		mobDemonLord.AI = 10;
 		mobDemonLord.imgSrc = "images/demon.bmp";
-		mobDemonLord.goldDrop = 7000;
+		mobDemonLord.goldDrop = 666;
 		mobDemonLord.boss = true;
 }
 
@@ -803,7 +803,7 @@ void Mobs::enemyOpeningMessage(Screen screen, mob enemy, Player player, Fonts fo
 		screen.messageBox("Don't get full of yourself", "just because you beat my puppet", fonts.font24);
 		screen.messageBox("Why don't you join me?", "No, we both know that cannot be", fonts.font24);
 		screen.messageBox("Now raise your weapon", "and prepare to be CRUSHED!", fonts.font24);
-		screen.messageBox("By my demon might!!!!", "Die now" + player.name + "!", fonts.font24);
+		screen.messageBox("By my demon might!!!!", "Die now " + player.name + "!", fonts.font24);
 		}
 }
 
@@ -838,7 +838,9 @@ void Mobs::enemyDefeatMessage(Screen& screen, mob enemy, Player& player, Fonts f
 		screen.messageBox("On the one hand", "I am sad...", fonts.font24);
 		screen.messageBox("But on another...", "I now know that...", fonts.font24);
 		screen.messageBox("You also carry the", "demon lord's blood...", fonts.font24);
-		screen.messageBox("Maybe some day", "You will too will realise it's power!", fonts.font24);
+		screen.messageBox("Maybe some day", "You too will realise it's power!", fonts.font24);
+		//screen.messageBox("THE END", "", fonts.font24);
+		player.credits = true;
 		//phaseHolder = 0;
 	}
 }

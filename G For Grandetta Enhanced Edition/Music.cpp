@@ -39,7 +39,14 @@ Music::Music()
 	if (menu == NULL)
 		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
 
-	
+	goodend= Mix_LoadMUS("sound/goodend.mp3");
+	if (menu == NULL)
+		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+
+	badend = Mix_LoadMUS("sound/badend.mp3");
+	if (menu == NULL)
+		printf("Failed to load high sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+
 
 	hit = Mix_LoadWAV("sound/hit.wav");
 	if (hit == NULL)
@@ -119,6 +126,16 @@ void Music::PlayVillage()
 void Music::PlayMenu()
 {
 	Mix_PlayMusic(menu, -1);
+}
+
+void Music::PlayGoodEnd()
+{
+	Mix_PlayMusic(goodend, -1);
+}
+
+void Music::PlayBadEnd()
+{
+	Mix_PlayMusic(badend, -1);
 }
 
 void Music::PlayRat()

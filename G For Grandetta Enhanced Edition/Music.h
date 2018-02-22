@@ -29,6 +29,8 @@ public:
 	void PlayField();
 	void PlayVillage();
 	void PlayMenu();
+	void PlayGoodEnd();
+	void PlayBadEnd();
 
 	void PlayRat();
 	void PlayHit();
@@ -55,6 +57,8 @@ private:
 	Mix_Music *field;
 	Mix_Music *village;
 	Mix_Music *menu;
+	Mix_Music *goodend;
+	Mix_Music *badend;
 
 	Mix_Chunk *hit;
 	Mix_Chunk *rat;

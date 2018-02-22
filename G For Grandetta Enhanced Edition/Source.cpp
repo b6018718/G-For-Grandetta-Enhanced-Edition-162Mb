@@ -446,12 +446,14 @@ bool play(Screen screen, Music music, Fonts fonts)
 
 	player.questLoaded = true;
 
+	//Declare Functions
 	bool classSelect(Screen screen, Music music, Fonts fonts, Player& player);
 	bool setName(Screen screen, Fonts fonts, Player& player);
 	bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs& mobs, Shops& shops);
 	int getRandomInt(int min, int max);
 	bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs mobs);
 	bool openInventory(Screen& screen, Player& player, Music& music, Fonts& fonts);
+	bool playCredits(Screen& screen, Player& player, Music& music, Fonts& fonts);
 
 	gameExit = classSelect(screen, music, fonts, player);
 	screen.gPlaySurface = NULL;
@@ -771,37 +773,39 @@ bool play(Screen screen, Music music, Fonts fonts)
 							controllerUp = false;
 						}
 					}
-					//Field -> Cave
-					if (player.currentQuest == 1 && player.currentQuestPoint == 1)
+					else
 					{
-						player.currentQuest++;
+						//Field -> Cave
+						if (player.currentQuest == 1 && player.currentQuestPoint == 1)
+						{
+							player.currentQuest++;
+						}
+						else if (player.currentQuest == 4 && player.currentQuestPoint == 0)
+						{
+							player.currentQuestPoint++;
+						}
+
+						if (player.currentQuest == 4 && player.currentQuestPoint == 0)
+						{
+							player.currentQuestPoint++;
+						}
+
+
+						clear(screen.gPlaySurface);
+						SDL_FreeSurface(screen.gPlaySurface);
+						screen.gPlaySurface = NULL;
+
+						player.currentMap = 6;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg6.bmp");
+
+						player.y = 18 * 32;
+						player.x = 25 * 32 + (player.x - 3 * 32);
+						player.map.x = 55 * 32 + (player.map.x - 3 * 32);
+						player.map.y = 18 * 32;
+
+						player.questLoaded = false;
+						music.PlayCave();
 					}
-					else if (player.currentQuest == 4 && player.currentQuestPoint == 0)
-					{
-						player.currentQuestPoint++;
-					}
-
-					if (player.currentQuest == 4 && player.currentQuestPoint == 0) 
-					{
-						player.currentQuestPoint++;
-					}
-
-
-					clear(screen.gPlaySurface);
-					SDL_FreeSurface(screen.gPlaySurface);
-					screen.gPlaySurface = NULL;
-
-					player.currentMap = 6;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg6.bmp");
-
-					player.y = 18 * 32;
-					player.x = 25 * 32 + (player.x - 3 * 32);
-					player.map.x = 55 * 32 + (player.map.x - 3 * 32);
-					player.map.y = 18 * 32;
-
-					player.questLoaded = false;
-					music.PlayCave();
-
 				}
 				break;
 			case 2:
@@ -991,6 +995,8 @@ bool play(Screen screen, Music music, Fonts fonts)
 			++battleBuffer;
 		}
 		
+		
+
 		//Refresh Screen
 		screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
 		updateSprite(screen, player);
@@ -1020,6 +1026,13 @@ bool play(Screen screen, Music music, Fonts fonts)
 			}
 		}
 
+		//End of Game
+		if (player.credits == true)
+		{
+			gameExit = playCredits(screen, player, music, fonts);
+			quit = true;
+		}
+
 		//FPS Capped at 90
 		float endTime = (float)SDL_GetTicks();
 		while ((1000 / (endTime - startTime)) > 90)
@@ -1034,6 +1047,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 
 bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs& mobs, Shops& shops)
 {
+	int getRandomInt(int min, int max);
 	Equipment equipment;
 	bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& music, Mobs mobs);
 	player.firstFail = false;
@@ -1112,19 +1126,14 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 		if (maps.zone[player.currentMap].collisions[i].interactType == "chest")
 		{
 			//Chest function
-			int textLine = 0;
-			while (textLine < maps.zone[player.currentMap].collisions[i].text.size() && exitGame == false)
-			{
-				string firstLine = maps.zone[player.currentMap].collisions[i].text[textLine];
-				string secondLine = "";
-				if (textLine + 1 < maps.zone[player.currentMap].collisions[i].text.size())
-				{
-					secondLine = maps.zone[player.currentMap].collisions[i].text[textLine + 1];
-				}
-				exitGame = screen.messageBox(firstLine, firstLine, fonts.font24);
-				textLine = textLine + 2;
-			}
-			//Temp chest ONLY FOR NOW
+			int whichChest = i;
+			int foundGold = getRandomInt(50, 200);
+			int foundPotion = getRandomInt(1, 5);
+			int foundPotionAmount = getRandomInt(1, 3);
+			player.gold += foundGold;
+			player.inventory[foundPotion] += foundPotionAmount;
+			screen.messageBox("You found " + to_string(foundGold) + " gold", "and " + to_string(foundPotionAmount) + " " + player.inventoryNames[foundPotion], fonts.font24);
+			maps.zone[player.currentMap].collisions[i].interactable = false;
 		}
 		else if (maps.zone[player.currentMap].collisions[i].interactType == "sign")
 		{
@@ -1295,7 +1304,13 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 						exitGame = screen.messageBox("You stole the Goblin Staff!", "", fonts.font24);
 						//player.incrementQuest();
 					}
-					//@
+					else
+					{
+						SDL_FreeSurface(screen.gPlaySurface);				//MEMORY FIX
+						screen.gPlaySurface = NULL;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp");
+					}
+					
 				}
 			}
 			else if (maps.zone[player.currentMap].collisions[i].function == "caveChestFunc")
@@ -1314,7 +1329,12 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					{
 						exitGame = screen.messageBox("You stole the World Orb!", "", fonts.font24);
 					}
-					//@
+					else
+					{
+						SDL_FreeSurface(screen.gPlaySurface);				//MEMORY FIX
+						screen.gPlaySurface = NULL;
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp");
+					}
 				}
 			}
 		}
@@ -1568,7 +1588,6 @@ bool instructions(Screen screen)
 
 void updateSprite(Screen screen, Player& player)
 {
-	//@
 	SDL_Rect sheet;
 	sheet.x = 0;
 	sheet.y = 0;
@@ -2003,7 +2022,7 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 	SDL_Rect enemyLoc;
 	enemyLoc.x = 330;
 	enemyLoc.y = 150;
-
+	
 	//Initalise Variables
 	bool quit = false;
 	bool gameExit = false;
@@ -2023,7 +2042,6 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 	gameExit = screen.messageBox("A " + enemy.enemyName + " appeared!", "Time to fight for your life!", fonts.font24);
 	quit = gameExit;
 	mobs.enemyOpeningMessage(screen, enemy, player, fonts);
-
 	drawBaseImage(player, screen, enemy, fonts);
 
 	bool drawCombatCanvas(Player& player, Screen& screen, Mobs::mob& enemy, Fonts fonts, int& combatCursorPos, Mobs mobs, Music music, int& phaseHolder);
@@ -3532,4 +3550,168 @@ void drawInventory(Screen& screen, Player& player, int& coinCount, int& shift, i
 	screen.displayLeftText("Level: " + to_string(player.level), 25, 280, fonts.font18);
 
 	DrawEXPBar(25, 405, player.effectiveCurrentExp, player.effectiveExpLevelUp, "#ffff00", screen);	//Update window is inside here
+}
+
+bool playCredits(Screen& screen, Player& player, Music& music, Fonts& fonts)
+{
+	bool gameExit = false;
+	SDL_Rect creditsBackground = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	
+	SDL_FillRect(screen.gScreenSurface, &creditsBackground, SDL_MapRGB(screen.gScreenSurface->format, 0x000, 0x000, 0x000));
+	int creditsPos = 0;
+	if (player.badEnd == true)
+	{
+		music.PlayBadEnd();
+		gameExit = screen.messageBox("The battle is over","You have defeated the demon Lord.", fonts.font24);
+		gameExit = screen.messageBox("After the battle " + player.name + " is", "approached by...", fonts.font24);
+		gameExit = screen.messageBox("No one.", "", fonts.font24);
+		gameExit = screen.messageBox("The village remains empty.", "You are it's last and only resident.", fonts.font24);
+		gameExit = screen.messageBox("You have achieved the BAD END", "", fonts.font24);
+		gameExit = screen.messageBox("What could you have done", "differently?", fonts.font24);
+		SDL_UpdateWindowSurface(screen.gWindow);
+
+		while (creditsPos < 9500)
+		{
+			float startTime = (float)SDL_GetTicks();
+
+			SDL_FillRect(screen.gScreenSurface, &creditsBackground, SDL_MapRGB(screen.gScreenSurface->format, 0x000, 0x000, 0x000));
+			screen.foregroundColor = { 255, 255, 255 };
+			screen.displayText("G For Grandetta", SCREEN_WIDTH / 2, 1000 + (160 * 1) - creditsPos, fonts.font48);
+			screen.displayText("Lead Programmer", SCREEN_WIDTH / 2, 1000 + (160 * 3) - creditsPos, fonts.font48);
+			screen.displayText("Ethan Cumberland", SCREEN_WIDTH / 2, 1000 + (160 * 4) - creditsPos, fonts.font48);
+			screen.displayText("Battle Programmer", SCREEN_WIDTH / 2, 1000 + (160 * 7) - creditsPos, fonts.font48);
+			screen.displayText("Steven Edeson", SCREEN_WIDTH / 2, 1000 + (160 * 8) - creditsPos, fonts.font48);
+			screen.displayText("UI Design", SCREEN_WIDTH / 2, 1000 + (160 * 11) - creditsPos, fonts.font48);
+			screen.displayText("Ethan Collins", SCREEN_WIDTH / 2, 1000 + (160 * 12) - creditsPos, fonts.font48);
+			screen.displayText("Lead Artist", SCREEN_WIDTH / 2, 1000 + (160 * 15) - creditsPos, fonts.font48);
+			screen.displayText("Jack Corton", SCREEN_WIDTH / 2, 1000 + (160 * 16) - creditsPos, fonts.font48);
+			screen.displayText("Map Design", SCREEN_WIDTH / 2, 1000 + (160 * 19) - creditsPos, fonts.font48);
+			screen.displayText("Anthony Dranfield", SCREEN_WIDTH / 2, 1000 + (160 * 20) - creditsPos, fonts.font48);
+			screen.displayText("Music Provided by Eric Skiff", SCREEN_WIDTH / 2, 1000 + (160 * 22) - creditsPos, fonts.font24);
+			screen.displayText("Available at http://ericskiff.com/music/", SCREEN_WIDTH / 2, 1000 + (160 * 22.5) - creditsPos, fonts.font24);
+			screen.displayText("Special Thanks To", SCREEN_WIDTH / 2, 1000 + (160 * 25) - creditsPos, fonts.font48);
+			screen.displayText("Medhi Mir-Ghasemi", SCREEN_WIDTH / 2, 1000 + (160 * 26) - creditsPos, fonts.font48);
+			screen.displayText("G For Grandetta", SCREEN_WIDTH / 2, 1000 + (160 * 28) - creditsPos, fonts.font48);
+			screen.displayText("Enhanced Edition", SCREEN_WIDTH / 2, 1000 + (160 * 28.5) - creditsPos, fonts.font48);
+			screen.displayText("Lead Programmer", SCREEN_WIDTH / 2, 1000 + (160 * 30) - creditsPos, fonts.font48);
+			screen.displayText("Anthony Dranfield", SCREEN_WIDTH / 2, 1000 + (160 * 31) - creditsPos, fonts.font48);
+			screen.displayText("SDL 2.0 Library", SCREEN_WIDTH / 2, 1000 + (160 * 33) - creditsPos, fonts.font48);
+			screen.displayText("Sam Lantinga", SCREEN_WIDTH / 2, 1000 + (160 * 34) - creditsPos, fonts.font48);
+			screen.displayText("SDL Mixer Library", SCREEN_WIDTH / 2, 1000 + (160 * 36) - creditsPos, fonts.font48);
+			screen.displayText("Sam Lantinga", SCREEN_WIDTH / 2, 1000 + (160 * 37) - creditsPos, fonts.font48);
+			screen.displayText("Stephane Peter", SCREEN_WIDTH / 2, 1000 + (160 * 38) - creditsPos, fonts.font48);
+			screen.displayText("Ryan Gordon", SCREEN_WIDTH / 2, 1000 + (160 * 39) - creditsPos, fonts.font48);
+			screen.displayText("SDL TTF Library", SCREEN_WIDTH / 2, 1000 + (160 * 41) - creditsPos, fonts.font48);
+			screen.displayText("Sam Lantinga", SCREEN_WIDTH / 2, 1000 + (160 * 42) - creditsPos, fonts.font48);
+			screen.displayText("Player Kills: " + to_string(player.killCount), SCREEN_WIDTH / 2, 1000 + (160 * 44) - creditsPos, fonts.font24);
+			screen.displayText("Player Deaths: " + to_string(player.deathCount), SCREEN_WIDTH / 2, 1000 + (160 * 46) - creditsPos, fonts.font24);
+			if (player.deathCount == 0)
+				screen.displayText("K/D Ratio: " + to_string(player.killCount), SCREEN_WIDTH / 2, 1000 + (160 * 48) - creditsPos, fonts.font24);
+			else
+				screen.displayText("K/D Ratio: " + to_string(player.killCount / player.deathCount), SCREEN_WIDTH / 2, 1000 + (160 * 48) - creditsPos, fonts.font24);
+			screen.displayText("Thank you for playing!", SCREEN_WIDTH / 2, 1000 + (160 * 50) - creditsPos, fonts.font24);
+			creditsPos++;
+
+			float endTime = (float)SDL_GetTicks();
+			while ((1000 / (endTime - startTime)) > 90)
+			{
+				endTime = (float)SDL_GetTicks();
+			}
+			SDL_UpdateWindowSurface(screen.gWindow);
+
+
+		}
+		music.PlayMenu();
+
+	}
+	else
+	{
+		if (!screen.loadMedia(screen.gEnemy, "images/younglings.bmp"))
+			cout << "Failed to enemy media";
+		music.PlayGoodEnd();
+		SDL_Rect enemyLoc;
+		enemyLoc.x = 330;
+		enemyLoc.y = 150;
+
+		gameExit = screen.messageBox("The battle is over.", "You have defeated the demon Lord.", fonts.font24);
+		gameExit = screen.messageBox("After the battle " + player.name + " is", "approached by...", fonts.font24);
+
+		SDL_BlitSurface(screen.gEnemy, NULL, screen.gScreenSurface, &enemyLoc);
+		SDL_UpdateWindowSurface(screen.gWindow);
+		gameExit = screen.messageBox("A group of Goblin Younglings.", "", fonts.font24);
+
+		gameExit = screen.messageBox("Thank you brave hero for sparing us.", "If it wouldn't be too much trouble", fonts.font24);
+		gameExit = screen.messageBox("could we move into this village with", "you?", fonts.font24);
+		gameExit = screen.messageBox("We know that we can never replace", "your friends.", fonts.font24);
+		gameExit = screen.messageBox("But we would hate to see you ", "so lonely.", fonts.font24);
+		gameExit = screen.messageBox("You agree to let the younglings", "live alongside you in the village.", fonts.font24);
+		gameExit = screen.messageBox("The goblins bring about a new", "age of prosperity and technical", fonts.font24);
+		gameExit = screen.messageBox("innovation.", "", fonts.font24);
+		gameExit = screen.messageBox("With you as their revered", "leader.", fonts.font24);
+		gameExit = screen.messageBox("Three cheers for " + player.name + "!", "", fonts.font24);
+		gameExit = screen.messageBox("Hip Hip hurray!", "", fonts.font24);
+		gameExit = screen.messageBox("...", "", fonts.font24);
+		gameExit = screen.messageBox("Hip Hip hurray!!", "", fonts.font24);
+		gameExit = screen.messageBox("...", "", fonts.font24);
+		gameExit = screen.messageBox("Hip Hip hurray!!!", "", fonts.font24);
+		gameExit = screen.messageBox("You have achieved the GOOD END", "Congratulations!", fonts.font24);
+
+		while (creditsPos < 9500)
+		{
+			float startTime = (float)SDL_GetTicks();
+
+			SDL_FillRect(screen.gScreenSurface, &creditsBackground, SDL_MapRGB(screen.gScreenSurface->format, 0x000, 0x000, 0x000));
+			enemyLoc.y = 150 - creditsPos;
+			SDL_BlitSurface(screen.gEnemy, NULL, screen.gScreenSurface, &enemyLoc);
+			screen.foregroundColor = { 255, 255, 255 };
+			screen.displayText("G For Grandetta", SCREEN_WIDTH / 2, 1000 + (160 * 1) - creditsPos, fonts.font48);
+			screen.displayText("Lead Programmer", SCREEN_WIDTH / 2, 1000 + (160 * 3) - creditsPos, fonts.font48);
+			screen.displayText("Ethan Cumberland", SCREEN_WIDTH / 2, 1000 + (160 * 4) - creditsPos, fonts.font48);
+			screen.displayText("Battle Programmer", SCREEN_WIDTH / 2, 1000 + (160 * 7) - creditsPos, fonts.font48);
+			screen.displayText("Steven Edeson", SCREEN_WIDTH / 2, 1000 + (160 * 8) - creditsPos, fonts.font48);
+			screen.displayText("UI Design", SCREEN_WIDTH / 2, 1000 + (160 * 11) - creditsPos, fonts.font48);
+			screen.displayText("Ethan Collins", SCREEN_WIDTH / 2, 1000 + (160 * 12) - creditsPos, fonts.font48);
+			screen.displayText("Lead Artist", SCREEN_WIDTH / 2, 1000 + (160 * 15) - creditsPos, fonts.font48);
+			screen.displayText("Jack Corton", SCREEN_WIDTH / 2, 1000 + (160 * 16) - creditsPos, fonts.font48);
+			screen.displayText("Map Design", SCREEN_WIDTH / 2, 1000 + (160 * 19) - creditsPos, fonts.font48);
+			screen.displayText("Anthony Dranfield", SCREEN_WIDTH / 2, 1000 + (160 * 20) - creditsPos, fonts.font48);
+			screen.displayText("Music Provided by Eric Skiff", SCREEN_WIDTH / 2, 1000 + (160 * 22) - creditsPos, fonts.font24);
+			screen.displayText("Available at http://ericskiff.com/music/", SCREEN_WIDTH / 2, 1000 + (160 * 22.5) - creditsPos, fonts.font24);
+			screen.displayText("Special Thanks To", SCREEN_WIDTH / 2, 1000 + (160 * 25) - creditsPos, fonts.font48);
+			screen.displayText("Medhi Mir-Ghasemi", SCREEN_WIDTH / 2, 1000 + (160 * 26) - creditsPos, fonts.font48);
+			screen.displayText("G For Grandetta", SCREEN_WIDTH / 2, 1000 + (160 * 28) - creditsPos, fonts.font48);
+			screen.displayText("Enhanced Edition", SCREEN_WIDTH / 2, 1000 + (160 * 28.5) - creditsPos, fonts.font48);
+			screen.displayText("Lead Programmer", SCREEN_WIDTH / 2, 1000 + (160 * 30) - creditsPos, fonts.font48);
+			screen.displayText("Anthony Dranfield", SCREEN_WIDTH / 2, 1000 + (160 * 31) - creditsPos, fonts.font48);
+			screen.displayText("SDL 2.0 Library", SCREEN_WIDTH / 2, 1000 + (160 * 33) - creditsPos, fonts.font48);
+			screen.displayText("Sam Lantinga", SCREEN_WIDTH / 2, 1000 + (160 * 34) - creditsPos, fonts.font48);
+			screen.displayText("SDL Mixer Library", SCREEN_WIDTH / 2, 1000 + (160 * 36) - creditsPos, fonts.font48);
+			screen.displayText("Sam Lantinga", SCREEN_WIDTH / 2, 1000 + (160 * 37) - creditsPos, fonts.font48);
+			screen.displayText("Stephane Peter", SCREEN_WIDTH / 2, 1000 + (160 * 38) - creditsPos, fonts.font48);
+			screen.displayText("Ryan Gordon", SCREEN_WIDTH / 2, 1000 + (160 * 39) - creditsPos, fonts.font48);
+			screen.displayText("SDL TTF Library", SCREEN_WIDTH / 2, 1000 + (160 * 41) - creditsPos, fonts.font48);
+			screen.displayText("Sam Lantinga", SCREEN_WIDTH / 2, 1000 + (160 * 42) - creditsPos, fonts.font48);
+			screen.displayText("Player Kills: " + to_string(player.killCount) , SCREEN_WIDTH / 2, 1000 + (160 * 44) - creditsPos, fonts.font24);
+			screen.displayText("Player Deaths: " + to_string(player.deathCount), SCREEN_WIDTH / 2, 1000 + (160 * 46) - creditsPos, fonts.font24);
+			if (player.deathCount == 0)
+				screen.displayText("K/D Ratio: " + to_string(player.killCount), SCREEN_WIDTH / 2, 1000 + (160 * 48) - creditsPos, fonts.font24);
+			else
+				screen.displayText("K/D Ratio: " + to_string(player.killCount/player.deathCount), SCREEN_WIDTH / 2, 1000 + (160 * 48) - creditsPos, fonts.font24);
+			screen.displayText("Thank you for playing!", SCREEN_WIDTH / 2, 1000 + (160 * 50) - creditsPos, fonts.font24);
+			creditsPos++;
+
+			float endTime = (float)SDL_GetTicks();
+			while ((1000 / (endTime - startTime)) > 90)
+			{
+				endTime = (float)SDL_GetTicks();
+			}
+			SDL_UpdateWindowSurface(screen.gWindow);
+
+			
+		}
+		music.PlayMenu();
+	}
+	
+
+	return gameExit;
 }

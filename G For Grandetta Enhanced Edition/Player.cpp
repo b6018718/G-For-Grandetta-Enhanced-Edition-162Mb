@@ -123,7 +123,7 @@ void Player::initaliseStats(Equipment equipment)
 		currentHP = maxHP;
 		maxMP = 5;
 		currentMP = maxMP;
-		phyAttack = 10000;//10
+		phyAttack = 100000;//10
 		phyDefence = 5;
 		magAttack = 3;
 		magDefence = 3;
@@ -1116,7 +1116,7 @@ int Player::magicTornadoSlash()
 int Player::magicNovaSlash()
 {
 	int magicCost = 10;//anount of magic required to cast the spell
-	int magicDamage = 100;
+	int magicDamage = 200;
 	int attackStrength = floor((magAttack + phyAttack) / 2) + magicDamage;
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;
@@ -1201,7 +1201,7 @@ int Player::magicDrainHealth()
 int Player::magicNova()
 {
 	int magicCost = 10;//anount of magic required to cast the spell
-	int magicDamage = 100;
+	int magicDamage = 200;
 	int attackStrength = magAttack + magicDamage;
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;
@@ -1279,7 +1279,7 @@ int Player::magicBackstab()
 int Player::magicNovaBlitz()
 {
 	int magicCost = 10;  //anount of magic required to cast the spell
-	int magicDamage = 100;
+	int magicDamage = 200;
 	int attackStrength = floor((magAttack + phyAttack) / 2) + luck + magicDamage;
 	if (currentMP >= magicCost) {
 		currentMP = currentMP - magicCost;

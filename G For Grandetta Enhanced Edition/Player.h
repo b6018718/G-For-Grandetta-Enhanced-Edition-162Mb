@@ -79,7 +79,7 @@ public:
 	int spriteFrame;
 	int playerSpeed = 4;	//Speed of players movement per frame
 	int currentQuestPoint = 0; //Current Quest Number
-	int currentQuest = 6; //0
+	int currentQuest = 7; //0
 	bool firstFail = false; //First attempt at stealing will always succeed, to teach the player how it is used
 	string playerName;
 	Equipment::weapon equippedWeapon;
@@ -97,6 +97,7 @@ public:
 	int killCount = 0;
 	bool badEnd = false; //If player kills any younglings they will get the bad end
 	bool lost = false; //If player lost a battle
+	bool credits = false;
 
 	void equipWeapon(Equipment::weapon newWeapon);
 	void equipChestPiece(Equipment::chestPiece newChest);

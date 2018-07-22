@@ -121,8 +121,6 @@ void Music::PlayVillage()
 	Mix_PlayMusic(village, -1);
 }
 
-
-
 void Music::PlayMenu()
 {
 	Mix_PlayMusic(menu, -1);

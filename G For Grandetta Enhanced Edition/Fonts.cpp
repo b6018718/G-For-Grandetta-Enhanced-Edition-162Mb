@@ -11,7 +11,6 @@
 Fonts::Fonts()
 {
 
-
 	font18 = TTF_OpenFont("PressStart2P-Regular.ttf", 18);
 	if (!font18) {
 		printf("TTF_OpenFont: %s\n", TTF_GetError());

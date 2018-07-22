@@ -267,7 +267,6 @@ bool Screen::loadMapMedia(SDL_Surface *& surface, string file)
 
 bool Screen::loadMedia(SDL_Surface *& surface, string file)
 {
-
 	const char * load = file.c_str();
 	surface = NULL;
 	SDL_Surface* loadedSurface = NULL;
@@ -280,10 +279,8 @@ bool Screen::loadMedia(SDL_Surface *& surface, string file)
 	else
 	{
 		surface = SDL_ConvertSurfaceFormat(loadedSurface, SDL_PIXELFORMAT_ARGB8888, 0);
-
 		//Get rid of old loaded surface
 		SDL_FreeSurface(loadedSurface);
-		
 	}
 	return true;
 }

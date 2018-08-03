@@ -34,7 +34,7 @@ Mobs::Mobs()
 		mobRat.expDrop = 15;
 		mobRat.itemDrop = 1;
 		mobRat.AI = 1;
-		mobRat.imgSrc = "images/rat.bmp";
+		mobRat.imgSrc = "images/rat.png";
 		mobRat.goldDrop = 30;
 		
 
@@ -48,7 +48,7 @@ Mobs::Mobs()
 		mobBat.expDrop = 16;
 		mobBat.itemDrop = 1;
 		mobBat.AI = 1;
-		mobBat.imgSrc = "images/bat.bmp";
+		mobBat.imgSrc = "images/bat.png";
 		mobBat.goldDrop = 35;
 
 		//Goblin
@@ -61,7 +61,7 @@ Mobs::Mobs()
 		mobGoblin.expDrop = 50;
 		mobGoblin.itemDrop = 3;
 		mobGoblin.AI = 7;
-		mobGoblin.imgSrc = "images/goblin.bmp";
+		mobGoblin.imgSrc = "images/goblin.png";
 		mobGoblin.goldDrop = 200;
 
 		//Goblin Mage
@@ -74,7 +74,7 @@ Mobs::Mobs()
 		mobGoblinMage.expDrop= 70;
 		mobGoblinMage.itemDrop= 2;
 		mobGoblinMage.AI=3;
-		mobGoblinMage.imgSrc="images/goblinmage.bmp";
+		mobGoblinMage.imgSrc="images/goblinmage.png";
 		mobGoblinMage.goldDrop = 250;
 
 		//Goblin Younglings
@@ -87,7 +87,7 @@ Mobs::Mobs()
 		mobYoungGoblin.expDrop = -100;
 		mobYoungGoblin.itemDrop = 2;
 		mobYoungGoblin.AI = 8;
-		mobYoungGoblin.imgSrc = "images/younglings.bmp";
+		mobYoungGoblin.imgSrc = "images/younglings.png";
 		mobYoungGoblin.goldDrop = 10;
 
 		//Spider
@@ -100,7 +100,7 @@ Mobs::Mobs()
 		mobSpider.expDrop = 120;
 		mobSpider.itemDrop = 4;
 		mobSpider.AI = 4;
-		mobSpider.imgSrc = "images/spider.bmp";
+		mobSpider.imgSrc = "images/spider.png";
 		mobSpider.goldDrop = 500;
 
 		//Giant Spider
@@ -113,7 +113,7 @@ Mobs::Mobs()
 		mobGiantSpider.expDrop = 140;
 		mobGiantSpider.itemDrop = 5;
 		mobGiantSpider.AI = 1;
-		mobGiantSpider.imgSrc = "images/gaintspider.bmp";
+		mobGiantSpider.imgSrc = "images/gaintspider.png";
 		mobGiantSpider.goldDrop = 750;
 
 		//Cockroach
@@ -126,7 +126,7 @@ Mobs::Mobs()
 		mobCockroach.expDrop = 120;
 		mobCockroach.itemDrop = 4;
 		mobCockroach.AI = 1;
-		mobCockroach.imgSrc = "images/cockroach.bmp";
+		mobCockroach.imgSrc = "images/cockroach.png";
 		mobCockroach.goldDrop = 650;
 
 		//Group of rats
@@ -139,7 +139,7 @@ Mobs::Mobs()
 		mobRatGroup.expDrop = 120;
 		mobRatGroup.itemDrop = 1;
 		mobRatGroup.AI = 7;
-		mobRatGroup.imgSrc = "images/ratGroup.bmp";
+		mobRatGroup.imgSrc = "images/ratGroup.png";
 		mobRatGroup.goldDrop = 1000;
 
 		//Guard
@@ -152,7 +152,7 @@ Mobs::Mobs()
 		mobGuard.expDrop = 30;
 		mobGuard.itemDrop = 5;
 		mobGuard.AI = 2;
-		mobGuard.imgSrc = "images/guard.bmp";
+		mobGuard.imgSrc = "images/guard.png";
 		mobGuard.goldDrop = 50;
 
 		
@@ -167,7 +167,7 @@ Mobs::Mobs()
 		mobGuardMage.expDrop = 45;
 		mobGuardMage.itemDrop = 2;
 		mobGuardMage.AI = 3;
-		mobGuardMage.imgSrc = "images/guardMage.bmp";
+		mobGuardMage.imgSrc = "images/guardMage.png";
 		mobGuardMage.goldDrop = 80;
 
 		//Rabid Dog
@@ -180,7 +180,7 @@ Mobs::Mobs()
 		mobRabidDog.expDrop = 15;
 		mobRabidDog.itemDrop = 1;
 		mobRabidDog.AI = 1;
-		mobRabidDog.imgSrc = "images/rabiddog.bmp";
+		mobRabidDog.imgSrc = "images/rabiddog.png";
 		mobRabidDog.goldDrop = 100;
 		mobRabidDog.boss = true;
 
@@ -194,7 +194,7 @@ Mobs::Mobs()
 		mobGoblinBoss.expDrop = 210;
 		mobGoblinBoss.itemDrop = 5;
 		mobGoblinBoss.AI = 2;
-		mobGoblinBoss.imgSrc = "images/goblinboss.bmp";
+		mobGoblinBoss.imgSrc = "images/goblinboss.png";
 		mobGoblinBoss.goldDrop = 2500;
 		mobGoblinBoss.boss = true;
 
@@ -208,7 +208,7 @@ Mobs::Mobs()
 		mobSpiderQueen.expDrop = 540;
 		mobSpiderQueen.itemDrop = 2;
 		mobSpiderQueen.AI = 3;
-		mobSpiderQueen.imgSrc = "images/queenspider.bmp";
+		mobSpiderQueen.imgSrc = "images/queenspider.png";
 		mobSpiderQueen.goldDrop = 3000;
 		mobSpiderQueen.boss = true;
 
@@ -222,7 +222,7 @@ Mobs::Mobs()
 		mobWizard.expDrop = 3160;
 		mobWizard.itemDrop = 2;
 		mobWizard.AI = 9;
-		mobWizard.imgSrc = "images/wizard.bmp";
+		mobWizard.imgSrc = "images/wizard.png";
 		mobWizard.goldDrop = 5000;
 		mobWizard.boss = true;
 
@@ -236,7 +236,7 @@ Mobs::Mobs()
 		mobDemonLord.expDrop = 666;
 		mobDemonLord.itemDrop = 2;
 		mobDemonLord.AI = 10;
-		mobDemonLord.imgSrc = "images/demon.bmp";
+		mobDemonLord.imgSrc = "images/demon.png";
 		mobDemonLord.goldDrop = 666;
 		mobDemonLord.boss = true;
 }

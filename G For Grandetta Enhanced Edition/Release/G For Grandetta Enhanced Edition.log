@@ -1,88 +1,142 @@
-﻿  Music.cpp
+﻿  Casino.cpp
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\casino.cpp(356): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\casino.cpp(316): warning C4390: ';': empty controlled statement found; is this the intent?
+  Collision.cpp
+  Equipment.cpp
+  Fonts.cpp
+  Maps.cpp
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\maps.cpp(184): warning C4018: '<': signed/unsigned mismatch
+  MapZone.cpp
+  Mobs.cpp
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(263): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(265): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(266): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(267): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(268): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(269): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(270): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(384): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(401): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(417): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(433): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(449): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(469): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(485): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(501): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(535): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(552): warning C4553: '==': result of expression not used; did you intend '='?
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\mobs.cpp(569): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Music.cpp
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\music.cpp(234): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Player.cpp
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(830): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(890): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(950): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1009): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1052): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1066): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1120): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1149): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1192): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1218): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1238): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1268): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\player.cpp(1283): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  questPoint.cpp
+  Screen.cpp
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\screen.cpp(103): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\screen.cpp(103): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\screen.cpp(121): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\screen.cpp(121): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\screen.cpp(334): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\screen.cpp(349): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Shops.cpp
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\shops.cpp(103): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\shops.cpp(737): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\shops.cpp(697): warning C4390: ';': empty controlled statement found; is this the intent?
   Source.cpp
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(33): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(143): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(151): warning C4551: function call missing argument list
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(211): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(215): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(225): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(240): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(249): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(253): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(261): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(34): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(144): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(152): warning C4551: function call missing argument list
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(212): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(216): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(226): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(241): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(250): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(254): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(262): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(264): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(272): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(281): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(317): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(322): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(326): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(403): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(420): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(425): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(263): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(265): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(273): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(282): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(318): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(323): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(327): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(404): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(421): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(426): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(427): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(428): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(856): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(858): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(896): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(911): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(929): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(931): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(947): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(949): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(967): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(969): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(439): warning C4101: 'classSelected': unreferenced local variable
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1059): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1142): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1146): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1459): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1474): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1804): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1971): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1983): warning C4305: 'argument': truncation from 'int' to 'Uint8'
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1983): warning C4309: 'argument': truncation of constant value
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(429): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(857): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(859): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(897): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(912): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(930): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(932): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(948): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(950): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(968): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(970): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(440): warning C4101: 'classSelected': unreferenced local variable
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1060): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1143): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1147): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1460): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1475): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1805): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1972): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1984): warning C4305: 'argument': truncation from 'int' to 'Uint8'
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1984): warning C4309: 'argument': truncation of constant value
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1985): warning C4305: 'argument': truncation from 'int' to 'Uint8'
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1985): warning C4309: 'argument': truncation of constant value
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1986): warning C4305: 'argument': truncation from 'int' to 'Uint8'
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1986): warning C4309: 'argument': truncation of constant value
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2110): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2029): warning C4390: ';': empty controlled statement found; is this the intent?
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2429): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2434): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2466): warning C4305: 'argument': truncation from 'int' to 'Uint8'
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2466): warning C4309: 'argument': truncation of constant value
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1987): warning C4305: 'argument': truncation from 'int' to 'Uint8'
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(1987): warning C4309: 'argument': truncation of constant value
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2111): warning C4018: '<': signed/unsigned mismatch
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2030): warning C4390: ';': empty controlled statement found; is this the intent?
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2430): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2435): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2467): warning C4305: 'argument': truncation from 'int' to 'Uint8'
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2467): warning C4309: 'argument': truncation of constant value
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2468): warning C4305: 'argument': truncation from 'int' to 'Uint8'
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2468): warning C4309: 'argument': truncation of constant value
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2469): warning C4305: 'argument': truncation from 'int' to 'Uint8'
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2469): warning C4309: 'argument': truncation of constant value
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2618): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2857): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2857): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2868): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2868): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2934): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2987): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2991): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3038): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3038): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3049): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3061): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3063): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3119): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3136): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3180): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3180): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3191): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3202): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3328): warning C4018: '<': signed/unsigned mismatch
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3613): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2470): warning C4305: 'argument': truncation from 'int' to 'Uint8'
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2470): warning C4309: 'argument': truncation of constant value
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2619): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2858): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2858): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2869): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2869): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2935): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2988): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(2992): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3039): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3039): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3050): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3062): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3064): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3120): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3137): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3181): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3181): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3192): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3203): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3329): warning C4018: '<': signed/unsigned mismatch
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3614): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3615): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3616): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -94,12 +148,12 @@ c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g f
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3622): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3623): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3624): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3625): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3626): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3625): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3626): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3627): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3628): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3629): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3630): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3629): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3630): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3631): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3632): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3633): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -111,10 +165,10 @@ c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g f
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3639): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3640): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3641): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3643): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3645): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3642): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3644): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3646): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3710): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3647): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3711): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3712): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3713): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -126,12 +180,12 @@ c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g f
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3719): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3720): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3721): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3722): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3723): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3722): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3723): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3724): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3725): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3726): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3727): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3726): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3727): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3728): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3729): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3730): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -143,10 +197,10 @@ c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g f
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3736): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3737): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3738): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3740): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3742): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3739): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3741): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3743): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-     Creating library C:\Users\antho\OneDrive\My Documents\GitHub\G-For-Grandetta-Enhanced-Edition\Release\G For Grandetta Enhanced Edition.lib and object C:\Users\antho\OneDrive\My Documents\GitHub\G-For-Grandetta-Enhanced-Edition\Release\G For Grandetta Enhanced Edition.exp
+c:\users\antho\onedrive\my documents\github\g-for-grandetta-enhanced-edition\g for grandetta enhanced edition\source.cpp(3744): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating code
   1 of 686 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string>
 #include "SDL_TTF.h"
+#include "SDL_image.h"
 #include "Maps.h"
 #include "Player.h"
 #include "MapZone.h"

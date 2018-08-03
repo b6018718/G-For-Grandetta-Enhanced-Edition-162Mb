@@ -19,7 +19,7 @@ Screen::Screen()
 	else
 	{
 		//Load Media
-		if (!loadMapMedia(gPlaySurface, "images/bg0.bmp"))
+		if (!loadMapMedia(gPlaySurface, "images/bg0.png"))
 		{
 			printf("Failed to load media!\n");
 		}
@@ -61,8 +61,18 @@ bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface)
 		}
 		else
 		{
-			//Get Window Surface
-			gScreenSurface = SDL_GetWindowSurface(gWindow);
+			//Initialize PNG loading
+			int imgFlags = IMG_INIT_PNG;
+			if (!(IMG_Init(imgFlags) & imgFlags))
+			{
+				printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+				success = false;
+			}
+			else
+			{
+				//Get window surface
+				gScreenSurface = SDL_GetWindowSurface(gWindow);
+			}
 		}
 	}
 	return success;
@@ -70,15 +80,32 @@ bool Screen::init(SDL_Window *& gWindow, SDL_Surface *& gScreenSurface)
 
 void Screen::displayText(string text, float x, float y, TTF_Font* newfont) //Centered Middle
 {	
+	/*
 	const char * charText = text.c_str();
-	gText = TTF_RenderText_Shaded(newfont, charText, foregroundColor, backgroundColor);
+	gTemp = TTF_RenderText_Solid(newfont, charText, foregroundColor);
 	//Transparent Background
+	
+	gText = SDL_ConvertSurfaceFormat(gTemp, SDL_PIXELFORMAT_ARGB8888, 0);
+	SDL_FreeSurface(gTemp);
 	Uint32 colorkey = SDL_MapRGB(gText->format, 0, 0xFF, 0xFF);
 	SDL_SetColorKey(gText, 1, colorkey);
-	SDL_Rect textLocation = {  x - (gText->w)/2, y + 6, 0, 0 };
+	//SDL_Rect textLocation = {  x - (gText->w)/2, y + 6, 0, 0 };
+	SDL_Rect textLocation = { x - (gText->w) / 2, y + 6 };
+	SDL_SetSurfaceBlendMode(gText, SDL_BLENDMODE_NONE);
+	SDL_SetSurfaceBlendMode(gScreenSurface, SDL_BLENDMODE_NONE);
+	SDL_BlitScaled(gText, NULL, gScreenSurface, &textLocation);
+	SDL_FillRect(gText, NULL, 0x000000);
+	SDL_FreeSurface(gText); */
+
+	const char * charText = text.c_str();
+	gTemp = TTF_RenderText_Solid(newfont, charText, foregroundColor);
+	gText = SDL_ConvertSurfaceFormat(gTemp, SDL_GetWindowPixelFormat(gWindow), 0);
+	SDL_Rect textLocation = { x - (gText->w) / 2, y + 6 };
 	SDL_BlitSurface(gText, NULL, gScreenSurface, &textLocation);
 	SDL_FillRect(gText, NULL, 0x000000);
+	SDL_FreeSurface(gTemp);
 	SDL_FreeSurface(gText);
+	
 }
 
 void Screen::displayLeftText(string text, float x, float y, TTF_Font* newfont)	//Centered Left
@@ -102,8 +129,8 @@ void Screen::displayLeftText(string text, float x, float y, TTF_Font* newfont)	/
 bool Screen::messageBox(string line1, string line2, TTF_Font* font)	//35 Character Limit Per Line
 {
 	gTemp = gScreenSurface;
-	gMessage = SDL_LoadBMP("images/messageBox.bmp");
-	SDL_BlitSurface(gMessage, NULL, gScreenSurface, 0);
+	gMessage = IMG_Load("images/messageBox.png");
+	SDL_BlitScaled(gMessage, NULL, gScreenSurface, 0);
 
 	foregroundColor = { 255, 255, 255 };
 	displayLeftText(line1, 48, 528, font);
@@ -170,7 +197,7 @@ bool Screen::messageBox(string line1, string line2, TTF_Font* font)	//35 Charact
 bool Screen::inputBox(string line1, string line2, TTF_Font* font, Player& player)	//9 Character Limit
 {
 	//gTemp = gScreenSurface;
-	gMessage = SDL_LoadBMP("images/messageBox.bmp");
+	gMessage = IMG_Load("images/messageBox.png");
 	SDL_BlitSurface(gMessage, NULL, gScreenSurface, 0);
 
 	foregroundColor = { 255, 255, 255 };
@@ -253,7 +280,7 @@ bool Screen::loadMapMedia(SDL_Surface *& surface, string file)
 	const char * load = file.c_str();
 
 	//Load image
-	gTemp = SDL_LoadBMP(load);
+	gTemp = IMG_Load(load);
 	if (gTemp == NULL)
 	{
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -271,7 +298,7 @@ bool Screen::loadMedia(SDL_Surface *& surface, string file)
 	surface = NULL;
 	SDL_Surface* loadedSurface = NULL;
 	//Load image at specified path
-	loadedSurface = SDL_LoadBMP(load);
+	loadedSurface = IMG_Load(load);
 	if (loadedSurface == NULL)
 	{
 		printf("Unable to load image %s! SDL Error: %s\n", load, SDL_GetError());
@@ -339,7 +366,7 @@ void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, M
 						maps.removeItem(0, "villageWizard");
 					if (maps.findCollision(maps.zone[player.currentMap], "villageDog") == -1)
 						maps.zone[0].collisions.push_back(Collision("villageDog", 8, 5, 1, 1, true, "quest", { "*Woof woof*", "I think it's telling me to leave..." }, "dogFunction"));
-					if (!loadMedia(gTemp, "images/woof.bmp"))
+					if (!loadMedia(gTemp, "images/woof.png"))
 						cout << "Cannot load media";
 					SDL_Rect position;
 					position.x = (8 * 32);
@@ -360,7 +387,7 @@ void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, M
 				{
 					if (maps.findCollision(maps.zone[player.currentMap], "villageWizard") == -1)
 						maps.zone[0].collisions.push_back(Collision("villageWizard", 9, 5, 1, 2, true, "quest", {"Prepare to die", " You fool!"}, "wizFunction"));
-					if (!loadMedia(gTemp, "images/overworldWizard.bmp"))
+					if (!loadMedia(gTemp, "images/overworldWizard.png"))
 						cout << "Cannot load media";
 					SDL_Rect position;
 					position.x = (9 * 32);
@@ -376,7 +403,7 @@ void Screen::updateMap(SDL_Surface*& surface, Player& player, MapZone mapZone, M
 			case 3:	//Castle Events
 				if (player.currentQuest < 6)
 				{
-					if (!loadMedia(gTemp, "images/overworldWizard.bmp"))
+					if (!loadMedia(gTemp, "images/overworldWizard.png"))
 						cout << "Cannot load media";
 					SDL_Rect position;
 					position.x = (55 * 32);

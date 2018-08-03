@@ -1,6 +1,7 @@
 #include "SDL.h"
 #include "sdl_mixer.h"
 #include "SDL_TTF.h"
+#include "SDL_image.h"
 #include <iostream>
 #include <stdio.h>
 #include <sstream>
@@ -458,12 +459,12 @@ bool play(Screen screen, Music music, Fonts fonts)
 
 	gameExit = classSelect(screen, music, fonts, player);
 	screen.gPlaySurface = NULL;
-	screen.loadMedia(screen.gPlaySurface, "images/bg" + to_string(player.currentMap) + ".bmp");
+	screen.loadMedia(screen.gPlaySurface, "images/bg" + to_string(player.currentMap) + ".png");
 
 	screen.updateMap(screen.gPlaySurface, player, maps.zone[player.currentMap], maps);
 	
 	//Load Sprite
-	string classSprite = "images/" + player.pClass + ".bmp";
+	string classSprite = "images/" + player.pClass + ".png";
 	screen.loadMedia(screen.gSprite, classSprite);
 	void updateSprite(Screen screen, Player& player);
 	updateSprite(screen, player);
@@ -685,7 +686,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 						screen.gPlaySurface = NULL;					//MEMORY FIX
 
 						player.currentMap = 1;
-						screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg1.png");
 						player.map.y = 1 * 32;
 						player.y = 1 * 32;
 						player.questLoaded = false;
@@ -706,7 +707,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 						++player.currentQuestPoint;
 
 					player.currentMap = 0;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg0.png");
 					player.map.y = 28 * 32;
 					player.y = 18 * 32;
 					player.questLoaded = false;
@@ -720,7 +721,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					SDL_FreeSurface(screen.gPlaySurface);
 					screen.gPlaySurface = NULL;
 
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg2.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg2.png");
 
 					player.currentMap = 2;
 					player.map.y = 1 * 32;
@@ -752,7 +753,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 						screen.gPlaySurface = NULL;
 
 						player.currentMap = 4;
-						screen.loadMapMedia(screen.gPlaySurface, "images/bg4.bmp");
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg4.png");
 
 						player.map.x = 1 * 32;
 						player.map.y += 19 * 32;
@@ -797,7 +798,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 						screen.gPlaySurface = NULL;
 
 						player.currentMap = 6;
-						screen.loadMapMedia(screen.gPlaySurface, "images/bg6.bmp");
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg6.png");
 
 						player.y = 18 * 32;
 						player.x = 25 * 32 + (player.x - 3 * 32);
@@ -817,7 +818,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					SDL_FreeSurface(screen.gPlaySurface);
 					screen.gPlaySurface = NULL;
 
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg1.png");
 
 					player.currentMap = 1;
 					player.map.y = 48 * 32;
@@ -833,7 +834,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					SDL_FreeSurface(screen.gPlaySurface);
 					screen.gPlaySurface = NULL;
 
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg3.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg3.png");
 
 					player.currentMap = 3;
 					player.map.y = 1 * 32;
@@ -849,7 +850,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					SDL_FreeSurface(screen.gPlaySurface);
 					screen.gPlaySurface = NULL;
 
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg7.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg7.png");
 					player.currentMap = 7;
 
 					player.x = 3 * 32 + (player.x - 24 * 32);
@@ -869,7 +870,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					SDL_FreeSurface(screen.gPlaySurface);
 					screen.gPlaySurface = NULL;
 
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg2.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg2.png");
 
 					player.currentMap = 2;
 					player.map.y = 48 * 32;
@@ -888,7 +889,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					screen.gPlaySurface = NULL;
 
 					player.currentMap = 1;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg1.png");
 
 					player.map.x = 88 * 32;
 					player.map.y -= 19 * 32;
@@ -906,7 +907,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					screen.gPlaySurface = NULL;
 
 					player.currentMap = 5;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg5.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg5.png");
 
 					player.map.x -= 16.5 * 32;
 					player.map.y = 19 * 32;
@@ -924,7 +925,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					screen.gPlaySurface = NULL;
 
 					player.currentMap = 4;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg4.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg4.png");
 
 					player.map.x += 16.5 * 32;
 					player.map.y = 7 * 32;
@@ -941,7 +942,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					screen.gPlaySurface = NULL;
 
 					player.currentMap = 1;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg1.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg1.png");
 
 					player.x = 3 * 32 + (player.x - 25 * 32);
 					player.y = 9.5 * 32;
@@ -961,7 +962,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 					screen.gPlaySurface = NULL;
 
 					player.currentMap = 2;
-					screen.loadMapMedia(screen.gPlaySurface, "images/bg2.bmp");
+					screen.loadMapMedia(screen.gPlaySurface, "images/bg2.png");
 
 					player.x = 24 * 32 + (player.x - 3 * 32);
 					player.y = 5.625 * 32;
@@ -1019,7 +1020,7 @@ bool play(Screen screen, Music music, Fonts fonts)
 				{
 					SDL_FreeSurface(screen.gPlaySurface);
 					screen.gPlaySurface = NULL;
-					if(!screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp"))
+					if(!screen.loadMapMedia(screen.gPlaySurface, "images/bg0.png"))
 					{
 						//cout << "Can't load";
 					}
@@ -1170,7 +1171,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					{
 						while (maps.findCollision(maps.zone[player.currentMap], "villageDog") != -1)
 							maps.removeItem(0, "villageDog");
-						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp");
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.png");
 						screen.updateMap(screen.gScreenSurface, player, maps.zone[player.currentMap], maps);
 						updateSprite(screen, player);
 						SDL_UpdateWindowSurface(screen.gWindow);
@@ -1309,7 +1310,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					{
 						SDL_FreeSurface(screen.gPlaySurface);				//MEMORY FIX
 						screen.gPlaySurface = NULL;
-						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp");
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.png");
 					}
 					
 				}
@@ -1334,7 +1335,7 @@ bool interact(Player& player, Screen& screen, Maps& maps, Fonts fonts, Music& mu
 					{
 						SDL_FreeSurface(screen.gPlaySurface);				//MEMORY FIX
 						screen.gPlaySurface = NULL;
-						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.bmp");
+						screen.loadMapMedia(screen.gPlaySurface, "images/bg0.png");
 					}
 				}
 			}
@@ -1389,8 +1390,8 @@ bool classSelect(Screen screen, Music music, Fonts fonts, Player& player)
 	int Classbuttonwidth = 300;
 	int Classbuttonheight = 480;
 
-	screen.loadMedia(screen.gPlaySurface, "images/ClassScreen.bmp");
-	screen.loadMedia(screen.gText, "images/classSel.bmp");
+	screen.loadMedia(screen.gPlaySurface, "images/ClassScreen.png");
+	screen.loadMedia(screen.gText, "images/classSel.png");
 
 	bool classBoxVisible = true;
 	int cursorSelected = 0;
@@ -1548,8 +1549,8 @@ bool instructions(Screen screen)
 {
 	bool quit = false;
 	bool exitGame = false;
-	screen.loadMedia(screen.gPlaySurface, "images/controls.bmp");
-	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
+	screen.loadMedia(screen.gPlaySurface, "images/controls.png");
+	SDL_BlitScaled(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
 
 	SDL_UpdateWindowSurface(screen.gWindow);
 
@@ -1745,7 +1746,7 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 
 	bool quit = false;
 	bool gameExit = false;
-	screen.loadMedia(screen.gPlaySurface, "images/settingsScreenMenu.bmp");
+	screen.loadMedia(screen.gPlaySurface, "images/settingsScreenMenu.png");
 	SDL_BlitSurface(screen.gPlaySurface, NULL, screen.gScreenSurface, 0);
 
 	SDL_UpdateWindowSurface(screen.gWindow);
@@ -1943,7 +1944,7 @@ bool settings(Screen screen, Music& music, Fonts fonts)
 
 		if (settingsBoxVisible)
 		{
-			screen.loadMedia(screen.gText, "images/VOL.bmp");
+			screen.loadMedia(screen.gText, "images/VOL.png");
 			SDL_Rect boxPosition;
 			boxPosition.x = settingsBoxX;
 			boxPosition.y = settingsBoxY;
@@ -2026,7 +2027,7 @@ bool turnBasedBattle(Player& player, Screen& screen, Maps& maps, Fonts fonts, Mu
 		cout << "Failed to load map media";
 	if (!screen.loadMedia(screen.gEnemy, enemy.imgSrc))
 		cout << "Failed to enemy media";
-	if (!screen.loadMedia(screen.gBattleTextBox, "images/messageHealth.bmp"));
+	if (!screen.loadMedia(screen.gBattleTextBox, "images/messageHealth.png"));
 	{
 		//printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 	}
@@ -2399,22 +2400,22 @@ string selectBackground(int mapNumber)
 	case 10: //Dog Boss Battle
 	case 13: //Wizard Boss Fight
 	case 14: //Demon Lord
-		battleBackground = "images/field.bmp";
+		battleBackground = "images/field.png";
 		break;
 	case 3: //Castle
-		battleBackground = "images/castleBattle.bmp";
+		battleBackground = "images/castleBattle.png";
 		break;
 	case 4: //Goblin Camp
 	case 11: //Goblin Boss
-		battleBackground = "images/goblinCampBattle.bmp";
+		battleBackground = "images/goblinCampBattle.png";
 		break;
 	case 6: //Cave
 	case 12: //Spider Queen
-		battleBackground = "images/cave.bmp";
+		battleBackground = "images/cave.png";
 		break;
 
 	default:
-		battleBackground = "images/field.bmp";
+		battleBackground = "images/field.png";
 		break;
 	}
 	return battleBackground;
@@ -3265,23 +3266,23 @@ bool openInventory(Screen& screen, Player& player, Music& music, Fonts& fonts)
 
 	void drawInventory(Screen& screen, Player& player, int& coinCount, int& shift, int frameWidth, int frameHeight, int totalFrames, int& currentFrame, Fonts fonts, int cursorSelected);
 
-	screen.loadMedia(screen.gCoin, "images/coin.bmp");
-	screen.loadMedia(screen.gBattleTextBox, "images/invScreen.bmp");
-	screen.loadMedia(screen.gWeaponIcon, "images/sword.bmp");
-	screen.loadMedia(screen.gSelectIcon, "images/VOL.bmp");
-	screen.loadMedia(screen.gMessage, "images/messageBox.bmp");
+	screen.loadMedia(screen.gCoin, "images/coin.png");
+	screen.loadMedia(screen.gBattleTextBox, "images/invScreen.png");
+	screen.loadMedia(screen.gWeaponIcon, "images/sword.png");
+	screen.loadMedia(screen.gSelectIcon, "images/VOL.png");
+	screen.loadMedia(screen.gMessage, "images/messageBox.png");
 
 	if (player.equippedWeapon.weaponName == "Bone")
 	{
-		screen.loadMedia(screen.gWeaponIcon, "images/bone.bmp");
+		screen.loadMedia(screen.gWeaponIcon, "images/bone.png");
 	}
 	else if (player.equippedWeapon.weaponName == "Wooden Staff" || player.equippedWeapon.weaponName == "Master Wand")
 	{
-		screen.loadMedia(screen.gWeaponIcon, "images/staff.bmp");
+		screen.loadMedia(screen.gWeaponIcon, "images/staff.png");
 	}
 	else
 	{
-		screen.loadMedia(screen.gWeaponIcon, "images/sword.bmp");
+		screen.loadMedia(screen.gWeaponIcon, "images/sword.png");
 	}
 
 	void drawInventory(Screen& screen);
@@ -3660,7 +3661,7 @@ bool playCredits(Screen& screen, Player& player, Music& music, Fonts& fonts)
 	}
 	else
 	{
-		if (!screen.loadMedia(screen.gEnemy, "images/younglings.bmp"))
+		if (!screen.loadMedia(screen.gEnemy, "images/younglings.png"))
 			cout << "Failed to enemy media";
 		music.PlayGoodEnd();
 		SDL_Rect enemyLoc;

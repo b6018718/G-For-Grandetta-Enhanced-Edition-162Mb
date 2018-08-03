@@ -5,14 +5,14 @@
 Maps::Maps()
 {
 	//Vector of Maps
-	zone.push_back(MapZone(60, 35, "images/bg0.bmp")); //Village 0
-	zone.push_back(MapZone(90, 55, "images/bg1.bmp")); //Field 1
-	zone.push_back(MapZone(90, 55, "images/bg2.bmp")); //Town 2
-	zone.push_back(MapZone(60, 45, "images/bg3.bmp")); //Castle 3
-	zone.push_back(MapZone(60, 45, "images/bg4.bmp")); //Goblin Camp 4
-	zone.push_back(MapZone(30, 25, "images/bg5.bmp")); //Nursary 5
-	zone.push_back(MapZone(60, 25, "images/bg6.bmp")); //Cave 6
-	zone.push_back(MapZone(30, 25, "images/bg7.bmp")); //Casino 7
+	zone.push_back(MapZone(60, 35, "images/bg0.png")); //Village 0
+	zone.push_back(MapZone(90, 55, "images/bg1.png")); //Field 1
+	zone.push_back(MapZone(90, 55, "images/bg2.png")); //Town 2
+	zone.push_back(MapZone(60, 45, "images/bg3.png")); //Castle 3
+	zone.push_back(MapZone(60, 45, "images/bg4.png")); //Goblin Camp 4
+	zone.push_back(MapZone(30, 25, "images/bg5.png")); //Nursary 5
+	zone.push_back(MapZone(60, 25, "images/bg6.png")); //Cave 6
+	zone.push_back(MapZone(30, 25, "images/bg7.png")); //Casino 7
 
 	//Village Collisions
 	zone[0].collisions.push_back(Collision("villageTopWall", 0, 0, 60, 1, true, "sign", { "You see a tall hedge", "It seems to go on forever", "It would be impossible", "to squeeze through this foilage" }));

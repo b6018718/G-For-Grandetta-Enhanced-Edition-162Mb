@@ -694,7 +694,7 @@ bool Shops::shopEvent(Player & player, Screen & screen, int shop, Fonts fonts, E
 	int combatCursorPos = 1;	//The location of the cursor on screen
 	int optionSelected = 1; //Menu option chosen
 	int armouryPos = 1; //1 = Main Menu, 2 = Weapons, 3 = Helmet, 4 = Gauntlets, 5 = Chest, 6 = Boots
-	if (!screen.loadMedia(screen.gBattleTextBox, "images/messageLong.bmp"));
+	if (!screen.loadMedia(screen.gBattleTextBox, "images/messageLong.png"));
 	{
 		//printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 	}

@@ -313,7 +313,7 @@ bool Casino::shopEvent(Player & player, Screen & screen, int shop, Fonts fonts, 
 	int combatCursorPos = 1;	//The location of the cursor on screen
 	int optionSelected = 1; //Menu option chosen
 	int armouryPos = 1;
-	if (!screen.loadMedia(screen.gBattleTextBox, "images/messageLong.bmp"));
+	if (!screen.loadMedia(screen.gBattleTextBox, "images/messageLong.png"));
 	{
 		//printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 	}
